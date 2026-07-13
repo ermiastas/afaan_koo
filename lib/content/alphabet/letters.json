@@ -1,0 +1,17 @@
+[
+ {
+  "letter":"A",
+  "word":"Abbaa",
+  "english":"Father",
+  "image":"abbaa.png",
+  "sound":"a.mp3"
+ },
+
+ {
+  "letter":"B",
+  "word":"Bineensa",
+  "english":"Animal",
+  "image":"bineensa.png",
+  "sound":"b.mp3"
+ }
+]

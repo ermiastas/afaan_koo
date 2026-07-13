@@ -1,0 +1,25 @@
+[
+ {
+  "wordOromo":"Mana",
+  "wordEnglish":"House",
+  "category":"Bakka",
+  "image":"assets/images/mana.png",
+  "sound":"mana.mp3"
+ },
+
+ {
+  "wordOromo":"Bishaan",
+  "wordEnglish":"Water",
+  "category":"Wantoota",
+  "image":"assets/images/bishaan.png",
+  "sound":"bishaan.mp3"
+ },
+
+ {
+  "wordOromo":"Muka",
+  "wordEnglish":"Tree",
+  "category":"Uumama",
+  "image":"assets/images/muka.png",
+  "sound":"muka.mp3"
+ }
+]

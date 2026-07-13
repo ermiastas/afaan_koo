@@ -1,0 +1,37 @@
+[
+ {
+  "titleOromo":"Baga Bariite",
+  "titleEnglish":"Good Morning",
+
+  "singer":"Afaan Koo",
+
+  "lyricsOromo":
+"Baga bariite ijoollee koo. Har'a baranna, taphanna.",
+
+  "lyricsEnglish":
+"Good morning my children. Today we learn and play.",
+
+  "image":"assets/images/song_morning.png",
+
+  "sound":"good_morning.mp3"
+ },
+
+
+ {
+  "titleOromo":"Qubee Koo",
+
+  "titleEnglish":"My Alphabet",
+
+  "singer":"Afaan Koo",
+
+  "lyricsOromo":
+"A B C haa barannu, qubee keenya haa jaallannu.",
+
+  "lyricsEnglish":
+"Let us learn ABC and love our alphabet.",
+
+  "image":"assets/images/alphabet_song.png",
+
+  "sound":"alphabet_song.mp3"
+ }
+]

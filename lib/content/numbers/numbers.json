@@ -1,0 +1,41 @@
+[
+ {
+  "number":1,
+  "nameOromo":"Tokko",
+  "nameEnglish":"One",
+  "image":"assets/images/one.png",
+  "sound":"one.mp3"
+ },
+
+ {
+  "number":2,
+  "nameOromo":"Lama",
+  "nameEnglish":"Two",
+  "image":"assets/images/two.png",
+  "sound":"two.mp3"
+ },
+
+ {
+  "number":3,
+  "nameOromo":"Sadii",
+  "nameEnglish":"Three",
+  "image":"assets/images/three.png",
+  "sound":"three.mp3"
+ },
+
+ {
+  "number":4,
+  "nameOromo":"Afur",
+  "nameEnglish":"Four",
+  "image":"assets/images/four.png",
+  "sound":"four.mp3"
+ },
+
+ {
+  "number":5,
+  "nameOromo":"Shan",
+  "nameEnglish":"Five",
+  "image":"assets/images/five.png",
+  "sound":"five.mp3"
+ }
+]

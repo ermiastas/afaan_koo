@@ -1,0 +1,43 @@
+[
+ {
+  "question":"Kun maal dha?",
+  "image":"assets/images/dog.png",
+
+  "options":[
+    "Saree",
+    "Leenca",
+    "Arba"
+  ],
+
+  "answer":"Saree"
+ },
+
+
+ {
+  "question":"Qubee kana dubbisi",
+  "image":"assets/images/a.png",
+
+  "options":[
+    "A",
+    "B",
+    "C"
+  ],
+
+  "answer":"A"
+ },
+
+
+ {
+  "question":"Arbi maal fakkaata?",
+  "image":"assets/images/elephant.png",
+
+  "options":[
+    "Bineensa guddaa",
+    "Muka",
+    "Mana"
+  ],
+
+  "answer":"Bineensa guddaa"
+ }
+
+]

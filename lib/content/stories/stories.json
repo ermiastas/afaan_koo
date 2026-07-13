@@ -1,0 +1,33 @@
+[
+ {
+  "titleOromo":"Leenca fi Hantuuta",
+  "titleEnglish":"The Lion and the Mouse",
+
+  "storyOromo":
+"Gaafa tokko leenci muka jalatti rafaa ture. Hantuutni xiqqoon isa irratti fiigde. Leenci aaree hantuuta qabate. Garuu hantuutni dhiifama gaafate.",
+
+  "storyEnglish":
+"One day a lion was sleeping under a tree. A small mouse ran over him. The lion became angry and caught the mouse. The mouse asked for forgiveness.",
+
+  "image":"assets/images/lion_mouse.png",
+
+  "sound":"lion_mouse.mp3"
+ },
+
+
+ {
+  "titleOromo":"Saree Amanamaa",
+
+  "titleEnglish":"The Faithful Dog",
+
+  "storyOromo":
+"Sareen tokko abbaa isaa jaallataa fi eeggataa ture.",
+
+  "storyEnglish":
+"A dog loved and protected his owner.",
+
+  "image":"assets/images/dog_story.png",
+
+  "sound":"dog_story.mp3"
+ }
+]

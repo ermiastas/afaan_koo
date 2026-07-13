@@ -1,0 +1,26 @@
+[
+ {
+  "message":"Baga nagaan dhuftan! Ani Kooree dha.",
+  "emotion":"happy",
+  "audio":"welcome.mp3"
+ },
+
+ {
+  "message":"Baay'ee gaarii hojjatte!",
+  "emotion":"star",
+  "audio":"good.mp3"
+ },
+
+ {
+  "message":"Irra deebi'ii yaali. Ati ni dandeessa!",
+  "emotion":"try",
+  "audio":"try_again.mp3"
+ },
+
+ {
+  "message":"Galatoomi. Har'a waan haaraa baratte.",
+  "emotion":"happy",
+  "audio":"thank_you.mp3"
+ }
+
+]

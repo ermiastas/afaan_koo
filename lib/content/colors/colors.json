@@ -1,0 +1,25 @@
+[
+ {
+  "nameOromo":"Diimaa",
+  "nameEnglish":"Red",
+  "colorCode":"#FF0000",
+  "image":"assets/images/red.png",
+  "sound":"red.mp3"
+ },
+
+ {
+  "nameOromo":"Magariisa",
+  "nameEnglish":"Green",
+  "colorCode":"#00FF00",
+  "image":"assets/images/green.png",
+  "sound":"green.mp3"
+ },
+
+ {
+  "nameOromo":"Cuquliisa",
+  "nameEnglish":"Blue",
+  "colorCode":"#0000FF",
+  "image":"assets/images/blue.png",
+  "sound":"blue.mp3"
+ }
+]
