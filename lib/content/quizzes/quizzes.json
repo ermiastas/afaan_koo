@@ -1,43 +1,152 @@
 [
- {
-  "question":"Kun maal dha?",
-  "image":"assets/images/dog.png",
-
-  "options":[
-    "Saree",
-    "Leenca",
-    "Arba"
-  ],
-
-  "answer":"Saree"
- },
-
-
- {
-  "question":"Qubee kana dubbisi",
-  "image":"assets/images/a.png",
-
-  "options":[
-    "A",
-    "B",
-    "C"
-  ],
-
-  "answer":"A"
- },
-
-
- {
-  "question":"Arbi maal fakkaata?",
-  "image":"assets/images/elephant.png",
-
-  "options":[
-    "Bineensa guddaa",
-    "Muka",
-    "Mana"
-  ],
-
-  "answer":"Bineensa guddaa"
- }
-
+  {
+    "question":"Kun maal dha?",
+    "image":"assets/images/animals/dog.png",
+    "options":["Saree","Leenca","Arba"],
+    "answer":"Saree"
+  },
+  {
+    "question":"Kun maal dha?",
+    "image":"assets/images/animals/cat.png",
+    "options":["Adurree","Farda","Re'ee"],
+    "answer":"Adurree"
+  },
+  {
+    "question":"Leenci maal dha?",
+    "image":"assets/images/animals/lion.png",
+    "options":["Bineensa bosonaa","Mana","Muka"],
+    "answer":"Bineensa bosonaa"
+  },
+  {
+    "question":"Arbi maal fakkaata?",
+    "image":"assets/images/animals/elephant.png",
+    "options":["Bineensa guddaa","Simbira","Qorichaa"],
+    "answer":"Bineensa guddaa"
+  },
+  {
+    "question":"Kun maal dha?",
+    "image":"assets/images/animals/goat.png",
+    "options":["Re'ee","Saree","Gaala"],
+    "answer":"Re'ee"
+  },
+  {
+    "question":"Qubee kana dubbisi",
+    "image":"assets/images/alphabet/a.png",
+    "options":["A","B","C"],
+    "answer":"A"
+  },
+  {
+    "question":"Qubee kana dubbisi",
+    "image":"assets/images/alphabet/b.png",
+    "options":["D","B","E"],
+    "answer":"B"
+  },
+  {
+    "question":"Qubee A booda maal dhufa?",
+    "image":"assets/images/alphabet/a.png",
+    "options":["B","C","D"],
+    "answer":"B"
+  },
+  {
+    "question":"Qubee Z dura maal jira?",
+    "image":"assets/images/alphabet/z.png",
+    "options":["Y","X","W"],
+    "answer":"Y"
+  },
+  {
+    "question":"Kun halluu maali?",
+    "image":"assets/images/colors/red.png",
+    "options":["Diimaa","Magariisa","Cuquliisa"],
+    "answer":"Diimaa"
+  },
+  {
+    "question":"Kun halluu maali?",
+    "image":"assets/images/colors/green.png",
+    "options":["Keelloo","Magariisa","Gurraacha"],
+    "answer":"Magariisa"
+  },
+  {
+    "question":"Kun halluu maali?",
+    "image":"assets/images/colors/blue.png",
+    "options":["Cuquliisa","Adii","Diimaa"],
+    "answer":"Cuquliisa"
+  },
+  {
+    "question":"1 jechuun maal jechuu dha?",
+    "image":"assets/images/numbers/one.png",
+    "options":["Tokko","Lama","Sadii"],
+    "answer":"Tokko"
+  },
+  {
+    "question":"2 jechuun maal jechuu dha?",
+    "image":"assets/images/numbers/two.png",
+    "options":["Lama","Shan","Jaha"],
+    "answer":"Lama"
+  },
+  {
+    "question":"5 jechuun maal jechuu dha?",
+    "image":"assets/images/numbers/five.png",
+    "options":["Af ur","Shan","Torba"],
+    "answer":"Shan"
+  },
+  {
+    "question":"Kun maal dha?",
+    "image":"assets/images/objects/book.png",
+    "options":["Kitaaba","Mana","Ulee"],
+    "answer":"Kitaaba"
+  },
+  {
+    "question":"Kun maal dha?",
+    "image":"assets/images/objects/house.png",
+    "options":["Mana","Kophee","Buna"],
+    "answer":"Mana"
+  },
+  {
+    "question":"Kun maal dha?",
+    "image":"assets/images/objects/stick.png",
+    "options":["Ulee","Meeshaa","Kitaaba"],
+    "answer":"Ulee"
+  },
+  {
+    "question":"Nama argamuun maal qaba?",
+    "image":"assets/images/person.png",
+    "options":["Qaama","Qilleensa","Bishaan"],
+    "answer":"Qaama"
+  },
+  {
+    "question":"Ija keenya maalif fayyadamna?",
+    "image":"assets/images/body/eye.png",
+    "options":["Ilaaluuf","Dhaga'uuf","Urguufuuf"],
+    "answer":"Ilaaluuf"
+  },
+  {
+    "question":"Gurri keenya maal nu gargaara?",
+    "image":"assets/images/body/ear.png",
+    "options":["Dhaga'uuf","Deemuuf","Nyaachuuf"],
+    "answer":"Dhaga'uuf"
+  },
+  {
+    "question":"Bishaan halluu maalii qaba?",
+    "image":"assets/images/water.png",
+    "options":["Adii fakkaata","Diimaa","Gurraacha"],
+    "answer":"Adii fakkaata"
+  },
+  {
+    "question":"Muka irratti maal argina?",
+    "image":"assets/images/tree.png",
+    "options":["Baala","Kitaaba","Mana"],
+    "answer":"Baala"
+  },
+  {
+    "question":"Simbirri maal godha?",
+    "image":"assets/images/animals/bird.png",
+    "options":["Balali'a","Dhuma","Kuta"],
+    "answer":"Balali'a"
+  },
+  {
+    "question":"Gaalli maal dha?",
+    "image":"assets/images/animals/camel.png",
+    "options":["Bineensa","Halluu","Meeshaa"],
+    "answer":"Bineensa"
+  }
 ]

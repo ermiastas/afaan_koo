@@ -2,32 +2,159 @@ import 'package:flutter/material.dart';
 
 
 
-class LessonCard extends StatelessWidget {
+class LessonCard extends StatefulWidget {
 
 
-final String title;
+  final String title;
 
-final IconData icon;
+  final IconData icon;
 
-final Color color;
+  final Color color;
 
-final VoidCallback onTap;
+  final VoidCallback onTap;
 
 
 
-const LessonCard({
+  const LessonCard({
 
-super.key,
+    super.key,
 
-required this.title,
+    required this.title,
 
-required this.icon,
+    required this.icon,
 
-required this.color,
+    required this.color,
 
-required this.onTap,
+    required this.onTap,
 
-});
+  });
+
+
+
+  @override
+  State<LessonCard> createState()
+
+  => _LessonCardState();
+
+
+}
+
+
+
+
+
+
+
+
+class _LessonCardState
+
+extends State<LessonCard>
+
+with SingleTickerProviderStateMixin {
+
+
+
+late AnimationController controller;
+
+
+
+late Animation<double> scale;
+
+
+
+@override
+void initState(){
+
+
+super.initState();
+
+
+
+controller = AnimationController(
+
+vsync:this,
+
+duration:
+
+const Duration(milliseconds:150),
+
+);
+
+
+
+scale = Tween<double>(
+
+begin:1,
+
+end:0.92,
+
+).animate(
+
+CurvedAnimation(
+
+parent:controller,
+
+curve:Curves.easeInOut,
+
+),
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+
+@override
+void dispose(){
+
+
+controller.dispose();
+
+super.dispose();
+
+
+}
+
+
+
+
+
+
+
+
+
+void pressDown(){
+
+
+controller.forward();
+
+
+}
+
+
+
+
+
+
+void pressUp(){
+
+
+controller.reverse();
+
+
+}
+
+
+
+
+
 
 
 
@@ -36,14 +163,60 @@ required this.onTap,
 Widget build(BuildContext context){
 
 
-return InkWell(
+
+return Semantics(
+
+button:true,
+
+label:widget.title,
+
+child:GestureDetector(
 
 
-onTap:onTap,
 
-borderRadius:
+onTapDown:
 
-BorderRadius.circular(30),
+(_){
+
+pressDown();
+
+},
+
+
+
+onTapUp:
+
+(_){
+
+pressUp();
+
+widget.onTap();
+
+},
+
+
+
+onTapCancel:
+
+(){
+
+pressUp();
+
+},
+
+
+
+
+
+child:
+
+ScaleTransition(
+
+
+
+scale:
+
+scale,
 
 
 
@@ -52,43 +225,88 @@ child:
 Container(
 
 
-margin:
-
-const EdgeInsets.all(10),
-
-
 
 decoration:
 
 BoxDecoration(
 
-color:
 
-color,
+
+gradient:
+
+LinearGradient(
+
+
+
+colors:[
+
+
+
+widget.color.withValues(alpha:0.9),
+
+widget.color.withValues(alpha:0.5),
+
+
+
+],
+
+
+
+begin:
+
+Alignment.topLeft,
+
+
+
+end:
+
+Alignment.bottomRight,
+
+
+
+),
+
+
+
 
 borderRadius:
 
 BorderRadius.circular(30),
 
+
+
+
+
 boxShadow:[
 
 
-const BoxShadow(
 
-blurRadius:8,
+BoxShadow(
 
-offset:
 
-Offset(0,5),
 
 color:
 
-Colors.black26,
+Colors.black.withValues(alpha:0.15),
+
+
+
+blurRadius:12,
+
+
+
+offset:
+
+const Offset(0,8),
+
+
 
 ),
 
 
+
 ],
+
 
 
 ),
@@ -99,7 +317,21 @@ Colors.black26,
 
 child:
 
+Padding(
+
+
+
+padding:
+
+const EdgeInsets.all(18),
+
+
+
+
+child:
+
 Column(
+
 
 
 mainAxisAlignment:
@@ -113,24 +345,34 @@ children:[
 
 
 
+
 Container(
+
+
 
 padding:
 
 const EdgeInsets.all(15),
 
 
+
 decoration:
 
-const BoxDecoration(
+BoxDecoration(
+
+
 
 color:
 
 Colors.white,
 
+
+
 shape:
 
 BoxShape.circle,
+
+
 
 ),
 
@@ -140,31 +382,35 @@ child:
 
 Icon(
 
-icon,
+
+
+widget.icon,
+
+
 
 size:
 
-55,
+45,
+
+
 
 color:
 
-Colors.orange,
+widget.color,
+
+
 
 ),
 
 
-),
-
-
-
-
-
-const SizedBox(
-
-height:15,
 
 ),
 
+
+
+
+
+const SizedBox(height:15),
 
 
 
@@ -172,28 +418,43 @@ height:15,
 
 Text(
 
-title,
+
+
+widget.title,
+
+
 
 textAlign:
 
 TextAlign.center,
 
 
+
 style:
 
 const TextStyle(
 
+
+
 fontSize:20,
+
+
 
 fontWeight:
 
 FontWeight.bold,
 
+
+
 color:
 
 Colors.white,
 
+
+
 ),
+
+
 
 ),
 
@@ -213,7 +474,18 @@ Colors.white,
 
 
 
-);
+),
+
+
+
+),
+
+
+
+),
+
+); 
+
 
 
 }

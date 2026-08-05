@@ -1,25 +1,618 @@
 [
- {
-  "wordOromo":"Mana",
-  "wordEnglish":"House",
-  "category":"Bakka",
-  "image":"assets/images/mana.png",
-  "sound":"mana.mp3"
- },
-
- {
-  "wordOromo":"Bishaan",
-  "wordEnglish":"Water",
-  "category":"Wantoota",
-  "image":"assets/images/bishaan.png",
-  "sound":"bishaan.mp3"
- },
-
- {
-  "wordOromo":"Muka",
-  "wordEnglish":"Tree",
-  "category":"Uumama",
-  "image":"assets/images/muka.png",
-  "sound":"muka.mp3"
- }
+  {
+    "wordOromo": "Mana",
+    "wordEnglish": "House",
+    "category": "Bakka",
+    "image": "assets/images/words/mana.png",
+    "sound": "mana.mp3"
+  },
+  {
+    "wordOromo": "Bishaan",
+    "wordEnglish": "Water",
+    "category": "Wantoota",
+    "image": "assets/images/words/bishaan.png",
+    "sound": "bishaan.mp3"
+  },
+  {
+    "wordOromo": "Muka",
+    "wordEnglish": "Tree",
+    "category": "Uumama",
+    "image": "assets/images/words/muka.png",
+    "sound": "muka.mp3"
+  },
+  {
+    "wordOromo": "Abbaa",
+    "wordEnglish": "Father",
+    "category": "Maatii",
+    "image": "assets/images/words/abbaa.png",
+    "sound": "abbaa.mp3"
+  },
+  {
+    "wordOromo": "Haadha",
+    "wordEnglish": "Mother",
+    "category": "Maatii",
+    "image": "assets/images/words/haadha.png",
+    "sound": "haadha.mp3"
+  },
+  {
+    "wordOromo": "Ilma",
+    "wordEnglish": "Child",
+    "category": "Maatii",
+    "image": "assets/images/words/ilma.png",
+    "sound": "ilma.mp3"
+  },
+  {
+    "wordOromo": "Kitaaba",
+    "wordEnglish": "Book",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/kitaaba.png",
+    "sound": "kitaaba.mp3"
+  },
+  {
+    "wordOromo": "Qalama",
+    "wordEnglish": "Pen",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/qalam.png",
+    "sound": "qalam.mp3"
+  },
+  {
+    "wordOromo": "Barcuma",
+    "wordEnglish": "Chair",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/barcuma.png",
+    "sound": "barcuma.mp3"
+  },
+  {
+    "wordOromo": "Minjaala",
+    "wordEnglish": "Table",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/minjaala.png",
+    "sound": "minjaala.mp3"
+  },
+  {
+    "wordOromo": "Buna",
+    "wordEnglish": "Coffee",
+    "category": "Nyaata",
+    "image": "assets/images/words/buna.png",
+    "sound": "buna.mp3"
+  },
+  {
+    "wordOromo": "Daabboo",
+    "wordEnglish": "Bread",
+    "category": "Nyaata",
+    "image": "assets/images/words/daabboo.png",
+    "sound": "daabboo.mp3"
+  },
+  {
+    "wordOromo": "Aannan",
+    "wordEnglish": "Milk",
+    "category": "Nyaata",
+    "image": "assets/images/words/aannan.png",
+    "sound": "aannan.mp3"
+  },
+  {
+    "wordOromo": "Muuzii",
+    "wordEnglish": "Banana",
+    "category": "Nyaata",
+    "image": "assets/images/words/muuzii.png",
+    "sound": "muuzii.mp3"
+  },
+  {
+    "wordOromo": "Loomii",
+    "wordEnglish": "Lemon",
+    "category": "Nyaata",
+    "image": "assets/images/words/loomii.png",
+    "sound": "loomii.mp3"
+  },
+  {
+    "wordOromo": "Abidda",
+    "wordEnglish": "Fire",
+    "category": "Uumama",
+    "image": "assets/images/words/ibidda.png",
+    "sound": "ibidda.mp3"
+  },
+  {
+    "wordOromo": "Aduu",
+    "wordEnglish": "Sun",
+    "category": "Uumama",
+    "image": "assets/images/words/aduu.png",
+    "sound": "aduu.mp3"
+  },
+  {
+    "wordOromo": "Ji'a",
+    "wordEnglish": "Moon",
+    "category": "Uumama",
+    "image": "assets/images/words/jia.png",
+    "sound": "jia.mp3"
+  },
+  {
+    "wordOromo": "Urjii",
+    "wordEnglish": "Star",
+    "category": "Uumama",
+    "image": "assets/images/words/urjii.png",
+    "sound": "urjii.mp3"
+  },
+  {
+    "wordOromo": "Rooba",
+    "wordEnglish": "Rain",
+    "category": "Uumama",
+    "image": "assets/images/words/rooba.png",
+    "sound": "rooba.mp3"
+  },
+  {
+    "wordOromo": "Bakka",
+    "wordEnglish": "Place",
+    "category": "Bakka",
+    "image": "assets/images/words/bakka.png",
+    "sound": "bakka.mp3"
+  },
+  {
+    "wordOromo": "Mana Barumsaa",
+    "wordEnglish": "School",
+    "category": "Bakka",
+    "image": "assets/images/words/school.png",
+    "sound": "school.mp3"
+  },
+  {
+    "wordOromo": "Gabaa",
+    "wordEnglish": "Market",
+    "category": "Bakka",
+    "image": "assets/images/words/gabaa.png",
+    "sound": "gabaa.mp3"
+  },
+  {
+    "wordOromo": "Daandii",
+    "wordEnglish": "Road",
+    "category": "Bakka",
+    "image": "assets/images/words/daandii.png",
+    "sound": "daandii.mp3"
+  },
+  {
+    "wordOromo": "Laga",
+    "wordEnglish": "River",
+    "category": "Uumama",
+    "image": "assets/images/words/laga.png",
+    "sound": "laga.mp3"
+  },
+  {
+    "wordOromo": "Lukkuu",
+    "wordEnglish": "Chicken",
+    "category": "Bineensa",
+    "image": "assets/images/words/lukkuu.png",
+    "sound": "lukkuu.mp3"
+  },
+  {
+    "wordOromo": "Farda",
+    "wordEnglish": "Horse",
+    "category": "Bineensa",
+    "image": "assets/images/words/farda.png",
+    "sound": "farda.mp3"
+  },
+  {
+    "wordOromo": "Saree",
+    "wordEnglish": "Dog",
+    "category": "Bineensa",
+    "image": "assets/images/words/saree.png",
+    "sound": "saree.mp3"
+  },
+  {
+    "wordOromo": "Adurree",
+    "wordEnglish": "Cat",
+    "category": "Bineensa",
+    "image": "assets/images/words/adurree.png",
+    "sound": "adurree.mp3"
+  },
+  {
+    "wordOromo": "Re'ee",
+    "wordEnglish": "Goat",
+    "category": "Bineensa",
+    "image": "assets/images/words/reee.png",
+    "sound": "reee.mp3"
+  },
+  {
+    "wordOromo": "Hoolaa",
+    "wordEnglish": "Sheep",
+    "category": "Bineensa",
+    "image": "assets/images/words/hoolaa.png",
+    "sound": "hoolaa.mp3"
+  },
+  {
+    "wordOromo": "Sa'a",
+    "wordEnglish": "Cow",
+    "category": "Bineensa",
+    "image": "assets/images/words/saa.png",
+    "sound": "saa.mp3"
+  },
+  {
+    "wordOromo": "Gaala",
+    "wordEnglish": "Camel",
+    "category": "Bineensa",
+    "image": "assets/images/words/gaala.png",
+    "sound": "gaala.mp3"
+  },
+  {
+    "wordOromo": "Burtukaana",
+    "wordEnglish": "Orange Fruit",
+    "category": "Nyaata",
+    "image": "assets/images/words/burtukaana.png",
+    "sound": "burtukaana.mp3"
+  },
+  {
+    "wordOromo": "Foon",
+    "wordEnglish": "Meat",
+    "category": "Nyaata",
+    "image": "assets/images/words/foon.png",
+    "sound": "foon.mp3"
+  },
+  {
+    "wordOromo": "Qoricha",
+    "wordEnglish": "Medicine",
+    "category": "Wantoota",
+    "image": "assets/images/words/qoricha.png",
+    "sound": "qorichaa.mp3"
+  },
+  {
+    "wordOromo": "Bilbila",
+    "wordEnglish": "Phone",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/bilbila.png",
+    "sound": "bilbila.mp3"
+  },
+  {
+    "wordOromo": "Kophee",
+    "wordEnglish": "Shoes",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/kophee.png",
+    "sound": "kophee.mp3"
+  },
+  {
+    "wordOromo": "Uffata",
+    "wordEnglish": "Clothes",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/uffata.png",
+    "sound": "uffata.mp3"
+  },
+  {
+    "wordOromo": "Sa'aatii",
+    "wordEnglish": "Clock",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/saatii.png",
+    "sound": "saatii.mp3"
+  },
+  {
+    "wordOromo": "Morma",
+    "wordEnglish": "Neck",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/morma.png",
+    "sound": "morma.mp3"
+  },
+  {
+    "wordOromo": "Ija",
+    "wordEnglish": "Eye",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/ija.png",
+    "sound": "ija.mp3"
+  },
+  {
+    "wordOromo": "Gurra",
+    "wordEnglish": "Ear",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/gurra.png",
+    "sound": "gurra.mp3"
+  },
+  {
+    "wordOromo": "Harka",
+    "wordEnglish": "Hand",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/harka.png",
+    "sound": "harka.mp3"
+  },
+  {
+    "wordOromo": "Miila",
+    "wordEnglish": "Foot",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/miila.png",
+    "sound": "miila.mp3"
+  },
+  {
+    "wordOromo": "Qalbii",
+    "wordEnglish": "Heart",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/qalbii.png",
+    "sound": "qalbii.mp3"
+  },
+  {
+    "wordOromo": "Obboleessa",
+    "wordEnglish": "Brother",
+    "category": "Maatii",
+    "image": "assets/images/words/obboleessa.png",
+    "sound": "obboleessa.mp3"
+  },
+  {
+    "wordOromo": "Obboleettii",
+    "wordEnglish": "Sister",
+    "category": "Maatii",
+    "image": "assets/images/words/obboleettii.png",
+    "sound": "obboleettii.mp3"
+  },
+  {
+    "wordOromo": "Ilma",
+    "wordEnglish": "Son",
+    "category": "Maatii",
+    "image": "assets/images/words/ilmaa.png",
+    "sound": "ilma.mp3"
+  },
+  {
+    "wordOromo": "Intala",
+    "wordEnglish": "Daughter",
+    "category": "Maatii",
+    "image": "assets/images/words/intala.png",
+    "sound": "intala.mp3"
+  },
+  {
+    "wordOromo": "Barsiisaa",
+    "wordEnglish": "Teacher",
+    "category": "Mana Barumsaa",
+    "image": "assets/images/words/barsiisaa.png",
+    "sound": "barsiisaa.mp3"
+  },
+  {
+    "wordOromo": "Barataa",
+    "wordEnglish": "Student",
+    "category": "Mana Barumsaa",
+    "image": "assets/images/words/barataa.png",
+    "sound": "barataa.mp3"
+  },
+  {
+    "wordOromo": "Qalama Gogaa",
+    "wordEnglish": "Pencil",
+    "category": "Mana Barumsaa",
+    "image": "assets/images/words/qalamii.png",
+    "sound": "qalamii.mp3"
+  },
+  {
+    "wordOromo": "Haqxuu",
+    "wordEnglish": "Eraser",
+    "category": "Mana Barumsaa",
+    "image": "assets/images/words/haawwata.png",
+    "sound": "haawwata.mp3"
+  },
+  {
+    "wordOromo": "Barreeffama",
+    "wordEnglish": "Writing",
+    "category": "Mana Barumsaa",
+    "image": "assets/images/words/barreeffama.png",
+    "sound": "barreeffama.mp3"
+  },
+  {
+    "wordOromo": "Kompiyuutara",
+    "wordEnglish": "Computer",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/kompiyuutara.png",
+    "sound": "kompiyuutara.mp3"
+  },
+  {
+    "wordOromo": "Televiziyoona",
+    "wordEnglish": "Television",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/televiziyoona.png",
+    "sound": "televiziyoona.mp3"
+  },
+  {
+    "wordOromo": "Gabatee Gurraacha",
+    "wordEnglish": "Black Board",
+    "category": "Meeshaalee",
+    "image": "assets/images/words/boorii.png",
+    "sound": "boorii.mp3"
+  },
+  {
+    "wordOromo": "Abidda",
+    "wordEnglish": "Fire",
+    "category": "Uumama",
+    "image": "assets/images/words/ibidda.png",
+    "sound": "ibidda.mp3"
+  },
+  {
+    "wordOromo": "Bubbee",
+    "wordEnglish": "Wind",
+    "category": "Uumama",
+    "image": "assets/images/words/bubbee.png",
+    "sound": "bubbee.mp3"
+  },
+  {
+    "wordOromo": "Samii",
+    "wordEnglish": "Sky",
+    "category": "Uumama",
+    "image": "assets/images/words/samii.png",
+    "sound": "samii.mp3"
+  },
+  {
+    "wordOromo": "Urjii",
+    "wordEnglish": "Star",
+    "category": "Uumama",
+    "image": "assets/images/words/urjii.png",
+    "sound": "urjii.mp3"
+  },
+  {
+    "wordOromo": "Gaara",
+    "wordEnglish": "Mountain",
+    "category": "Uumama",
+    "image": "assets/images/words/gaara.png",
+    "sound": "gaara.mp3"
+  },
+  {
+    "wordOromo": "Lafa",
+    "wordEnglish": "Land",
+    "category": "Uumama",
+    "image": "assets/images/words/lafa.png",
+    "sound": "lafa.mp3"
+  },
+  {
+    "wordOromo": "Dachee",
+    "wordEnglish": "Earth",
+    "category": "Uumama",
+    "image": "assets/images/words/dachee.png",
+    "sound": "dachee.mp3"
+  },
+  {
+    "wordOromo": "Biqiltuu",
+    "wordEnglish": "Plant",
+    "category": "Uumama",
+    "image": "assets/images/words/biqiltuu.png",
+    "sound": "biqiltuu.mp3"
+  },
+  {
+    "wordOromo": "Baala",
+    "wordEnglish": "Leaf",
+    "category": "Uumama",
+    "image": "assets/images/words/baala.png",
+    "sound": "baala.mp3"
+  },
+  {
+    "wordOromo": "Qilleensa",
+    "wordEnglish": "Air",
+    "category": "Uumama",
+    "image": "assets/images/words/qilleensa.png",
+    "sound": "qilleensa.mp3"
+  },
+  {
+    "wordOromo": "Konkolaataa",
+    "wordEnglish": "Car",
+    "category": "Geejjiba",
+    "image": "assets/images/words/konkolaataa.png",
+    "sound": "konkolaataa.mp3"
+  },
+  {
+    "wordOromo": "Baasii",
+    "wordEnglish": "Bus",
+    "category": "Geejjiba",
+    "image": "assets/images/words/baasii.png",
+    "sound": "baasii.mp3"
+  },
+  {
+    "wordOromo": "Xiyyaara",
+    "wordEnglish": "Airplane",
+    "category": "Geejjiba",
+    "image": "assets/images/words/xiyyaara.png",
+    "sound": "xiyyaara.mp3"
+  },
+  {
+    "wordOromo": "Doonii",
+    "wordEnglish": "Boat",
+    "category": "Geejjiba",
+    "image": "assets/images/words/doonii.png",
+    "sound": "doonii.mp3"
+  },
+  {
+    "wordOromo": "Baabura",
+    "wordEnglish": "Train",
+    "category": "Geejjiba",
+    "image": "assets/images/words/baabura.png",
+    "sound": "baabura.mp3"
+  },
+  {
+    "wordOromo": "Biskileetii",
+    "wordEnglish": "Bicycle",
+    "category": "Geejjiba",
+    "image": "assets/images/words/biskileetii.png",
+    "sound": "biskileetii.mp3"
+  },
+  {
+    "wordOromo": "Kutaa Ciisichaa",
+    "wordEnglish": "Bedroom",
+    "category": "Mana Keessaa",
+    "image": "assets/images/words/mana_ciisichaa.png",
+    "sound": "mana_ciisichaa.mp3"
+  },
+  {
+    "wordOromo": "Karra",
+    "wordEnglish": "Gate",
+    "category": "Mana Keessaa",
+    "image": "assets/images/words/karra.png",
+    "sound": "karra.mp3"
+  },
+  {
+    "wordOromo": "Foddaa",
+    "wordEnglish": "Window",
+    "category": "Mana Keessaa",
+    "image": "assets/images/words/foddaa.png",
+    "sound": "foddaa.mp3"
+  },
+  {
+    "wordOromo": "Siree",
+    "wordEnglish": "Bed",
+    "category": "Mana Keessaa",
+    "image": "assets/images/words/siree.png",
+    "sound": "siree.mp3"
+  },
+  {
+    "wordOromo": "Hartuu",
+    "wordEnglish": "Broom",
+    "category": "Mana Keessaa",
+    "image": "assets/images/words/hartuu.png",
+    "sound": "xurii.mp3"
+  },
+  {
+    "wordOromo": "Saanii",
+    "wordEnglish": "Plate",
+    "category": "Mana Keessaa",
+    "image": "assets/images/words/saanii.png",
+    "sound": "saanii.mp3"
+  },
+  {
+    "wordOromo": "Raafuu Maraa",
+    "wordEnglish": "Cabbage",
+    "category": "Nyaata",
+    "image": "assets/images/words/raafuu.png",
+    "sound": "raafuu.mp3"
+  },
+  {
+    "wordOromo": "Kaarotii",
+    "wordEnglish": "Carrot",
+    "category": "Nyaata",
+    "image": "assets/images/words/kaarotaa.png",
+    "sound": "kaarotaa.mp3"
+  },
+  {
+    "wordOromo": "Atara",
+    "wordEnglish": "Pea",
+    "category": "Nyaata",
+    "image": "assets/images/words/ataraa.png",
+    "sound": "ataraa.mp3"
+  },
+  {
+    "wordOromo": "Kofoo",
+    "wordEnglish": "Pants",
+    "category": "Uffata",
+    "image": "assets/images/words/kofoo.png",
+    "sound": "kofoo.mp3"
+  },
+  {
+    "wordOromo": "Funyaan",
+    "wordEnglish": "Nose",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/funyaan.png",
+    "sound": "funyaan.mp3"
+  },
+  {
+    "wordOromo": "Afaan",
+    "wordEnglish": "Mouth",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/afaan.png",
+    "sound": "afaan.mp3"
+  },
+  {
+    "wordOromo": "Ilkaan",
+    "wordEnglish": "Teeth",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/ilkaan.png",
+    "sound": "ilkaan.mp3"
+  },
+  {
+    "wordOromo": "Mataa",
+    "wordEnglish": "Head",
+    "category": "Qaama Namaa",
+    "image": "assets/images/words/mataa.png",
+    "sound": "mataa.mp3"
+  }
 ]

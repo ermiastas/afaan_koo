@@ -1,20 +1,40 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/quiz.dart';
+import '../models/quiz_type.dart';
+
 import '../services/content_service.dart';
+
 import '../providers/reward_provider.dart';
+import '../providers/progress_provider.dart';
+
+import '../data/lesson_ids.dart';
+
+import '../services/raji_audio_service.dart';
+import '../widgets/alphabet_tracing_widget.dart';
+import '../widgets/raji_assistant.dart';
+import '../widgets/tracing/number_tracing_widget.dart';
+import '../widgets/app_states.dart';
 
 
 
 class QuizScreen extends StatefulWidget {
 
 
-  const QuizScreen({super.key});
+  const QuizScreen({
+
+    super.key,
+
+  });
+
 
 
   @override
   State<QuizScreen> createState()
+
   => _QuizScreenState();
 
 
@@ -22,10 +42,16 @@ class QuizScreen extends StatefulWidget {
 
 
 
-class _QuizScreenState extends State<QuizScreen>{
+
+
+class _QuizScreenState
+
+extends State<QuizScreen>{
+
 
 
   final ContentService service =
+
   ContentService();
 
 
@@ -34,9 +60,16 @@ class _QuizScreenState extends State<QuizScreen>{
 
 
 
-  int index = 0;
+  int currentIndex = 0;
+
 
   int correctAnswers = 0;
+
+
+  bool answered = false;
+
+
+
 
 
 
@@ -45,30 +78,58 @@ class _QuizScreenState extends State<QuizScreen>{
 
     super.initState();
 
-    quizzes =
-    service.getQuizzes();
+    quizzes = service.getQuizzes();
 
   }
 
 
 
 
+
+
+
+
+
   void checkAnswer(
-      String selectedAnswer,
+
+      String selected,
+
       Quiz quiz,
-      List<Quiz> quizList
+
+      List<Quiz> quizList,
+
       ){
 
 
+
+    if(answered){
+
+      return;
+
+    }
+
+
+
+    setState((){
+
+      answered = true;
+
+    });
+
+
+
+
+
     final reward =
-    Provider.of<RewardProvider>(
-      context,
-      listen:false,
-    );
+
+    context.read<RewardProvider>();
 
 
 
-    if(selectedAnswer == quiz.answer){
+
+
+    if(selected == quiz.answer){
+
 
 
       setState((){
@@ -83,20 +144,12 @@ class _QuizScreenState extends State<QuizScreen>{
 
 
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
+      showMessage(
 
-        const SnackBar(
-
-          content:
-
-          Text(
-              "Baay'ee gaarii! ⭐"
-          ),
-
-        ),
+        "Baay'ee gaarii! ⭐",
 
       );
+
 
 
     }
@@ -104,46 +157,78 @@ class _QuizScreenState extends State<QuizScreen>{
     else{
 
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
 
-        const SnackBar(
+      showMessage(
 
-          content:
-
-          Text(
-              "Irra deebi'ii yaali"
-          ),
-
-        ),
+        "Irra deebi'ii yaali 😊",
 
       );
+
 
 
     }
 
 
 
+    nextQuestion(quizList);
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+  void nextQuestion(
+
+      List<Quiz> quizList,
+
+      ){
+
+
 
     Future.delayed(
 
-      const Duration(milliseconds:500),
+      const Duration(
+
+        milliseconds:700,
+
+      ),
+
+
 
           (){
 
 
-        if(!mounted) return;
+        if(!mounted){
+
+          return;
+
+        }
 
 
 
-        if(index < quizList.length - 1){
+        if(currentIndex < quizList.length - 1){
+
 
 
           setState((){
 
-            index++;
+
+            currentIndex++;
+
+
+            answered=false;
+
 
           });
+
 
 
         }
@@ -151,65 +236,17 @@ class _QuizScreenState extends State<QuizScreen>{
         else{
 
 
-          showDialog(
 
-            context:context,
+          finishQuiz(
 
-            builder:(context){
-
-
-              return AlertDialog(
-
-                title:
-
-                const Text(
-                    "Xumurteetta! 🎉"
-                ),
-
-
-                content:
-
-                Text(
-
-                    "Deebii sirrii: $correctAnswers / ${quizList.length}\n\n"
-                        "Urjii argatte: ⭐ $correctAnswers"
-
-                ),
-
-
-
-                actions:[
-
-
-                  TextButton(
-
-                    onPressed:(){
-
-                      Navigator.pop(context);
-
-                    },
-
-                    child:
-
-                    const Text(
-                        "Tole"
-                    ),
-
-                  )
-
-
-                ],
-
-
-              );
-
-
-            },
+            quizList.length,
 
           );
 
 
+
         }
+
 
 
       },
@@ -223,22 +260,307 @@ class _QuizScreenState extends State<QuizScreen>{
 
 
 
+
+
+
+
+  Future<void> finishQuiz(
+
+      int total,
+
+      ) async {
+
+
+
+    final progress =
+
+    context.read<ProgressProvider>();
+
+
+    final reward =
+
+    context.read<RewardProvider>();
+
+
+
+
+
+
+
+    await progress.completeLesson(
+
+      LessonIds.quiz,
+
+    );
+
+
+
+
+
+
+
+    await reward.completeLesson(
+
+      lessonId:
+
+      LessonIds.quiz,
+
+    );
+
+    const RajiAssistant(
+      message: "Mee irra deebi'i 😊",
+      
+    );
+await RajiAudioService.wrong();
+
+const RajiAssistant(
+
+  celebrate: true,
+
+  message:
+      "Baay'ee gaarii! ⭐",
+
+);
+
+await RajiAudioService.correct();
+
+    await reward.addStars(
+
+      correctAnswers,
+
+    );
+
+
+
+
+
+
+
+    if(!mounted){
+
+      return;
+
+    }
+
+
+
+
+
+
+
+    showDialog(
+
+      context:context,
+
+
+      builder:(context){
+
+
+
+        return AlertDialog(
+
+
+
+          shape:
+
+          RoundedRectangleBorder(
+
+            borderRadius:
+
+            BorderRadius.circular(25),
+
+          ),
+
+
+
+
+
+          title:
+
+          const Text(
+
+            "🎉 Xumurteetta!",
+
+            textAlign:
+
+            TextAlign.center,
+
+          ),
+
+
+
+
+
+          content:
+
+          Text(
+
+
+
+            "Deebii sirrii:\n"
+
+                "$correctAnswers / $total\n\n"
+
+                "⭐ Urjii argatte: "
+
+                "$correctAnswers",
+
+
+
+            textAlign:
+
+            TextAlign.center,
+
+
+
+          ),
+
+
+
+
+
+          actions:[
+
+
+
+            Center(
+
+              child:
+
+              TextButton(
+
+
+
+                onPressed:(){
+
+
+                  Navigator.pop(context);
+
+
+
+                  setState((){
+
+
+                    currentIndex=0;
+
+
+                    correctAnswers=0;
+
+
+                    answered=false;
+
+
+
+                  });
+
+
+
+                },
+
+
+
+                child:
+
+                const Text(
+
+                  "Deebi'i",
+
+                  style:
+
+                  TextStyle(
+
+                    fontSize:18,
+
+                  ),
+
+                ),
+
+              ),
+
+            )
+
+
+
+          ],
+
+
+
+        );
+
+      },
+
+    );
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+  void showMessage(String message){
+
+
+    ScaffoldMessenger.of(context)
+
+        .showSnackBar(
+
+
+
+      SnackBar(
+
+        content:
+
+        Text(message),
+
+      ),
+
+
+
+    );
+
+
+  }
+
+
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context){
 
 
+
     return Scaffold(
+
 
 
       appBar:
 
       AppBar(
 
+
+
         title:
 
         const Text(
-            "Quiz ⭐"
+
+          "Quiz ⭐",
+
         ),
+
+
+
+        centerTitle:true,
 
       ),
 
@@ -251,29 +573,32 @@ class _QuizScreenState extends State<QuizScreen>{
       FutureBuilder<List<Quiz>>(
 
 
+
         future:
+
         quizzes,
 
 
 
         builder:
+
             (context,snapshot){
 
 
+
           if(snapshot.connectionState ==
+
               ConnectionState.waiting){
 
 
-            return const Center(
 
-              child:
-
-              CircularProgressIndicator(),
-
+            return const AppLoadingState(
+              label: 'Loading quiz…',
             );
 
 
           }
+
 
 
 
@@ -281,59 +606,70 @@ class _QuizScreenState extends State<QuizScreen>{
           if(snapshot.hasError){
 
 
-            return Center(
 
-              child:
-
-              Text(
-
-                "Dogoggora: ${snapshot.error}",
-
-              ),
-
+            return AppErrorState(
+              message: 'The quiz could not be loaded. Please try again.',
+              onRetry: () => setState(() {
+                quizzes = service.getQuizzes();
+              }),
             );
-
 
           }
 
 
 
 
+
+
+
           final quizList =
-              snapshot.data ?? [];
+
+          snapshot.data ?? [];
+
+
+
+
 
 
 
           if(quizList.isEmpty){
 
 
-            return const Center(
 
-              child:
-
-              Text(
-                  "Quiz hin jiru"
-              ),
-
+            return const AppEmptyState(
+              title: 'Quiz hin jiru',
+              message: 'Quiz tokko yeroo dhiyootti daballa.',
+              icon: Icons.quiz_outlined,
             );
-
 
           }
 
 
 
 
+
+
+
+
           final quiz =
-          quizList[index];
+
+          quizList[currentIndex];
 
 
 
 
 
-          return Padding(
+
+
+
+          return SingleChildScrollView(
+
+
 
             padding:
+
             const EdgeInsets.all(20),
+
 
 
             child:
@@ -341,13 +677,16 @@ class _QuizScreenState extends State<QuizScreen>{
             Column(
 
 
+
               children:[
+
+
 
 
 
                 Text(
 
-                  "Gaaffii ${index + 1}/${quizList.length}",
+                  "Gaaffii ${currentIndex+1}/${quizList.length}",
 
                   style:
 
@@ -362,9 +701,13 @@ class _QuizScreenState extends State<QuizScreen>{
 
 
 
+
                 const SizedBox(
+
                   height:15,
+
                 ),
+
 
 
 
@@ -375,8 +718,8 @@ class _QuizScreenState extends State<QuizScreen>{
                   quiz.question,
 
                   textAlign:
-                  TextAlign.center,
 
+                  TextAlign.center,
 
                   style:
 
@@ -385,6 +728,7 @@ class _QuizScreenState extends State<QuizScreen>{
                     fontSize:25,
 
                     fontWeight:
+
                     FontWeight.bold,
 
                   ),
@@ -396,18 +740,8 @@ class _QuizScreenState extends State<QuizScreen>{
 
 
                 const SizedBox(
+
                   height:20,
-                ),
-
-
-
-
-
-                Image.asset(
-
-                  quiz.image,
-
-                  height:150,
 
                 ),
 
@@ -415,28 +749,153 @@ class _QuizScreenState extends State<QuizScreen>{
 
 
 
-                const SizedBox(
-                  height:20,
-                ),
+
+
+                if(quiz.type ==
+
+                    QuizType.alphabetTracing)
+
+
+
+                  AlphabetTracingWidget(
+
+
+
+                    capitalLetter:
+
+                    quiz.tracingLetter ??
+
+                        quiz.answer,
+
+
+
+                    smallLetter:
+
+                    quiz.tracingSmallLetter ??
+
+                        "",
+
+
+
+                    onComplete:(){
+
+
+
+                      context
+
+                          .read<RewardProvider>()
+
+                          .addStars(5);
+
+
+
+                    },
+
+
+
+                  )
 
 
 
 
 
-                ...quiz.options.map(
 
-                      (option){
+
+                else if(quiz.type ==
+
+                    QuizType.numberTracing)
+
+
+
+                  NumberTracingWidget(
+
+
+
+                    number:
+
+                    quiz.numberToTrace ??
+
+                        int.tryParse(
+
+                          quiz.answer,
+
+                        ) ??
+
+                        0,
+
+
+
+                    onComplete:(){
+
+
+
+                      context
+
+                          .read<RewardProvider>()
+
+                          .addStars(5);
+
+
+
+                    },
+
+
+
+                  )
+
+
+
+
+
+
+
+                else ...[
+
+
+
+
+
+                  buildQuizImage(
+
+                    quiz.image,
+
+                  ),
+
+
+
+
+
+                  const SizedBox(
+
+                    height:25,
+
+                  ),
+
+
+
+
+
+
+
+                  ...quiz.options.map((option){
+
 
 
                     return SizedBox(
 
+
+
                       width:
+
                       double.infinity,
+
 
 
                       child:
 
                       Padding(
+
+
 
                         padding:
 
@@ -447,11 +906,24 @@ class _QuizScreenState extends State<QuizScreen>{
                         ),
 
 
+
                         child:
 
                         ElevatedButton(
 
-                          onPressed:(){
+
+
+                          onPressed:
+
+                          answered
+
+                              ? null
+
+                              :
+
+                              (){
+
+
 
                             checkAnswer(
 
@@ -464,16 +936,28 @@ class _QuizScreenState extends State<QuizScreen>{
                             );
 
 
+
                           },
+
 
 
                           child:
 
                           Text(
 
-                              option
+                            option,
+
+                            style:
+
+                            const TextStyle(
+
+                              fontSize:18,
+
+                            ),
 
                           ),
+
+
 
                         ),
 
@@ -482,11 +966,12 @@ class _QuizScreenState extends State<QuizScreen>{
                     );
 
 
-                  },
+
+                  }),
 
 
-                ),
 
+                ],
 
 
 
@@ -494,8 +979,8 @@ class _QuizScreenState extends State<QuizScreen>{
 
             ),
 
-
           );
+
 
 
         },
@@ -507,6 +992,99 @@ class _QuizScreenState extends State<QuizScreen>{
 
 
   }
+
+
+
+
+
+
+
+
+
+  Widget buildQuizImage(String image){
+
+
+
+    if(image.isEmpty){
+
+
+
+      return const Icon(
+
+        Icons.quiz,
+
+        size:100,
+
+      );
+
+    }
+
+
+
+
+
+    if(image.startsWith("/")){
+
+
+
+      return Image.file(
+
+        File(image),
+
+        height:150,
+
+        errorBuilder:
+
+            (context,error,stack){
+
+          return const Icon(
+
+            Icons.broken_image,
+
+            size:100,
+
+          );
+
+        },
+
+      );
+
+
+    }
+
+
+
+
+
+
+
+    return Image.asset(
+
+      image,
+
+      height:150,
+
+      errorBuilder:
+
+          (context,error,stack){
+
+
+        return const Icon(
+
+          Icons.broken_image,
+
+          size:100,
+
+        );
+
+
+      },
+
+    );
+
+
+  }
+
 
 
 }

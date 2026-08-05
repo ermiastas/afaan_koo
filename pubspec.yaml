@@ -1,114 +1,151 @@
 name: afaan_koo_app
-
 description: An Afaan Oromo educational learning app for children.
-
 publish_to: "none"
 
 version: 1.0.0+1
 
-
 environment:
   sdk: ">=3.6.0 <4.0.0"
 
-
-
 dependencies:
-
   flutter:
     sdk: flutter
 
-
-  # iOS style icons
   cupertino_icons: ^1.0.8
 
-
-  # State management
+  # State Management
   provider: ^6.1.2
 
+  # Animations
+  confetti: ^0.8.0
 
-  # Local storage
+  # Local Storage
   shared_preferences: ^2.2.3
   path_provider: ^2.1.4
+  screenshot: ^3.0.0
+  intl: ^0.20.2
+  flutter_svg: ^2.0.10+1
+  xml: ^6.5.0
 
-
-  # Audio playback
+  # Audio
   audioplayers: ^6.1.0
   just_audio: ^0.9.36
+  video_player: ^2.9.2
+  dio: ^5.8.0+1
+  permission_handler: ^12.0.0
 
+  chewie: ^1.8.5
 
-  # Firebase
-  firebase_core: ^3.0.0
-  cloud_firestore: ^5.0.0
-  firebase_auth: ^5.0.0
-  firebase_storage: ^12.1.0
+  # Open-source backend: auth, PostgreSQL database, and media storage
+  supabase_flutter: ^2.0.0
 
-
-  # Logging
+  # Utilities
   logger: ^2.4.0
-
-
-  # Admin media picker
   image_picker: ^1.1.2
   file_picker: ^8.0.7
-
-
+  rename_app: ^1.6.6
+  http: ^1.2.2
 
 dev_dependencies:
-
   flutter_test:
     sdk: flutter
 
-
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.1
+  flutter_native_splash: ^2.4.8
 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/icon/app_icon.png
 
-
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/logo/splash.png
+  android: true
+  ios: true
 
 flutter:
-
   uses-material-design: true
 
+  fonts:
+    - family: NotoSans
+      fonts:
+        - asset: assets/fonts/NotoSans.ttf
 
   assets:
-
-
-    # General images
+    # Images
     - assets/images/
-
-
-    # Mascot
-    - assets/images/kooree/
-
-
-    # Learning images
-    - assets/images/animals/
     - assets/images/alphabet/
+    - assets/images/animals/
     - assets/images/words/
     - assets/images/colors/
     - assets/images/numbers/
     - assets/images/stories/
     - assets/images/songs/
+    - assets/images/kooree/
+    - assets/images/examples/
+    - assets/images/fruits/
+    - assets/images/shapes/
+    - assets/images/vegetables/
+    - assets/images/food/
+    - assets/images/cards/
+    - assets/images/badges/
+    - assets/images/days/
+    - assets/images/directions/
+    - assets/images/environment/
+    - assets/images/family/
+    - assets/coloring/
+    - assets/audio/raji/
+    - assets/coloring_svg/
+    - assets/images/home/
+    - assets/images/hygiene/
+    - assets/images/mammaaksa/
+    - assets/images/manners/
+    - assets/images/market/
+    - assets/images/money/
+    - assets/images/months/
+    - assets/images/occupation/
+    - assets/images/oromo_culture/
+    - assets/images/plants/
+    - assets/images/school/
+    - assets/images/school_supplies/
+    - assets/images/time/
+    - assets/images/traffic/
+    - assets/images/transport/
+    - assets/images/values/
+    - assets/images/weather/
+    
 
+    - assets/logo/
+    - assets/icon/
 
-    # General audio
+    # Audio
     - assets/audio/
-
-
-    # Learning audio
-    - assets/audio/animals/
     - assets/audio/alphabet/
+    - assets/audio/animals/
     - assets/audio/words/
     - assets/audio/colors/
     - assets/audio/numbers/
     - assets/audio/stories/
     - assets/audio/songs/
-    - assets/audio/kooree/
+    - assets/audio/raji/
 
+    # Video 
+    - assets/videos/
+    - assets/videos/alphabet/
+    - assets/videos/animals/ 
+    - assets/videos/words/
+    - assets/videos/colors/
+    - assets/videos/numbers/
+    - assets/videos/stories/
+    - assets/videos/songs/
+    - assets/videos/thumbnails/
+    - assets/videos/examples/
 
-    # JSON content
-
-    - lib/content/animals/animals.json
+    # JSON Content
     - lib/content/alphabet/letters.json
+    - lib/content/animals/animals.json
     - lib/content/words/words.json
     - lib/content/colors/colors.json
     - lib/content/numbers/numbers.json

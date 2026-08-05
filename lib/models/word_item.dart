@@ -1,10 +1,17 @@
 class WordItem {
 
+
   final String wordOromo;
+
   final String wordEnglish;
+
   final String image;
+
   final String sound;
+
   final String category;
+
+
 
 
   WordItem({
@@ -21,29 +28,98 @@ class WordItem {
 
   });
 
- factory WordItem.fromJson(
+
+
+
+
+
+
+  factory WordItem.fromJson(
+
       Map<String,dynamic> json
+
       ){
+
 
     return WordItem(
 
+
+
       wordOromo:
-      json["wordOromo"],
+
+      json["wordOromo"]
+
+      ??
+
+      json["title"]
+
+      ??
+
+      "",
+
+
+
+
+
 
       wordEnglish:
-      json["wordEnglish"],
+
+      json["wordEnglish"]
+
+      ??
+
+      json["english"]
+
+      ??
+
+      "",
+
+
+
+
+
 
       image:
-      json["image"],
+
+      json["image"]
+
+      ??
+
+      "",
+
+
+
+
+
 
       sound:
-      json["sound"],
+
+      json["sound"]
+
+      ??
+
+      "",
+
+
+
+
+
 
       category:
-      json["category"],
+
+      json["category"]
+
+      ??
+
+      "general",
+
+
+
 
     );
 
+
   }
+
 
 }

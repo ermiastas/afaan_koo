@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 class DatabaseService {
 
 
-final db =
-FirebaseFirestore.instance;
+final db = Supabase.instance.client;
 
 
 
@@ -18,13 +17,11 @@ Map<String,dynamic> data
 ) async{
 
 
-await db
-
-.collection("progress")
-
-.doc(userId)
-
-.set(data);
+await db.from('progress').upsert({
+  ...data,
+  'user_id': userId,
+  'updated_at': DateTime.now().toIso8601String(),
+});
 
 
 }

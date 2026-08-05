@@ -19,7 +19,7 @@ children:[
 
 Image.asset(
 
-"assets/images/kooree.png",
+"assets/images/cat.png",
 
 height:80,
 

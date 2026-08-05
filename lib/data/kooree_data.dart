@@ -49,3 +49,26 @@ audio:
 
 
 ];
+
+final List<String> hibbooMessages = [
+
+"Yaali! Sammuun kee hojii irra jira 🧠",
+
+"Gaaffii bareedaa dha! Yaadi 😊",
+
+"Ati ni danda'ama! Itti fufi 💪",
+
+"Sirrii dha! Badhaasa kee fudhadhu 🎉",
+];
+
+final List<String> rajiMammaaksa = [
+
+"Yaadi! Ogummaan kee guddachaa jira 🧠",
+
+"Gaarii! Aadaa keenya barachaa jirta 🌳",
+
+"Sirrii dha! Badhaasa kee fudhadhu 🎉",
+
+"Itti fufi! Ati ni danda'ama 💪",
+
+];

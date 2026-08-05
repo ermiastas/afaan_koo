@@ -3,23 +3,37 @@ import 'package:provider/provider.dart';
 
 import '../data/animal_data.dart';
 import '../services/audio_service.dart';
+import '../models/game_item.dart';
 import '../providers/reward_provider.dart';
+import '../widgets/game_reward_dialog.dart';
 
 
 
 class SoundGame extends StatefulWidget {
 
 
-const SoundGame({super.key});
+  final GameItem game;
 
 
 
-@override
-State<SoundGame> createState()
-=> _SoundGameState();
+  const SoundGame({
+
+    super.key,
+
+    required this.game,
+
+  });
+
+
+
+  @override
+  State<SoundGame> createState()
+      => _SoundGameState();
 
 
 }
+
+
 
 
 
@@ -28,31 +42,30 @@ State<SoundGame> createState()
 class _SoundGameState extends State<SoundGame>{
 
 
-int index = 0;
 
-int score = 0;
+  late GameItem game;
 
 
-final AudioService audio =
-AudioService();
+  int index = 0;
 
 
+  int score = 0;
 
 
+  final AudioService audio =
+  AudioService();
 
-void playSound(){
 
 
-final animal =
-animalData[index];
 
+  @override
+  void initState(){
 
-audio.playSound(
-animal.sound
-);
+    super.initState();
 
+    game = widget.game;
 
-}
+  }
 
 
 
@@ -60,343 +73,531 @@ animal.sound
 
 
 
-void checkAnswer(String answer){
 
 
-final animal =
-animalData[index];
+  void playSound(){
 
 
-if(answer == animal.nameOromo){
+    final animal =
+    animalData[index];
 
 
-setState((){
+    audio.playSound(
 
-score++;
+      animal.sound,
 
-});
+    );
 
 
+  }
 
-Provider.of<RewardProvider>(
 
-context,
 
-listen:false,
 
-)
 
-.addStars(1);
 
 
 
-_showMessage(
-"Sirrii dha! ⭐"
-);
 
+  void checkAnswer(String answer){
 
 
-}
 
-else{
+    final animal =
+    animalData[index];
 
 
-_showMessage(
-"Dogoggora. Irra deebi'i"
-);
 
+    if(answer == animal.nameOromo){
 
-}
 
+      setState((){
 
+        score++;
 
-setState((){
+      });
 
 
-if(index < animalData.length - 1){
 
-index++;
+      _showMessage(
 
-}
+        "Sirrii dha! ⭐",
 
-else{
+      );
 
-index = 0;
 
-}
 
+    }
 
-});
+    else{
 
 
-}
+      _showMessage(
 
+        "Dogoggora. Irra deebi'i",
 
+      );
 
 
+    }
 
 
 
-void _showMessage(String message){
 
 
-ScaffoldMessenger.of(context)
-.showSnackBar(
 
-SnackBar(
+    setState((){
 
-content:
 
-Text(message),
+      if(index < animalData.length - 1){
 
-),
 
-);
+        index++;
 
 
-}
+      }
 
+      else{
 
 
+        finishGame();
 
 
+      }
 
 
+    });
 
-@override
-Widget build(BuildContext context){
 
 
+  }
 
-final animal =
-animalData[index];
 
 
 
-final options =
-animalData
-.take(3)
-.map((e)=>e.nameOromo)
-.toList();
 
 
 
-options.shuffle();
 
 
+  void finishGame(){
 
 
 
-return Scaffold(
+    context
+        .read<RewardProvider>()
+        .completeGame(
 
 
 
-appBar:
+      xp:
 
-AppBar(
+      game.rewardXP,
 
-title:
 
-Text(
 
-"Sagalee Beeki 🔊 ⭐ $score"
+      coins:
 
-),
+      game.rewardCoins,
 
-),
 
 
+      stars:
 
+      game.rewardStars,
 
 
-body:
 
-Padding(
+      gameId:
 
-padding:
+      game.id,
 
-const EdgeInsets.all(20),
 
 
-child:
+    );
 
-Column(
 
-children:[
 
 
 
 
-const Text(
 
-"Dhaggeeffadhu",
+    showDialog(
 
-style:
 
-TextStyle(
 
-fontSize:28,
+      context:context,
 
-fontWeight:
 
-FontWeight.bold,
 
-),
+      builder:(_)=>
 
-),
 
+      GameRewardDialog(
 
 
+        xp:
 
+        game.rewardXP,
 
-const SizedBox(
 
-height:30,
+        coins:
 
-),
+        game.rewardCoins,
 
 
+      ),
 
 
+    );
 
-Image.asset(
 
-animal.image,
 
-height:150,
+  }
 
-),
 
 
 
 
 
-const SizedBox(
 
-height:20,
 
-),
 
+  void _showMessage(String message){
 
 
 
+    ScaffoldMessenger.of(context)
 
-ElevatedButton.icon(
+        .showSnackBar(
 
-onPressed:
 
-playSound,
 
+      SnackBar(
 
-icon:
+        content:
 
-const Icon(
-Icons.volume_up,
-),
+        Text(message),
 
+      ),
 
-label:
 
-const Text(
-"Sagalee Taphachiisi"
-),
 
+    );
 
-),
 
 
+  }
 
 
 
 
-const SizedBox(
 
-height:20,
 
-),
 
 
 
+  @override
+  Widget build(BuildContext context){
 
 
 
-...options.map(
+    final animal =
+    animalData[index];
 
-(option)=>
 
 
-Padding(
+    final options =
 
-padding:
+    animalData
 
-const EdgeInsets.all(8),
+        .take(3)
 
+        .map((e)=>e.nameOromo)
 
-child:
+        .toList();
 
-SizedBox(
 
-width:
 
-double.infinity,
+    options.shuffle();
 
 
-child:
 
-ElevatedButton(
 
-onPressed:(){
 
-checkAnswer(option);
 
-},
 
+    return Scaffold(
 
-child:
 
-Text(
 
-option,
+      appBar:
 
-style:
+      AppBar(
 
-const TextStyle(
 
-fontSize:20,
+        title:
 
-),
+        Text(
 
-),
+          "Sagalee Beeki 🔊 ⭐ $score",
 
-),
+        ),
 
 
-),
+      ),
 
 
-),
 
 
-),
 
+      body:
 
+      Padding(
 
 
-],
 
+        padding:
 
-),
+        const EdgeInsets.all(20),
 
 
-),
 
 
 
-);
+        child:
 
+        Column(
 
 
-}
+
+          children:[
+
+
+
+
+
+            const Text(
+
+
+
+              "Dhaggeeffadhu",
+
+
+
+              style:
+
+              TextStyle(
+
+
+                fontSize:28,
+
+
+                fontWeight:
+
+                FontWeight.bold,
+
+
+              ),
+
+
+            ),
+
+
+
+
+
+            const SizedBox(
+
+              height:30,
+
+            ),
+
+
+
+
+
+            Image.asset(
+
+              animal.image,
+
+              height:150,
+
+            ),
+
+
+
+
+
+            const SizedBox(
+
+              height:20,
+
+            ),
+
+
+
+
+
+            ElevatedButton.icon(
+
+
+
+              onPressed:
+
+              playSound,
+
+
+
+
+
+              icon:
+
+              const Icon(
+
+                Icons.volume_up,
+
+              ),
+
+
+
+
+
+              label:
+
+              const Text(
+
+                "Sagalee Taphachiisi",
+
+              ),
+
+
+
+            ),
+
+
+
+
+
+            const SizedBox(
+
+              height:20,
+
+            ),
+
+
+
+
+
+            ...options.map(
+
+
+
+                  (option)=>Padding(
+
+
+
+                padding:
+
+                const EdgeInsets.all(8),
+
+
+
+
+
+                child:
+
+                SizedBox(
+
+
+
+                  width:
+
+                  double.infinity,
+
+
+
+
+
+                  child:
+
+                  ElevatedButton(
+
+
+
+                    onPressed:(){
+
+
+
+                      checkAnswer(option);
+
+
+
+                    },
+
+
+
+
+
+                    child:
+
+                    Text(
+
+
+
+                      option,
+
+
+
+                      style:
+
+                      const TextStyle(
+
+
+                        fontSize:20,
+
+
+                      ),
+
+
+                    ),
+
+
+
+                  ),
+
+
+
+                ),
+
+
+
+              ),
+
+
+
+            ),
+
+
+
+
+          ],
+
+
+
+        ),
+
+
+
+      ),
+
+
+
+    );
+
+
+
+  }
 
 
 

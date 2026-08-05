@@ -32,7 +32,20 @@ notifyListeners();
 
 }
 
+String _name = "Barataa";
 
+
+String get name => _name;
+
+
+
+void setName(String value){
+
+_name = value;
+
+notifyListeners();
+
+}
 
 void clearUser(){
 

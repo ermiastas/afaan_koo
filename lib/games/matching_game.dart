@@ -2,22 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../data/animal_data.dart';
+import '../models/game_item.dart';
 import '../providers/reward_provider.dart';
+import '../widgets/game_reward_dialog.dart';
 
 
 
 class MatchingGame extends StatefulWidget {
 
 
-const MatchingGame({super.key});
+  final GameItem game;
 
 
-@override
-State<MatchingGame> createState()
-=> _MatchingGameState();
+
+  const MatchingGame({
+
+    super.key,
+
+    required this.game,
+
+  });
+
+
+
+  @override
+  State<MatchingGame> createState()
+      => _MatchingGameState();
 
 
 }
+
+
 
 
 
@@ -26,333 +41,463 @@ State<MatchingGame> createState()
 class _MatchingGameState extends State<MatchingGame>{
 
 
-int index = 0;
 
-int score = 0;
+  late GameItem game;
 
 
+  int index = 0;
 
-void checkAnswer(
-String answer
-){
 
+  int score = 0;
 
-final animal =
-animalData[index];
 
 
+  @override
+  void initState(){
 
-final reward =
-Provider.of<RewardProvider>(
+    super.initState();
 
-context,
+    game = widget.game;
 
-listen:false,
+  }
 
-);
 
 
 
-if(answer == animal.nameOromo){
 
 
-setState((){
 
-score++;
+  void checkAnswer(
+      String answer
+      ){
 
-});
 
 
+    final animal =
+    animalData[index];
 
-reward.addStars(1);
 
 
+    if(answer == animal.nameOromo){
 
-_showMessage(
-"Sirrii dha! ⭐"
-);
 
+      setState((){
 
+        score++;
 
-}
+      });
 
-else{
 
 
-_showMessage(
-"Dogoggora. Irra deebi'i"
-);
+      _showMessage(
+        "Sirrii dha! ⭐",
+      );
 
 
-}
 
+    }
 
+    else{
 
 
-setState((){
+      _showMessage(
+        "Dogoggora. Irra deebi'i",
+      );
 
 
-if(index < animalData.length-1){
+    }
 
-index++;
 
-}
 
-else{
 
-index = 0;
+    setState((){
 
-}
 
+      if(index < animalData.length - 1){
 
 
-});
+        index++;
 
 
-}
+      }
 
+      else{
 
 
+        finishGame();
 
 
+      }
 
 
-void _showMessage(String message){
 
+    });
 
-ScaffoldMessenger.of(context)
-.showSnackBar(
 
-SnackBar(
 
-content:
+  }
 
-Text(message),
 
-),
 
-);
 
 
-}
 
 
 
 
+  void finishGame(){
 
 
-@override
-Widget build(BuildContext context){
 
+    context
+        .read<RewardProvider>()
+        .completeGame(
 
 
-final animal =
-animalData[index];
+      xp:
 
+      game.rewardXP,
 
 
-final options = [
+      coins:
 
-animal.nameOromo,
+      game.rewardCoins,
 
 
+      stars:
 
-if(animalData.length > index+1)
+      game.rewardStars,
 
-animalData[index+1].nameOromo,
 
+      gameId:
 
+      game.id,
 
-if(animalData.length > index+2)
 
-animalData[index+2].nameOromo,
+    );
 
 
 
-];
 
 
+    showDialog(
 
-options.shuffle();
 
+      context:context,
 
 
-return Scaffold(
+      builder:(_)=>
 
 
-appBar:
+      GameRewardDialog(
 
-AppBar(
 
-title:
+        xp:
 
-Text(
-"Fakkii Walitti Qabi ⭐ $score"
-),
+        game.rewardXP,
 
-),
 
+        coins:
 
+        game.rewardCoins,
 
 
-body:
+      ),
 
-Padding(
 
-padding:
+    );
 
-const EdgeInsets.all(20),
 
 
+  }
 
-child:
 
-Column(
 
-children:[
 
 
 
 
-Image.asset(
 
-animal.image,
 
-height:200,
+  void _showMessage(String message){
 
-),
 
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
 
 
+      SnackBar(
 
+        content:
 
-const SizedBox(
+        Text(message),
 
-height:20,
+      ),
 
-),
 
+    );
 
 
+  }
 
 
-const Text(
 
-"Fakkii kana maqaan isaa maal?"
 
-,
 
-style:
 
-TextStyle(
 
-fontSize:22,
 
-fontWeight:
 
-FontWeight.bold,
+  @override
+  Widget build(BuildContext context){
 
-),
 
-),
 
+    final animal =
+    animalData[index];
 
 
 
+    final options = [
 
-const SizedBox(
 
-height:20,
+      animal.nameOromo,
 
-),
 
 
+      if(animalData.length > index+1)
 
+        animalData[index+1].nameOromo,
 
 
-...options.map(
 
-(option)=>
+      if(animalData.length > index+2)
 
+        animalData[index+2].nameOromo,
 
-Padding(
 
-padding:
 
-const EdgeInsets.all(8),
+    ];
 
 
 
-child:
+    options.shuffle();
 
-SizedBox(
 
-width:
 
-double.infinity,
 
 
+    return Scaffold(
 
-child:
 
-ElevatedButton(
 
+      appBar:
 
+      AppBar(
 
-onPressed:(){
+        title:
 
+        Text(
 
-checkAnswer(option);
+          "Fakkii Walitti Qabi ⭐ $score",
 
+        ),
 
-},
+      ),
 
 
 
-child:
 
-Text(
 
-option,
+      body:
 
-style:
+      Padding(
 
-const TextStyle(
 
-fontSize:20,
 
-),
+        padding:
 
-),
+        const EdgeInsets.all(20),
 
-),
 
 
-),
 
+        child:
 
-),
+        Column(
 
 
 
-),
+          children:[
 
 
 
 
-],
 
-),
+            Image.asset(
 
+              animal.image,
 
-),
+              height:200,
 
+            ),
 
-);
 
 
 
-}
+
+            const SizedBox(
+
+              height:20,
+
+            ),
+
+
+
+
+
+            const Text(
+
+              "Fakkii kana maqaan isaa maal?",
+
+
+              style:
+
+              TextStyle(
+
+                fontSize:22,
+
+                fontWeight:
+
+                FontWeight.bold,
+
+              ),
+
+            ),
+
+
+
+
+
+            const SizedBox(
+
+              height:20,
+
+            ),
+
+
+
+
+
+            ...options.map(
+
+
+
+                  (option)=>Padding(
+
+
+
+                padding:
+
+                const EdgeInsets.all(8),
+
+
+
+
+
+                child:
+
+                SizedBox(
+
+
+
+                  width:
+
+                  double.infinity,
+
+
+
+
+
+                  child:
+
+                  ElevatedButton(
+
+
+
+
+
+                    onPressed:(){
+
+
+
+                      checkAnswer(option);
+
+
+
+                    },
+
+
+
+
+
+                    child:
+
+                    Text(
+
+
+                      option,
+
+
+                      style:
+
+                      const TextStyle(
+
+
+                        fontSize:20,
+
+
+                      ),
+
+
+                    ),
+
+
+                  ),
+
+
+
+                ),
+
+
+
+              ),
+
+
+
+            ),
+
+
+
+
+
+          ],
+
+
+
+        ),
+
+
+
+      ),
+
+
+
+    );
+
+
+
+  }
 
 
 

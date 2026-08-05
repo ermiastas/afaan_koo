@@ -1,37 +1,36 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
-import '../../services/firebase_content_service.dart';
+import '../../services/local_content_service.dart';
 import '../../services/media_service.dart';
-import '../../services/storage_service.dart';
 
 
 
 class ContentEditorScreen extends StatefulWidget {
 
 
-final String category;
+  final String category;
+
+
+  const ContentEditorScreen({
+
+    super.key,
+
+    required this.category,
+
+  });
 
 
 
-const ContentEditorScreen({
+  @override
+  State<ContentEditorScreen> createState()
 
-super.key,
+  => _ContentEditorScreenState();
 
-required this.category,
-
-});
-
-
-
-@override
-State<ContentEditorScreen> createState()
-
-=> _ContentEditorScreenState();
 
 
 }
+
+
 
 
 
@@ -44,31 +43,22 @@ extends State<ContentEditorScreen>{
 
 
 
-final FirebaseContentService firebase =
-FirebaseContentService();
+final LocalContentService storage =
+
+LocalContentService();
 
 
 
 final MediaService media =
+
 MediaService();
 
 
-final StorageService storage =
-StorageService();
-
-
-final titleController =
-TextEditingController();
 
 
 
-final englishController =
-TextEditingController();
 
-
-
-final descriptionController =
-TextEditingController();
+final Map<String,TextEditingController> fields = {};
 
 
 
@@ -80,7 +70,188 @@ String? audioPath;
 
 
 
-bool saving=false;
+bool saving = false;
+
+
+
+
+
+
+
+
+
+@override
+void initState(){
+
+super.initState();
+
+
+createFields();
+
+
+}
+
+
+
+
+
+
+
+
+
+void createFields(){
+
+
+
+List<String> fieldNames;
+
+
+
+switch(widget.category){
+
+
+
+case "animals":
+
+fieldNames = [
+
+"nameOromo",
+
+"nameEnglish",
+
+"animalType",
+
+];
+
+break;
+
+
+
+
+case "words":
+
+fieldNames=[
+
+"wordOromo",
+
+"wordEnglish",
+
+];
+
+break;
+
+
+
+
+case "alphabet":
+
+fieldNames=[
+
+"letter",
+
+"wordOromo",
+
+"wordEnglish",
+
+];
+
+break;
+
+
+
+
+case "quiz":
+
+fieldNames=[
+
+"question",
+
+"option1",
+
+"option2",
+
+"option3",
+
+"option4",
+
+"answer",
+
+];
+
+break;
+
+
+
+
+case "stories":
+
+fieldNames=[
+
+"titleOromo",
+
+"titleEnglish",
+
+"storyOromo",
+
+"storyEnglish",
+
+];
+
+break;
+
+
+
+
+case "songs":
+
+fieldNames=[
+
+"titleOromo",
+
+"titleEnglish",
+
+"singer",
+
+"lyricsOromo",
+
+"lyricsEnglish",
+
+];
+
+break;
+
+
+
+
+default:
+
+fieldNames=[
+
+"title",
+
+"english",
+
+"description",
+
+];
+
+}
+
+
+
+for(final name in fieldNames){
+
+fields[name] =
+
+TextEditingController();
+
+}
+
+
+
+}
+
+
 
 
 
@@ -101,15 +272,20 @@ appBar:
 
 AppBar(
 
+
+
 title:
 
 Text(
 
-"Add ${widget.category}"
+"Add ${widget.category}",
 
 ),
 
+
+
 ),
+
 
 
 
@@ -118,6 +294,7 @@ Text(
 body:
 
 SingleChildScrollView(
+
 
 
 padding:
@@ -130,40 +307,93 @@ child:
 
 Column(
 
+
+
 children:[
 
 
 
+...fields.entries.map(
 
-buildField(
 
-titleController,
 
-"Oromo name",
+(entry){
+
+
+
+return Padding(
+
+
+
+padding:
+
+const EdgeInsets.only(
+
+bottom:15,
 
 ),
 
 
 
+child:
+
+TextField(
 
 
-buildField(
 
-englishController,
+controller:
 
-"English name",
+entry.value,
+
+
+
+maxLines:
+
+entry.key.contains("story") ||
+
+entry.key.contains("lyrics")
+
+?
+
+5
+
+:
+
+1,
+
+
+
+decoration:
+
+InputDecoration(
+
+
+
+labelText:
+
+formatLabel(entry.key),
+
+
+
+border:
+
+const OutlineInputBorder(),
 
 ),
 
 
 
+),
 
 
-buildField(
 
-descriptionController,
+);
 
-"Description",
+
+
+},
+
+
 
 ),
 
@@ -177,7 +407,16 @@ const SizedBox(height:20),
 
 
 
-// IMAGE PICKER
+
+Row(
+
+mainAxisAlignment:
+
+MainAxisAlignment.spaceAround,
+
+children:[
+
+
 
 ElevatedButton.icon(
 
@@ -185,60 +424,18 @@ onPressed:
 
 pickImage,
 
-
 icon:
 
-const Icon(
-
-Icons.image,
-
-),
-
+const Icon(Icons.image),
 
 label:
 
-const Text(
-
-"Choose Image"
-
-),
-
+const Text("Image"),
 
 ),
 
 
 
-
-
-
-if(imagePath != null)
-
-Padding(
-
-padding:
-
-const EdgeInsets.all(10),
-
-
-child:
-
-Image.file(
-
-File(imagePath!),
-
-height:150,
-
-),
-
-),
-
-
-
-
-
-
-
-// AUDIO PICKER
 
 
 ElevatedButton.icon(
@@ -247,47 +444,23 @@ onPressed:
 
 pickAudio,
 
-
 icon:
 
-const Icon(
-
-Icons.audio_file,
-
-),
-
+const Icon(Icons.audio_file),
 
 label:
 
-const Text(
-
-"Choose Sound"
-
-),
-
+const Text("Audio"),
 
 ),
 
 
 
+],
 
 
-if(audioPath != null)
-
-Text(
-
-"Audio selected 🎵",
-
-style:
-
-const TextStyle(
-
-color:Colors.green,
 
 ),
-
-),
-
 
 
 
@@ -295,7 +468,6 @@ color:Colors.green,
 
 
 const SizedBox(height:30),
-
 
 
 
@@ -320,15 +492,9 @@ saveContent,
 
 
 
-
 icon:
 
-const Icon(
-
-Icons.save,
-
-),
-
+const Icon(Icons.save),
 
 
 
@@ -344,7 +510,7 @@ saving
 
 :
 
-"Save Content",
+"Save",
 
 ),
 
@@ -381,57 +547,25 @@ saving
 
 
 
-Widget buildField(
-
-TextEditingController controller,
-
-String label,
-
-){
+String formatLabel(String value){
 
 
 
-return Padding(
+return value
 
+.replaceAll(
 
-padding:
+RegExp(r'([A-Z])'),
 
-const EdgeInsets.only(
+" \$1",
 
-bottom:15,
+)
 
-),
+.replaceFirst(
 
+value[0],
 
-
-child:
-
-TextField(
-
-controller:
-
-controller,
-
-
-decoration:
-
-InputDecoration(
-
-labelText:
-
-label,
-
-border:
-
-const OutlineInputBorder(),
-
-),
-
-
-
-),
-
-
+value[0].toUpperCase(),
 
 );
 
@@ -457,23 +591,21 @@ await media.pickImage();
 
 
 
-if(result != null){
+if(!mounted)return;
 
 
-setState(() {
 
+setState((){
 
 imagePath=result;
-
 
 });
 
 
-}
-
-
 
 }
+
+
 
 
 
@@ -491,61 +623,39 @@ await media.pickAudio();
 
 
 
-if(result != null){
+if(!mounted)return;
 
 
-setState(() {
 
+setState((){
 
 audioPath=result;
-
 
 });
 
 
-}
-
-
 
 }
+
+
+
+
+
+
+
+
 
 Future<void> saveContent() async {
 
 
-if(titleController.text.isEmpty){
 
-
-ScaffoldMessenger.of(context)
-.showSnackBar(
-
-const SnackBar(
-
-content:
-
-Text(
-"Please enter Oromo name"
-),
-
-),
-
-);
-
-
-return;
-
-}
-
-
-
-setState(() {
+setState((){
 
 saving=true;
 
 });
 
 
-
-try {
 
 
 final id =
@@ -560,61 +670,9 @@ DateTime.now()
 
 
 
-String? imageUrl;
 
-String? soundUrl;
+final Map<String,dynamic> data = {
 
-
-
-
-
-// Upload image
-
-if(imagePath != null){
-
-
-imageUrl =
-
-await storage.uploadImage(
-
-imagePath!,
-
-widget.category.toLowerCase(),
-
-);
-
-
-}
-
-
-
-
-
-// Upload audio
-
-if(audioPath != null){
-
-
-soundUrl =
-
-await storage.uploadAudio(
-
-audioPath!,
-
-"audio/${widget.category.toLowerCase()}",
-
-);
-
-
-}
-
-
-
-
-
-
-
-final data = {
 
 
 "id":
@@ -622,34 +680,22 @@ final data = {
 id,
 
 
-"title":
 
-titleController.text,
+"category":
 
+widget.category,
 
-"english":
-
-englishController.text,
 
 
 "image":
 
-imageUrl ?? "",
+imagePath ?? "",
+
 
 
 "sound":
 
-soundUrl ?? "",
-
-
-"description":
-
-descriptionController.text,
-
-
-"category":
-
-widget.category.toLowerCase(),
+audioPath ?? "",
 
 
 
@@ -660,12 +706,118 @@ widget.category.toLowerCase(),
 
 
 
+fields.forEach(
 
-await firebase.addContent(
+(key,value){
 
-widget.category.toLowerCase(),
 
-id,
+data[key]=
+
+value.text.trim();
+
+
+}
+
+);
+
+
+
+
+
+
+
+// Compatibility fields
+
+if(widget.category=="animals"){
+
+
+
+data["title"]=
+
+data["nameOromo"];
+
+
+
+data["english"]=
+
+data["nameEnglish"];
+
+
+
+}
+
+
+
+if(widget.category=="words"){
+
+
+
+data["title"]=
+
+data["wordOromo"];
+
+
+
+data["english"]=
+
+data["wordEnglish"];
+
+
+
+}
+
+
+
+if(widget.category=="alphabet"){
+
+
+
+data["title"]=
+
+data["wordOromo"];
+
+
+
+data["english"]=
+
+data["wordEnglish"];
+
+
+
+}
+
+
+
+
+
+if(widget.category=="quiz"){
+
+
+
+data["options"]=[
+
+data["option1"],
+
+data["option2"],
+
+data["option3"],
+
+data["option4"],
+
+];
+
+
+
+}
+
+
+
+
+
+
+await storage.addContent(
+
+widget.category,
 
 data,
 
@@ -681,23 +833,11 @@ if(!mounted)return;
 
 
 
+setState((){
 
+saving=false;
 
-ScaffoldMessenger.of(context)
-
-.showSnackBar(
-
-const SnackBar(
-
-content:
-
-Text(
-"Content uploaded successfully ⭐"
-),
-
-),
-
-);
+});
 
 
 
@@ -707,68 +847,7 @@ Navigator.pop(context);
 
 
 
-
-
 }
-
-catch(e){
-
-
-
-if(!mounted)return;
-
-
-
-ScaffoldMessenger.of(context)
-
-.showSnackBar(
-
-SnackBar(
-
-content:
-
-Text(
-
-"Upload failed: $e"
-
-),
-
-),
-
-);
-
-
-
-}
-
-
-
-
-
-finally{
-
-
-
-if(mounted){
-
-
-setState(() {
-
-saving=false;
-
-});
-
-
-}
-
-
-
-}
-
-
-
-}
-
 
 
 

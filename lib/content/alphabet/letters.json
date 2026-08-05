@@ -1,17 +1,250 @@
 [
- {
-  "letter":"A",
-  "word":"Abbaa",
-  "english":"Father",
-  "image":"abbaa.png",
-  "sound":"a.mp3"
- },
-
- {
-  "letter":"B",
-  "word":"Bineensa",
-  "english":"Animal",
-  "image":"bineensa.png",
-  "sound":"b.mp3"
- }
+  {
+    "letter": "A",
+    "word": "Adurree",
+    "english": "Cat",
+    "image": "adurree.png",
+    "sound": "a.mp3",
+    "word_sound": "adurree.mp3"
+  },
+  {
+    "letter": "B",
+    "word": "Baala",
+    "english": "Leaf",
+    "image": "baala.png",
+    "sound": "b.mp3",
+    "word_sound": "baala.mp3"
+  },
+  {
+    "letter": "C",
+    "word": "Cilee",
+    "english": "Charcoal",
+    "image": "cilee.png",
+    "sound": "c.mp3",
+    "word_sound": "cilee.mp3"
+  },
+  {
+    "letter": "D",
+    "word": "Dibbee",
+    "english": "Drum",
+    "image": "dibbee.png",
+    "sound": "d.mp3",
+    "word_sound": "dibbee.mp3"
+  },
+  {
+    "letter": "E",
+    "word": "Eeboo",
+    "english": "Spear",
+    "image": "eeboo.png",
+    "sound": "e.mp3",
+    "word_sound": "eeboo.mp3"
+  },
+  {
+    "letter": "F",
+    "word": "Fal'aana",
+    "english": "Spoon",
+    "image": "falaana.png",
+    "sound": "f.mp3",
+    "word_sound": "falaana.mp3"
+  },
+  {
+    "letter": "G",
+    "word": "Gaala",
+    "english": "Camel",
+    "image": "gaala.png",
+    "sound": "g.mp3",
+    "word_sound": "gaala.mp3"
+  },
+  {
+    "letter": "H",
+    "word": "Harree",
+    "english": "Donkey",
+    "image": "harree.png",
+    "sound": "h.mp3",
+    "word_sound": "harree.mp3"
+  },
+  {
+    "letter": "I",
+    "word": "Ibidda",
+    "english": "Fire",
+    "image": "ibidda.png",
+    "sound": "i.mp3",
+    "word_sound": "ibidda.mp3"
+  },
+  {
+    "letter": "J",
+    "word": "Jabbii",
+    "english": "Calf",
+    "image": "jabbii.png",
+    "sound": "j.mp3",
+    "word_sound": "jabbii.mp3"
+  },
+  {
+    "letter": "K",
+    "word": "Kitaaba",
+    "english": "Book",
+    "image": "kitaaba.png",
+    "sound": "k.mp3",
+    "word_sound": "kitaaba.mp3"
+  },
+  {
+    "letter": "L",
+    "word": "Leenca",
+    "english": "Lion",
+    "image": "leenca.png",
+    "sound": "l.mp3",
+    "word_sound": "leenca.mp3"
+  },
+  {
+    "letter": "M",
+    "word": "Mana",
+    "english": "House",
+    "image": "mana.png",
+    "sound": "m.mp3",
+    "word_sound": "mana.mp3"
+  },
+  {
+    "letter": "N",
+    "word": "Nama",
+    "english": "Person",
+    "image": "nama.png",
+    "sound": "n.mp3",
+    "word_sound": "nama.mp3"
+  },
+  {
+    "letter": "O",
+    "word": "Odaa",
+    "english": "Sycamore",
+    "image": "odaa.png",
+    "sound": "o.mp3",
+    "word_sound": "odaa.mp3"
+  },
+  {
+    "letter": "P",
+    "word": "Poolisii",
+    "english": "Police",
+    "image": "poolisii.png",
+    "sound": "p.mp3",
+    "word_sound": "poolisii.mp3"
+  },
+  {
+    "letter": "Q",
+    "word": "Qamalee",
+    "english": "Monkey",
+    "image": "qamalee.png",
+    "sound": "q.mp3",
+    "word_sound": "qamalee.mp3"
+  },
+  {
+    "letter": "R",
+    "word": "Ra'ee",
+    "english": "Goat",
+    "image": "raee.png",
+    "sound": "r.mp3",
+    "word_sound": "raee.mp3"
+  },
+  {
+    "letter": "S",
+    "word": "Saree",
+    "english": "Dog",
+    "image": "saree.png",
+    "sound": "s.mp3",
+    "word_sound": "saree.mp3"
+  },
+  {
+    "letter": "T",
+    "word": "Tullu",
+    "english": "Mountain",
+    "image": "tullu.png",
+    "sound": "t.mp3",
+    "word_sound": "tullu.mp3"
+  },
+  {
+    "letter": "U",
+    "word": "Ulee",
+    "english": "Stick",
+    "image": "ulee.png",
+    "sound": "u.mp3",
+    "word_sound": "ulee.mp3"
+  },
+  {
+    "letter": "V",
+    "word": "Vaayoliinii",
+    "english": "Violin",
+    "image": "vaayoliinii.png",
+    "sound": "v.mp3",
+    "word_sound": "vaayoliinii.mp3"
+  },
+  {
+    "letter": "W",
+    "word": "Wangoo",
+    "english": "Fox",
+    "image": "wangoo.png",
+    "sound": "w.mp3",
+    "word_sound": "wangoo.mp3"
+  },
+  {
+    "letter": "X",
+    "word": "Xiyyaara",
+    "english": "Airplane",
+    "image": "xiyyaara.png",
+    "sound": "x.mp3",
+    "word_sound": "xiyyaara.mp3"
+  },
+  {
+    "letter": "Y",
+    "word": "Yeroo",
+    "english": "Time",
+    "image": "yeroo.png",
+    "sound": "y.mp3",
+    "word_sound": "yeroo.mp3"
+  },
+  {
+    "letter": "Z",
+    "word": "Zayitii",
+    "english": "Cooking Oil",
+    "image": "zayitii.png",
+    "sound": "z.mp3",
+    "word_sound": "zayitii.mp3"
+  },
+  {
+    "letter": "Ch",
+    "word": "Naacha",
+    "english": "Crocodile",
+    "image": "naacha.png",
+    "sound": "ch.mp3",
+    "word_sound": "naacha.mp3"
+  },
+  {
+    "letter": "Dh",
+    "word": "Dhagaa",
+    "english": "Stone",
+    "image": "dhagaa.png",
+    "sound": "dh.mp3",
+    "word_sound": "dhagaa.mp3"
+  },
+  {
+    "letter": "Ny",
+    "word": "Nyaata",
+    "english": "Food",
+    "image": "nyaata.png",
+    "sound": "ny.mp3",
+    "word_sound": "nyaata.mp3"
+  },
+  {
+    "letter": "Ph",
+    "word": "Kophee",
+    "english": "Shoes",
+    "image": "kophee.png",
+    "sound": "ph.mp3",
+    "word_sound": "kophee.mp3"
+  },
+  {
+    "letter": "Sh",
+    "word": "Shunkurtii",
+    "english": "Onion",
+    "image": "shunkurtii.png",
+    "sound": "sh.mp3",
+    "word_sound": "shunkurtii.mp3"
+  }
 ]

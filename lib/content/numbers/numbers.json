@@ -1,41 +1,710 @@
 [
- {
-  "number":1,
-  "nameOromo":"Tokko",
-  "nameEnglish":"One",
-  "image":"assets/images/one.png",
-  "sound":"one.mp3"
- },
-
- {
-  "number":2,
-  "nameOromo":"Lama",
-  "nameEnglish":"Two",
-  "image":"assets/images/two.png",
-  "sound":"two.mp3"
- },
-
- {
-  "number":3,
-  "nameOromo":"Sadii",
-  "nameEnglish":"Three",
-  "image":"assets/images/three.png",
-  "sound":"three.mp3"
- },
-
- {
-  "number":4,
-  "nameOromo":"Afur",
-  "nameEnglish":"Four",
-  "image":"assets/images/four.png",
-  "sound":"four.mp3"
- },
-
- {
-  "number":5,
-  "nameOromo":"Shan",
-  "nameEnglish":"Five",
-  "image":"assets/images/five.png",
-  "sound":"five.mp3"
- }
+  {
+    "number": 0,
+    "nameOromo": "Zeeroo",
+    "nameEnglish": "Zero",
+    "image": "assets/images/numbers/zero.png",
+    "sound": "assets/audio/numbers/zero.mp3"
+  },
+ 
+  {
+    "number": 1,
+    "nameOromo": "Tokko",
+    "nameEnglish": "One",
+    "image": "assets/images/numbers/one.png",
+    "sound": "assets/audio/numbers/one.mp3"
+  },
+  {
+    "number": 2,
+    "nameOromo": "Lama",
+    "nameEnglish": "Two",
+    "image": "assets/images/numbers/two.png",
+    "sound": "assets/audio/numbers/two.mp3"
+  },
+  {
+    "number": 3,
+    "nameOromo": "Sadii",
+    "nameEnglish": "Three",
+    "image": "assets/images/numbers/three.png",
+    "sound": "assets/audio/numbers/three.mp3"
+  },
+  {
+    "number": 4,
+    "nameOromo": "Afur",
+    "nameEnglish": "Four",
+    "image": "assets/images/numbers/four.png",
+    "sound": "assets/audio/numbers/four.mp3"
+  },
+  {
+    "number": 5,
+    "nameOromo": "Shan",
+    "nameEnglish": "Five",
+    "image": "assets/images/numbers/five.png",
+    "sound": "assets/audio/numbers/five.mp3"
+  },
+  {
+    "number": 6,
+    "nameOromo": "Jaha",
+    "nameEnglish": "Six",
+    "image": "assets/images/numbers/six.png",
+    "sound": "assets/audio/numbers/six.mp3"
+  },
+  {
+    "number": 7,
+    "nameOromo": "Torba",
+    "nameEnglish": "Seven",
+    "image": "assets/images/numbers/seven.png",
+    "sound": "assets/audio/numbers/seven.mp3"
+  },
+  {
+    "number": 8,
+    "nameOromo": "Saddeet",
+    "nameEnglish": "Eight",
+    "image": "assets/images/numbers/eight.png",
+    "sound": "assets/audio/numbers/eight.mp3"
+  },
+  {
+    "number": 9,
+    "nameOromo": "Sagal",
+    "nameEnglish": "Nine",
+    "image": "assets/images/numbers/nine.png",
+    "sound": "assets/audio/numbers/nine.mp3"
+  },
+  {
+    "number": 10,
+    "nameOromo": "Kudhan",
+    "nameEnglish": "Ten",
+    "image": "assets/images/numbers/ten.png",
+    "sound": "assets/audio/numbers/ten.mp3"
+  },
+  {
+    "number": 11,
+    "nameOromo": "Kudha Tokko",
+    "nameEnglish": "Eleven",
+    "image": "assets/images/numbers/eleven.png",
+    "sound": "assets/audio/numbers/eleven.mp3"
+  },
+  {
+    "number": 12,
+    "nameOromo": "Kudha Lama",
+    "nameEnglish": "Twelve",
+    "image": "assets/images/numbers/twelve.png",
+    "sound": "assets/audio/numbers/twelve.mp3"
+  },
+  {
+    "number": 13,
+    "nameOromo": "Kudha Sadii",
+    "nameEnglish": "Thirteen",
+    "image": "assets/images/numbers/thirteen.png",
+    "sound": "assets/audio/numbers/thirteen.mp3"
+  },
+  {
+    "number": 14,
+    "nameOromo": "Kudha Afur",
+    "nameEnglish": "Fourteen",
+    "image": "assets/images/numbers/fourteen.png",
+    "sound": "assets/audio/numbers/fourteen.mp3"
+  },
+  {
+    "number": 15,
+    "nameOromo": "Kudha Shan",
+    "nameEnglish": "Fifteen",
+    "image": "assets/images/numbers/fifteen.png",
+    "sound": "assets/audio/numbers/fifteen.mp3"
+  },
+  {
+    "number": 16,
+    "nameOromo": "Kudha Jaha",
+    "nameEnglish": "Sixteen",
+    "image": "assets/images/numbers/sixteen.png",
+    "sound": "assets/audio/numbers/sixteen.mp3"
+  },
+  {
+    "number": 17,
+    "nameOromo": "Kudha Torba",
+    "nameEnglish": "Seventeen",
+    "image": "assets/images/numbers/seventeen.png",
+    "sound": "assets/audio/numbers/seventeen.mp3"
+  },
+  {
+    "number": 18,
+    "nameOromo": "Kudha Saddeet",
+    "nameEnglish": "Eighteen",
+    "image": "assets/images/numbers/eighteen.png",
+    "sound": "assets/audio/numbers/eighteen.mp3"
+  },
+  {
+    "number": 19,
+    "nameOromo": "Kudha Sagal",
+    "nameEnglish": "Nineteen",
+    "image": "assets/images/numbers/nineteen.png",
+    "sound": "assets/audio/numbers/nineteen.mp3"
+  },
+  {
+    "number": 20,
+    "nameOromo": "Digdamii",
+    "nameEnglish": "Twenty",
+    "image": "assets/images/numbers/twenty.png",
+    "sound": "assets/audio/numbers/twenty.mp3"
+  },
+  {
+    "number": 21,
+    "nameOromo": "Digdamii Tokko",
+    "nameEnglish": "Twenty One",
+    "image": "assets/images/numbers/twenty_one.png",
+    "sound": "assets/audio/numbers/twenty_one.mp3"
+  },
+  {
+    "number": 22,
+    "nameOromo": "Digdamii Lama",
+    "nameEnglish": "Twenty Two",
+    "image": "assets/images/numbers/twenty_two.png",
+    "sound": "assets/audio/numbers/twenty_two.mp3"
+  },
+  {
+    "number": 23,
+    "nameOromo": "Digdamii Sadii",
+    "nameEnglish": "Twenty Three",
+    "image": "assets/images/numbers/twenty_three.png",
+    "sound": "assets/audio/numbers/twenty_three.mp3"
+  },
+  {
+    "number": 24,
+    "nameOromo": "Digdamii Afur",
+    "nameEnglish": "Twenty Four",
+    "image": "assets/images/numbers/twenty_four.png",
+    "sound": "assets/audio/numbers/twenty_four.mp3"
+  },
+  {
+    "number": 25,
+    "nameOromo": "Digdamii Shan",
+    "nameEnglish": "Twenty Five",
+    "image": "assets/images/numbers/twenty_five.png",
+    "sound": "assets/audio/numbers/twenty_five.mp3"
+  },
+  {
+    "number": 26,
+    "nameOromo": "Digdamii Jaha",
+    "nameEnglish": "Twenty Six",
+    "image": "assets/images/numbers/twenty_six.png",
+    "sound": "assets/audio/numbers/twenty_six.mp3"
+  },
+  {
+    "number": 27,
+    "nameOromo": "Digdamii Torba",
+    "nameEnglish": "Twenty Seven",
+    "image": "assets/images/numbers/twenty_seven.png",
+    "sound": "assets/audio/numbers/twenty_seven.mp3"
+  },
+  {
+    "number": 28,
+    "nameOromo": "Digdamii Saddeet",
+    "nameEnglish": "Twenty Eight",
+    "image": "assets/images/numbers/twenty_eight.png",
+    "sound": "assets/audio/numbers/twenty_eight.mp3"
+  },
+  {
+    "number": 29,
+    "nameOromo": "Digdamii Sagal",
+    "nameEnglish": "Twenty Nine",
+    "image": "assets/images/numbers/twenty_nine.png",
+    "sound": "assets/audio/numbers/twenty_nine.mp3"
+  },
+  {
+    "number": 30,
+    "nameOromo": "Soddoma",
+    "nameEnglish": "Thirty",
+    "image": "assets/images/numbers/thirty.png",
+    "sound": "assets/audio/numbers/thirty.mp3"
+  },
+  {
+    "number": 31,
+    "nameOromo": "Soddomii  Tokko",
+    "nameEnglish": "Thirty One",
+    "image": "assets/images/numbers/thirty_one.png",
+    "sound": "assets/audio/numbers/thirty_one.mp3"
+  },
+  {
+    "number": 32,
+    "nameOromo": "Soddomii  Lama",
+    "nameEnglish": "Thirty Two",
+    "image": "assets/images/numbers/thirty_two.png",
+    "sound": "assets/audio/numbers/thirty_two.mp3"
+  },
+  {
+    "number": 33,
+    "nameOromo": "Soddomii  Sadii",
+    "nameEnglish": "Thirty Three",
+    "image": "assets/images/numbers/thirty_three.png",
+    "sound": "assets/audio/numbers/thirty_three.mp3"
+  },
+  {
+    "number": 34,
+    "nameOromo": "Soddomii  Afur",
+    "nameEnglish": "Thirty Four",
+    "image": "assets/images/numbers/thirty_four.png",
+    "sound": "assets/audio/numbers/thirty_four.mp3"
+  },
+  {
+    "number": 35,
+    "nameOromo": "Soddomii  Shan",
+    "nameEnglish": "Thirty Five",
+    "image": "assets/images/numbers/thirty_five.png",
+    "sound": "assets/audio/numbers/thirty_five.mp3"
+  },
+  {
+    "number": 36,
+    "nameOromo": "Soddomii  Jaha",
+    "nameEnglish": "Thirty Six",
+    "image": "assets/images/numbers/thirty_six.png",
+    "sound": "assets/audio/numbers/thirty_six.mp3"
+  },
+  {
+    "number": 37,
+    "nameOromo": "Soddomii  Torba",
+    "nameEnglish": "Thirty Seven",
+    "image": "assets/images/numbers/thirty_seven.png",
+    "sound": "assets/audio/numbers/thirty_seven.mp3"
+  },
+  {
+    "number": 38,
+    "nameOromo": "Soddomii  Saddeet",
+    "nameEnglish": "Thirty Eight",
+    "image": "assets/images/numbers/thirty_eight.png",
+    "sound": "assets/audio/numbers/thirty_eight.mp3"
+  },
+  {
+    "number": 39,
+    "nameOromo": "Soddomii  Sagal",
+    "nameEnglish": "Thirty Nine",
+    "image": "assets/images/numbers/thirty_nine.png",
+    "sound": "assets/audio/numbers/thirty_nine.mp3"
+  },
+  {
+    "number": 40,
+    "nameOromo": "Afurtama",
+    "nameEnglish": "Forty",
+    "image": "assets/images/numbers/forty.png",
+    "sound": "assets/audio/numbers/forty.mp3"
+  },
+  {
+    "number": 41,
+    "nameOromo": "Afurtamii Tokko",
+    "nameEnglish": "Forty One",
+    "image": "assets/images/numbers/forty_one.png",
+    "sound": "assets/audio/numbers/forty_one.mp3"
+  },
+  {
+    "number": 42,
+    "nameOromo": "Afurtamii Lama",
+    "nameEnglish": "Forty Two",
+    "image": "assets/images/numbers/forty_two.png",
+    "sound": "assets/audio/numbers/forty_two.mp3"
+  },
+  {
+    "number": 43,
+    "nameOromo": "Afurtamii Sadii",
+    "nameEnglish": "Forty Three",
+    "image": "assets/images/numbers/forty_three.png",
+    "sound": "assets/audio/numbers/forty_three.mp3"
+  },
+  {
+    "number": 44,
+    "nameOromo": "Afurtamii Afur",
+    "nameEnglish": "Forty Four",
+    "image": "assets/images/numbers/forty_four.png",
+    "sound": "assets/audio/numbers/forty_four.mp3"
+  },
+  {
+    "number": 45,
+    "nameOromo": "Afurtamii Shan",
+    "nameEnglish": "Forty Five",
+    "image": "assets/images/numbers/forty_five.png",
+    "sound": "assets/audio/numbers/forty_five.mp3"
+  },
+  {
+    "number": 46,
+    "nameOromo": "Afurtamii Jaha",
+    "nameEnglish": "Forty Six",
+    "image": "assets/images/numbers/forty_six.png",
+    "sound": "assets/audio/numbers/forty_six.mp3"
+  },
+  {
+    "number": 47,
+    "nameOromo": "Afurtamii Torba",
+    "nameEnglish": "Forty Seven",
+    "image": "assets/images/numbers/forty_seven.png",
+    "sound": "assets/audio/numbers/forty_seven.mp3"
+  },
+  {
+    "number": 48,
+    "nameOromo": "Afurtamii Saddeet",
+    "nameEnglish": "Forty Eight",
+    "image": "assets/images/numbers/forty_eight.png",
+    "sound": "assets/audio/numbers/forty_eight.mp3"
+  },
+  {
+    "number": 49,
+    "nameOromo": "Afurtamii Sagal",
+    "nameEnglish": "Forty Nine",
+    "image": "assets/images/numbers/forty_nine.png",
+    "sound": "assets/audio/numbers/forty_nine.mp3"
+  },
+  {
+    "number": 50,
+    "nameOromo": "Shantama",
+    "nameEnglish": "Fifty",
+    "image": "assets/images/numbers/fifty.png",
+    "sound": "assets/audio/numbers/fifty.mp3"
+  },
+  {
+    "number": 51,
+    "nameOromo": "Shantamii Tokko",
+    "nameEnglish": "Fifty One",
+    "image": "assets/images/numbers/fifty_one.png",
+    "sound": "assets/audio/numbers/fifty_one.mp3"
+  },
+  {
+    "number": 52,
+    "nameOromo": "Shantamii Lama",
+    "nameEnglish": "Fifty Two",
+    "image": "assets/images/numbers/fifty_two.png",
+    "sound": "assets/audio/numbers/fifty_two.mp3"
+  },
+  {
+    "number": 53,
+    "nameOromo": "Shantamii Sadii",
+    "nameEnglish": "Fifty Three",
+    "image": "assets/images/numbers/fifty_three.png",
+    "sound": "assets/audio/numbers/fifty_three.mp3"
+  },
+  {
+    "number": 54,
+    "nameOromo": "Shantamii Afur",
+    "nameEnglish": "Fifty Four",
+    "image": "assets/images/numbers/fifty_four.png",
+    "sound": "assets/audio/numbers/fifty_four.mp3"
+  },
+  {
+    "number": 55,
+    "nameOromo": "Shantamii Shan",
+    "nameEnglish": "Fifty Five",
+    "image": "assets/images/numbers/fifty_five.png",
+    "sound": "assets/audio/numbers/fifty_five.mp3"
+  },
+  {
+    "number": 56,
+    "nameOromo": "Shantamii Jaha",
+    "nameEnglish": "Fifty Six",
+    "image": "assets/images/numbers/fifty_six.png",
+    "sound": "assets/audio/numbers/fifty_six.mp3"
+  },
+  {
+    "number": 57,
+    "nameOromo": "Shantamii Torba",
+    "nameEnglish": "Fifty Seven",
+    "image": "assets/images/numbers/fifty_seven.png",
+    "sound": "assets/audio/numbers/fifty_seven.mp3"
+  },
+  {
+    "number": 58,
+    "nameOromo": "Shantamii Saddeet",
+    "nameEnglish": "Fifty Eight",
+    "image": "assets/images/numbers/fifty_eight.png",
+    "sound": "assets/audio/numbers/fifty_eight.mp3"
+  },
+  {
+    "number": 59,
+    "nameOromo": "Shantamii Sagal",
+    "nameEnglish": "Fifty Nine",
+    "image": "assets/images/numbers/fifty_nine.png",
+    "sound": "assets/audio/numbers/fifty_nine.mp3"
+  },
+  {
+    "number": 60,
+    "nameOromo": "Jaatama",
+    "nameEnglish": "Sixty",
+    "image": "assets/images/numbers/sixty.png",
+    "sound": "assets/audio/numbers/sixty.mp3"
+  },
+  {
+    "number": 61,
+    "nameOromo": "Jaatamii Tokko",
+    "nameEnglish": "Sixty One",
+    "image": "assets/images/numbers/sixty_one.png",
+    "sound": "assets/audio/numbers/sixty_one.mp3"
+  },
+  {
+    "number": 62,
+    "nameOromo": "Jaatamii Lama",
+    "nameEnglish": "Sixty Two",
+    "image": "assets/images/numbers/sixty_two.png",
+    "sound": "assets/audio/numbers/sixty_two.mp3"
+  },
+  {
+    "number": 63,
+    "nameOromo": "Jaatamii Sadii",
+    "nameEnglish": "Sixty Three",
+    "image": "assets/images/numbers/sixty_three.png",
+    "sound": "assets/audio/numbers/sixty_three.mp3"
+  },
+  {
+    "number": 64,
+    "nameOromo": "Jaatamii Afur",
+    "nameEnglish": "Sixty Four",
+    "image": "assets/images/numbers/sixty_four.png",
+    "sound": "assets/audio/numbers/sixty_four.mp3"
+  },
+  {
+    "number": 65,
+    "nameOromo": "Jaatamii Shan",
+    "nameEnglish": "Sixty Five",
+    "image": "assets/images/numbers/sixty_five.png",
+    "sound": "assets/audio/numbers/sixty_five.mp3"
+  },
+  {
+    "number": 66,
+    "nameOromo": "Jaatamii Jaha",
+    "nameEnglish": "Sixty Six",
+    "image": "assets/images/numbers/sixty_six.png",
+    "sound": "assets/audio/numbers/sixty_six.mp3"
+  },
+  {
+    "number": 67,
+    "nameOromo": "Jaatamii Torba",
+    "nameEnglish": "Sixty Seven",
+    "image": "assets/images/numbers/sixty_seven.png",
+    "sound": "assets/audio/numbers/sixty_seven.mp3"
+  },
+  {
+    "number": 68,
+    "nameOromo": "Jaatamii Saddeet",
+    "nameEnglish": "Sixty Eight",
+    "image": "assets/images/numbers/sixty_eight.png",
+    "sound": "assets/audio/numbers/sixty_eight.mp3"
+  },
+  {
+    "number": 69,
+    "nameOromo": "Jaatamii Sagal",
+    "nameEnglish": "Sixty Nine",
+    "image": "assets/images/numbers/sixty_nine.png",
+    "sound": "assets/audio/numbers/sixty_nine.mp3"
+  },
+  {
+    "number": 70,
+    "nameOromo": "Torbaatama",
+    "nameEnglish": "Seventy",
+    "image": "assets/images/numbers/seventy.png",
+    "sound": "assets/audio/numbers/seventy.mp3"
+  },
+  {
+    "number": 71,
+    "nameOromo": "Torbaatamii Tokko",
+    "nameEnglish": "Seventy One",
+    "image": "assets/images/numbers/seventy_one.png",
+    "sound": "assets/audio/numbers/seventy_one.mp3"
+  },
+  {
+    "number": 72,
+    "nameOromo": "Torbaatamii Lama",
+    "nameEnglish": "Seventy Two",
+    "image": "assets/images/numbers/seventy_two.png",
+    "sound": "assets/audio/numbers/seventy_two.mp3"
+  },
+  {
+    "number": 73,
+    "nameOromo": "Torbaatamii Sadii",
+    "nameEnglish": "Seventy Three",
+    "image": "assets/images/numbers/seventy_three.png",
+    "sound": "assets/audio/numbers/seventy_three.mp3"
+  },
+  {
+    "number": 74,
+    "nameOromo": "Torbaatamii Afur",
+    "nameEnglish": "Seventy Four",
+    "image": "assets/images/numbers/seventy_four.png",
+    "sound": "assets/audio/numbers/seventy_four.mp3"
+  },
+  {
+    "number": 75,
+    "nameOromo": "Torbaatamii Shan",
+    "nameEnglish": "Seventy Five",
+    "image": "assets/images/numbers/seventy_five.png",
+    "sound": "assets/audio/numbers/seventy_five.mp3"
+  },
+  {
+    "number": 76,
+    "nameOromo": "Torbaatamii Jaha",
+    "nameEnglish": "Seventy Six",
+    "image": "assets/images/numbers/seventy_six.png",
+    "sound": "assets/audio/numbers/seventy_six.mp3"
+  },
+  {
+    "number": 77,
+    "nameOromo": "Torbaatamii Torba",
+    "nameEnglish": "Seventy Seven",
+    "image": "assets/images/numbers/seventy_seven.png",
+    "sound": "assets/audio/numbers/seventy_seven.mp3"
+  },
+  {
+    "number": 78,
+    "nameOromo": "Torbaatamii Saddeet",
+    "nameEnglish": "Seventy Eight",
+    "image": "assets/images/numbers/seventy_eight.png",
+    "sound": "assets/audio/numbers/seventy_eight.mp3"
+  },
+  {
+    "number": 79,
+    "nameOromo": "Torbaatamii Sagal",
+    "nameEnglish": "Seventy Nine",
+    "image": "assets/images/numbers/seventy_nine.png",
+    "sound": "assets/audio/numbers/seventy_nine.mp3"
+  },
+  {
+    "number": 80,
+    "nameOromo": "Saddeettama",
+    "nameEnglish": "Eighty",
+    "image": "assets/images/numbers/eighty.png",
+    "sound": "assets/audio/numbers/eighty.mp3"
+  },
+  {
+    "number": 81,
+    "nameOromo": "Saddeettamii Tokko",
+    "nameEnglish": "Eighty One",
+    "image": "assets/images/numbers/eighty_one.png",
+    "sound": "assets/audio/numbers/eighty_one.mp3"
+  },
+  {
+    "number": 82,
+    "nameOromo": "Saddeettamii Lama",
+    "nameEnglish": "Eighty Two",
+    "image": "assets/images/numbers/eighty_two.png",
+    "sound": "assets/audio/numbers/eighty_two.mp3"
+  },
+  {
+    "number": 83,
+    "nameOromo": "Saddeettamii Sadii",
+    "nameEnglish": "Eighty Three",
+    "image": "assets/images/numbers/eighty_three.png",
+    "sound": "assets/audio/numbers/eighty_three.mp3"
+  },
+  {
+    "number": 84,
+    "nameOromo": "Saddeettamii Afur",
+    "nameEnglish": "Eighty Four",
+    "image": "assets/images/numbers/eighty_four.png",
+    "sound": "assets/audio/numbers/eighty_four.mp3"
+  },
+  {
+    "number": 85,
+    "nameOromo": "Saddeettamii Shan",
+    "nameEnglish": "Eighty Five",
+    "image": "assets/images/numbers/eighty_five.png",
+    "sound": "assets/audio/numbers/eighty_five.mp3"
+  },
+  {
+    "number": 86,
+    "nameOromo": "Saddeettamii Jaha",
+    "nameEnglish": "Eighty Six",
+    "image": "assets/images/numbers/eighty_six.png",
+    "sound": "assets/audio/numbers/eighty_six.mp3"
+  },
+  {
+    "number": 87,
+    "nameOromo": "Saddeettamii Torba",
+    "nameEnglish": "Eighty Seven",
+    "image": "assets/images/numbers/eighty_seven.png",
+    "sound": "assets/audio/numbers/eighty_seven.mp3"
+  },
+  {
+    "number": 88,
+    "nameOromo": "Saddeettamii Saddeet",
+    "nameEnglish": "Eighty Eight",
+    "image": "assets/images/numbers/eighty_eight.png",
+    "sound": "assets/audio/numbers/eighty_eight.mp3"
+  },
+  {
+    "number": 89,
+    "nameOromo": "Saddeettamii Sagal",
+    "nameEnglish": "Eighty Nine",
+    "image": "assets/images/numbers/eighty_nine.png",
+    "sound": "assets/audio/numbers/eighty_nine.mp3"
+  },
+  {
+    "number": 90,
+    "nameOromo": "Sagaltama",
+    "nameEnglish": "Ninety",
+    "image": "assets/images/numbers/ninety.png",
+    "sound": "assets/audio/numbers/ninety.mp3"
+  },
+  {
+    "number": 91,
+    "nameOromo": "Sagaltamii Tokko",
+    "nameEnglish": "Ninety One",
+    "image": "assets/images/numbers/ninety_one.png",
+    "sound": "assets/audio/numbers/ninety_one.mp3"
+  },
+  {
+    "number": 92,
+    "nameOromo": "Sagaltamii Lama",
+    "nameEnglish": "Ninety Two",
+    "image": "assets/images/numbers/ninety_two.png",
+    "sound": "assets/audio/numbers/ninety_two.mp3"
+  },
+  {
+    "number": 93,
+    "nameOromo": "Sagaltamii Sadii",
+    "nameEnglish": "Ninety Three",
+    "image": "assets/images/numbers/ninety_three.png",
+    "sound": "assets/audio/numbers/ninety_three.mp3"
+  },
+  {
+    "number": 94,
+    "nameOromo": "Sagaltamii Afur",
+    "nameEnglish": "Ninety Four",
+    "image": "assets/images/numbers/ninety_four.png",
+    "sound": "assets/audio/numbers/ninety_four.mp3"
+  },
+  {
+    "number": 95,
+    "nameOromo": "Sagaltamii Shan",
+    "nameEnglish": "Ninety Five",
+    "image": "assets/images/numbers/ninety_five.png",
+    "sound": "assets/audio/numbers/ninety_five.mp3"
+  },
+  {
+    "number": 96,
+    "nameOromo": "Sagaltamii Jaha",
+    "nameEnglish": "Ninety Six",
+    "image": "assets/images/numbers/ninety_six.png",
+    "sound": "assets/audio/numbers/ninety_six.mp3"
+  },
+  {
+    "number": 97,
+    "nameOromo": "Sagaltamii Torba",
+    "nameEnglish": "Ninety Seven",
+    "image": "assets/images/numbers/ninety_seven.png",
+    "sound": "assets/audio/numbers/ninety_seven.mp3"
+  },
+  {
+    "number": 98,
+    "nameOromo": "Sagaltamii Saddeet",
+    "nameEnglish": "Ninety Eight",
+    "image": "assets/images/numbers/ninety_eight.png",
+    "sound": "assets/audio/numbers/ninety_eight.mp3"
+  },
+  {
+    "number": 99,
+    "nameOromo": "Sagaltamii Sagal",
+    "nameEnglish": "Ninety Nine",
+    "image": "assets/images/numbers/ninety_nine.png",
+    "sound": "assets/audio/numbers/ninety_nine.mp3"
+  },
+  {
+    "number": 100,
+    "nameOromo": "Dhibba",
+    "nameEnglish": "One Hundred",
+    "image": "assets/images/numbers/one_hundred.png",
+    "sound": "assets/audio/numbers/one_hundred.mp3"
+  }
 ]

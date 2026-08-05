@@ -4,265 +4,727 @@ import '../models/song.dart';
 import '../services/content_service.dart';
 import '../services/audio_service.dart';
 
+import '../widgets/lesson_complete_button.dart';
+import '../data/lesson_ids.dart';
+
 
 
 class SongScreen extends StatefulWidget {
 
 
-const SongScreen({super.key});
+  const SongScreen({
+
+    super.key,
+
+  });
 
 
-@override
-State<SongScreen> createState()
-=> _SongScreenState();
+
+  @override
+  State<SongScreen> createState()
+
+  => _SongScreenState();
 
 
 }
+
+
+
 
 
 
 class _SongScreenState extends State<SongScreen>{
 
 
-final ContentService service =
-ContentService();
 
+  final ContentService service =
 
-final AudioService audio =
-AudioService();
+  ContentService();
 
 
-late Future<List<Song>> songs;
 
+  final AudioService audio =
 
+  AudioService();
 
-@override
-void initState(){
 
-super.initState();
 
-songs =
-service.getSongs();
 
-}
+  late Future<List<Song>> songs;
 
 
 
 
-@override
-Widget build(BuildContext context){
 
 
-return Scaffold(
+  @override
+  void initState(){
 
-appBar:
 
-AppBar(
+    super.initState();
 
-title:
-const Text(
-"Sirba Koo"
-),
 
-),
+    songs =
 
+    service.getSongs();
 
 
-body:
+  }
 
-FutureBuilder<List<Song>>(
 
 
-future:
-songs,
 
 
-builder:(context,snapshot){
 
 
-if(snapshot.connectionState ==
-ConnectionState.waiting){
+  @override
+  Widget build(BuildContext context){
 
-return const Center(
 
-child:
-CircularProgressIndicator(),
 
-);
+    return Scaffold(
 
-}
 
 
+      appBar:
 
-if(snapshot.hasError){
+      AppBar(
 
-return Center(
 
-child:
-Text(
-"Dogoggora: ${snapshot.error}"
-),
+        title:
 
-);
+        const Text(
 
-}
+          "🎵 Sirba Koo",
 
+        ),
 
 
-final list =
-snapshot.data ?? [];
 
+        centerTitle:true,
 
 
-return ListView.builder(
+      ),
 
 
-itemCount:
-list.length,
 
 
-itemBuilder:(context,index){
 
 
-final song =
-list[index];
 
+      body:
 
+      FutureBuilder<List<Song>>(
 
-return Card(
 
-margin:
-const EdgeInsets.all(12),
 
+        future:
 
-child:
+        songs,
 
-Column(
 
-children:[
 
+        builder:(context,snapshot){
 
 
-Image.asset(
 
-song.image,
 
-height:150,
 
-),
+          if(snapshot.connectionState ==
 
+              ConnectionState.waiting){
 
 
-Text(
 
-song.titleOromo,
+            return const Center(
 
-style:
 
-const TextStyle(
+              child:
 
-fontSize:25,
+              CircularProgressIndicator(),
 
-fontWeight:
-FontWeight.bold,
 
-),
+            );
 
-),
 
+          }
 
 
-Text(
-song.titleEnglish
-),
 
 
 
-Text(
-"🎤 ${song.singer}"
-),
 
 
+          if(snapshot.hasError){
 
-Padding(
 
-padding:
-const EdgeInsets.all(12),
 
+            return Center(
 
-child:
 
-Text(
+              child:
 
-song.lyricsOromo,
+              Text(
 
-style:
+                "Dogoggora: ${snapshot.error}",
 
-const TextStyle(
+              ),
 
-fontSize:18,
 
-),
+            );
 
-),
 
-),
+          }
 
 
 
-ElevatedButton.icon(
 
-onPressed:(){
 
-audio.playSound(
-song.sound
-);
 
-},
 
+          final list =
 
-icon:
+          snapshot.data ?? [];
 
-const Icon(
-Icons.play_arrow
-),
 
 
-label:
 
-const Text(
-"Dhaggeeffadhu"
-),
 
 
-),
 
 
-],
+          if(list.isEmpty){
 
 
-),
 
+            return const Center(
 
-);
 
 
-},
+              child:
 
+              Text(
 
-);
+                "Sirbi hin jiru",
 
+                style:
 
-},
+                TextStyle(
 
+                  fontSize:20,
 
-),
+                ),
 
+              ),
 
-);
 
 
-}
+            );
+
+
+          }
+
+
+
+
+
+
+
+
+
+          return Column(
+
+
+
+            children:[
+
+
+
+
+
+
+
+              Expanded(
+
+
+
+                child:
+
+                ListView.builder(
+
+
+
+                  padding:
+
+                  const EdgeInsets.all(12),
+
+
+
+
+                  itemCount:
+
+                  list.length,
+
+
+
+
+
+
+
+                  itemBuilder:(context,index){
+
+
+
+                    final song =
+
+                    list[index];
+
+
+
+
+
+
+
+
+                    return Card(
+
+
+
+                      elevation:5,
+
+
+
+                      margin:
+
+                      const EdgeInsets.symmetric(
+
+                        vertical:10,
+
+                      ),
+
+
+
+                      shape:
+
+                      RoundedRectangleBorder(
+
+
+
+                        borderRadius:
+
+                        BorderRadius.circular(20),
+
+
+
+                      ),
+
+
+
+
+
+
+                      child:
+
+                      Padding(
+
+
+
+                        padding:
+
+                        const EdgeInsets.all(12),
+
+
+
+
+                        child:
+
+                        Column(
+
+
+
+                          children:[
+
+
+
+
+
+
+
+                            ClipRRect(
+
+
+
+                              borderRadius:
+
+                              BorderRadius.circular(20),
+
+
+
+                              child:
+
+                              Image.asset(
+
+
+
+                                song.image,
+
+
+
+                                height:150,
+
+
+
+                                width:
+
+                                double.infinity,
+
+
+
+                                fit:
+
+                                BoxFit.cover,
+
+
+
+                                errorBuilder:
+
+                                (context,error,stack){
+
+
+
+                                  return const Icon(
+
+                                    Icons.music_note,
+
+                                    size:100,
+
+                                  );
+
+
+
+                                },
+
+
+                              ),
+
+
+
+                            ),
+
+
+
+
+
+
+
+                            const SizedBox(
+
+                              height:12,
+
+                            ),
+
+
+
+
+
+
+
+                            Text(
+
+
+
+                              song.titleOromo,
+
+
+
+                              style:
+
+                              const TextStyle(
+
+
+
+                                fontSize:25,
+
+                                fontWeight:
+
+                                FontWeight.bold,
+
+
+
+                              ),
+
+
+
+                            ),
+
+
+
+
+
+
+
+                            Text(
+
+
+
+                              song.titleEnglish,
+
+
+
+                              style:
+
+                              const TextStyle(
+
+                                fontSize:16,
+
+                                color:
+
+                                Colors.grey,
+
+                              ),
+
+
+
+                            ),
+
+
+
+
+
+
+
+                            const SizedBox(
+
+                              height:8,
+
+                            ),
+
+
+
+
+
+
+
+
+                            Text(
+
+
+
+                              "🎤 ${song.singer}",
+
+
+
+                              style:
+
+                              const TextStyle(
+
+                                fontSize:18,
+
+                              ),
+
+
+
+                            ),
+
+
+
+
+
+
+
+                            const SizedBox(
+
+                              height:12,
+
+                            ),
+
+
+
+
+
+
+
+
+                            Text(
+
+
+
+                              song.lyricsOromo,
+
+
+
+                              textAlign:
+
+                              TextAlign.center,
+
+
+
+                              style:
+
+                              const TextStyle(
+
+
+
+                                fontSize:18,
+
+                              ),
+
+
+
+                            ),
+
+
+
+
+
+
+
+                            const SizedBox(
+
+                              height:15,
+
+                            ),
+
+
+
+
+
+
+
+                            ElevatedButton.icon(
+
+
+
+                              onPressed:(){
+
+
+
+                                audio.playSound(
+
+                                  song.sound,
+
+                                );
+
+
+
+                              },
+
+
+
+                              icon:
+
+                              const Icon(
+
+                                Icons.play_arrow,
+
+                              ),
+
+
+
+
+                              label:
+
+                              const Text(
+
+                                "Dhaggeeffadhu 🎧",
+
+                              ),
+
+
+
+                            ),
+
+
+
+
+
+
+
+                          ],
+
+
+
+                        ),
+
+
+
+                      ),
+
+
+
+                    );
+
+
+
+                  },
+
+
+
+                ),
+
+
+
+              ),
+
+
+
+
+
+
+
+
+              Padding(
+
+
+
+                padding:
+
+                const EdgeInsets.all(16),
+
+
+
+
+                child:
+
+                LessonCompleteButton(
+
+
+
+                  lessonId:
+
+                  LessonIds.songs,
+
+
+
+                ),
+
+
+
+              ),
+
+
+
+
+            ],
+
+
+
+          );
+
+
+
+        },
+
+
+
+      ),
+
+
+
+    );
+
+
+  }
 
 
 }

@@ -5,6 +5,7 @@ import '../models/user_profile.dart';
 import '../providers/user_provider.dart';
 import '../providers/progress_provider.dart';
 import '../providers/reward_provider.dart';
+import 'admin_login_screen.dart';
 
 
 
@@ -67,6 +68,8 @@ _createProfile(context)
 :
 
 _showProfile(
+
+context,
 
 user,
 
@@ -245,7 +248,7 @@ ageController.text
 
 avatar:
 
-"assets/images/kooree.png",
+"assets/images/cat.png",
 
 );
 
@@ -304,6 +307,8 @@ const Text(
 
 
 Widget _showProfile(
+
+BuildContext context,
 
 UserProfile user,
 
@@ -603,6 +608,31 @@ height:20,
 
 
 
+Card(
+
+child:ListTile(
+
+leading:const Icon(Icons.admin_panel_settings_outlined),
+
+title:const Text("Bulchaa"),
+
+subtitle:const Text("Qabiyyee barnootaa to'adhu"),
+
+trailing:const Icon(Icons.chevron_right),
+
+onTap:(){
+
+Navigator.of(context).push(MaterialPageRoute(builder:(_)=>const AdminLoginScreen()));
+
+},
+
+),
+
+),
+
+
+
+const SizedBox(height:20),
 
 
 

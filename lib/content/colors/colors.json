@@ -1,25 +1,79 @@
 [
- {
-  "nameOromo":"Diimaa",
-  "nameEnglish":"Red",
-  "colorCode":"#FF0000",
-  "image":"assets/images/red.png",
-  "sound":"red.mp3"
- },
-
- {
-  "nameOromo":"Magariisa",
-  "nameEnglish":"Green",
-  "colorCode":"#00FF00",
-  "image":"assets/images/green.png",
-  "sound":"green.mp3"
- },
-
- {
-  "nameOromo":"Cuquliisa",
-  "nameEnglish":"Blue",
-  "colorCode":"#0000FF",
-  "image":"assets/images/blue.png",
-  "sound":"blue.mp3"
- }
+  {
+    "nameOromo": "Diimaa",
+    "nameEnglish": "Red",
+    "colorCode": "#FF0000",
+    "image": "assets/images/colors/red.png",
+    "sound": "assets/audio/colors/red.mp3"
+  },
+  {
+    "nameOromo": "Magariisa",
+    "nameEnglish": "Green",
+    "colorCode": "#00FF00",
+    "image": "assets/images/colors/green.png",
+    "sound": "assets/audio/colors/green.mp3"
+  },
+  {
+    "nameOromo": "Cuquliisa",
+    "nameEnglish": "Blue",
+    "colorCode": "#0000FF",
+    "image": "assets/images/colors/blue.png",
+    "sound": "assets/audio/colors/blue.mp3"
+  },
+  {
+    "nameOromo": "Keelloo",
+    "nameEnglish": "Yellow",
+    "colorCode": "#FFFF00",
+    "image": "assets/images/colors/yellow.png",
+    "sound": "assets/audio/colors/yellow.mp3"
+  },
+  {
+    "nameOromo": "Gurraacha",
+    "nameEnglish": "Black",
+    "colorCode": "#000000",
+    "image": "assets/images/colors/black.png",
+    "sound": "assets/audio/colors/black.mp3"
+  },
+  {
+    "nameOromo": "Adii",
+    "nameEnglish": "White",
+    "colorCode": "#FFFFFF",
+    "image": "assets/images/colors/white.png",
+    "sound": "assets/audio/colors/white.mp3"
+  },
+  {
+    "nameOromo": "Burtukaana",
+    "nameEnglish": "Orange",
+    "colorCode": "#FFA500",
+    "image": "assets/images/colors/orange.png",
+    "sound": "assets/audio/colors/orange.mp3"
+  },
+  {
+    "nameOromo": "Warqee",
+    "nameEnglish": "Gold",
+    "colorCode": "#FFD700",
+    "image": "assets/images/colors/gold.png",
+    "sound": "assets/audio/colors/gold.mp3"
+  },
+  {
+    "nameOromo": "Meetii",
+    "nameEnglish": "Silver",
+    "colorCode": "#C0C0C0",
+    "image": "assets/images/colors/silver.png",
+    "sound": "assets/audio/colors/silver.mp3"
+  },
+  {
+    "nameOromo": "Cuquliisa Dukkanaa",
+    "nameEnglish": "Navy Blue",
+    "colorCode": "#000080",
+    "image": "assets/images/colors/navy_blue.png",
+    "sound": "assets/audio/colors/navy_blue.mp3"
+  },
+  {
+    "nameOromo": "Magariisa Dukkanaa",
+    "nameEnglish": "Dark Green",
+    "colorCode": "#006400",
+    "image": "assets/images/colors/dark_green.png",
+    "sound": "assets/audio/colors/dark_green.mp3"
+  }
 ]

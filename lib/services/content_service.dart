@@ -1,313 +1,256 @@
-import 'logger_service.dart';
 import '../models/animal.dart';
+import '../models/word_item.dart';
+import '../models/letter.dart';
+import '../models/quiz.dart';
 import '../models/color_item.dart';
 import '../models/number_item.dart';
 import '../models/story.dart';
 import '../models/song.dart';
-import '../models/word_item.dart';
-import '../models/letter.dart';
-import '../models/quiz.dart';
 import '../models/assistant_message.dart';
 
 import 'json_loader.dart';
-import 'firebase_content_service.dart';
-
+import 'local_content_service.dart';
+//import 'math_quiz_generator.dart';
+//import 'alphabet_quiz_generator.dart';
+import 'quiz_generator.dart';
 
 
 class ContentService {
 
 
-final JsonLoader loader =
-JsonLoader();
+  final JsonLoader jsonLoader = JsonLoader();
 
+  final LocalContentService local = LocalContentService();
 
-final FirebaseContentService firebase =
-FirebaseContentService();
 
 
+  Future<List<dynamic>> getMergedContent(
+    String category,
+    Future<List<dynamic>> Function() jsonFallback,
+  ) async {
 
 
+    final jsonData = await jsonFallback();
 
-// =============================
-// ANIMALS
-// =============================
 
-Future<List<Animal>> getAnimals() async {
+    final localData = await local.getContent(
+      category,
+    );
 
 
-try {
+    final List<dynamic> merged = [];
 
 
-final online =
-await firebase.getCollection("animals");
+    merged.addAll(jsonData);
 
 
-if(online.isNotEmpty){
 
+    for (final item in localData) {
 
-return online
-.map(
-(item)=>
-Animal.fromJson(item),
-)
-.toList();
 
+      final exists = merged.any((old) {
 
-}
 
+        if (item["id"] != null &&
+            old["id"] != null) {
 
-}
+          return item["id"] == old["id"];
 
-catch(e){
+        }
 
-LoggerService.logger.i(
-"Using local animals.json"
-);
 
-}
+        return false;
 
+      });
 
 
-final data =
-await loader.animals();
 
+      if (!exists) {
 
+        merged.add(item);
 
-return data
-.map(
-(item)=>
-Animal.fromJson(item),
-)
-.toList();
+      }
 
 
-}
+    }
 
 
 
+    return merged;
 
+  }
 
 
 
-// =============================
-// COLORS
-// =============================
 
-Future<List<ColorItem>> getColors() async {
 
 
-final data =
-await loader.colors();
+  Future<List<Animal>> getAnimals() async {
 
 
+    final data = await getMergedContent(
+      "animals",
+      jsonLoader.animals,
+    );
 
-return data
-.map(
-(item)=>
-ColorItem.fromJson(item),
-)
-.toList();
 
 
-}
+    return data.map((item) {
 
 
+      return Animal.fromJson(
+        Map<String, dynamic>.from(item),
+      );
 
 
+    }).toList();
 
 
+  }
 
-// =============================
-// NUMBERS
-// =============================
 
-Future<List<NumberItem>> getNumbers() async {
 
 
-final data =
-await loader.numbers();
 
 
 
-return data
-.map(
-(item)=>
-NumberItem.fromJson(item),
-)
-.toList();
+  Future<List<WordItem>> getWords() async {
 
 
-}
+    final data = await getMergedContent(
+      "words",
+      jsonLoader.words,
+    );
 
 
 
+    return data.map((item) {
 
 
+      return WordItem.fromJson(
+        Map<String, dynamic>.from(item),
+      );
 
 
-// =============================
-// STORIES
-// =============================
+    }).toList();
 
-Future<List<Story>> getStories() async {
 
+  }
 
-final data =
-await loader.stories();
 
 
 
-return data
-.map(
-(item)=>
-Story.fromJson(item),
-)
-.toList();
 
 
-}
 
+  Future<List<Letter>> getLetters() async {
 
 
+    final data = await getMergedContent(
+      "alphabet",
+      jsonLoader.letters,
+    );
 
 
 
+    return data.map((item) {
 
-// =============================
-// SONGS
-// =============================
 
-Future<List<Song>> getSongs() async {
+      final json = Map<String, dynamic>.from(item);
 
 
-final data =
-await loader.songs();
 
+      // Compatibility with old alphabet JSON
+      // Converts old fields into the new Letter model
 
+      return Letter.fromJson({
 
-return data
-.map(
-(item)=>
-Song.fromJson(item),
-)
-.toList();
+        "uppercase":
+            json["uppercase"] ??
+            json["letter"] ??
+            "",
 
 
-}
+        "lowercase":
+            json["lowercase"] ??
+            (json["letter"] ?? "").toString().toLowerCase(),
 
 
+        "name":
+            json["name"] ??
+            json["letter"] ??
+            "",
 
 
+        "example":
+            json["example"] ??
+            json["wordOromo"] ??
+            "",
 
 
+        "image":
+            json["image"] ??
+            "",
 
-// =============================
-// LETTERS
-// =============================
 
-Future<List<Letter>> getLetters() async {
+        "sound":
+            json["sound"] ??
+            "",
 
+      });
 
-final data =
-await loader.letters();
 
+    }).toList();
 
 
-return data
-.map(
-(item)=>
-Letter.fromJson(item),
-)
-.toList();
-
-
-}
-
-
-
-
-
-
-
-// =============================
-// WORDS
-// =============================
-
-Future<List<WordItem>> getWords() async {
-
-
-try {
-
-
-final online =
-await firebase.getCollection("words");
-
-
-if(online.isNotEmpty){
-
-
-return online
-.map(
-(item)=>
-WordItem.fromJson(item),
-)
-.toList();
-
-
-}
-
-
-}
-
-catch(e){
-
-LoggerService.logger.i(
-"Using local words.json"
-);
-
-}
-
-
-
-final data =
-await loader.words();
-
-
-
-return data
-.map(
-(item)=>
-WordItem.fromJson(item),
-)
-.toList();
-
-
-}
-
-
-
-
-
-
-
-// =============================
-// QUIZZES
-// =============================
+  }
 
 Future<List<Quiz>> getQuizzes() async {
 
 
-final data =
-await loader.quizzes();
+  final List<Quiz> quizzes=[];
 
 
 
-return data
-.map(
-(item)=>
-Quiz.fromJson(item),
-)
-.toList();
+  // JSON quizzes
+
+  final data = await getMergedContent(
+    "quiz",
+    jsonLoader.quizzes,
+  );
+
+
+
+  quizzes.addAll(
+
+    data.map((item){
+
+      return Quiz.fromJson(
+
+        Map<String,dynamic>.from(item),
+
+      );
+
+    }),
+
+  );
+
+
+
+
+
+  // Automatic quizzes
+
+  quizzes.addAll(
+
+    QuizGenerator.generateAll(),
+
+  );
+
+
+
+
+  return quizzes;
 
 
 }
@@ -316,30 +259,143 @@ Quiz.fromJson(item),
 
 
 
+  Future<List<ColorItem>> getColors() async {
 
 
-// =============================
-// KOREE MESSAGES
-// =============================
-
-Future<List<AssistantMessage>> getKooreeMessages() async {
-
-
-final data =
-await loader.kooreeMessages();
+    final data = await getMergedContent(
+      "colors",
+      jsonLoader.colors,
+    );
 
 
-
-return data
-.map(
-(item)=>
-AssistantMessage.fromJson(item),
-)
-.toList();
+    return data.map((item) {
 
 
-}
+      return ColorItem.fromJson(
+        Map<String,dynamic>.from(item),
+      );
 
+
+    }).toList();
+
+
+  }
+
+
+
+
+
+
+
+
+  Future<List<NumberItem>> getNumbers() async {
+
+
+    final data = await getMergedContent(
+      "numbers",
+      jsonLoader.numbers,
+    );
+
+
+    return data.map((item) {
+
+
+      return NumberItem.fromJson(
+        Map<String,dynamic>.from(item),
+      );
+
+
+    }).toList();
+
+
+  }
+
+
+
+
+
+
+
+
+  Future<List<Story>> getStories() async {
+
+
+    final data = await getMergedContent(
+      "stories",
+      jsonLoader.stories,
+    );
+
+
+    return data.map((item) {
+
+
+      return Story.fromJson(
+        Map<String,dynamic>.from(item),
+      );
+
+
+    }).toList();
+
+
+  }
+
+
+
+
+
+
+
+
+  Future<List<Song>> getSongs() async {
+
+
+    final data = await getMergedContent(
+      "songs",
+      jsonLoader.songs,
+    );
+
+
+    return data.map((item) {
+
+
+      return Song.fromJson(
+        Map<String,dynamic>.from(item),
+      );
+
+
+    }).toList();
+
+
+  }
+
+
+
+
+
+
+
+
+  Future<List<AssistantMessage>> getKooreeMessages() async {
+
+
+    final data = await getMergedContent(
+      "kooree",
+      jsonLoader.kooreeMessages,
+    );
+
+
+    return data.map((item) {
+
+
+      return AssistantMessage.fromJson(
+        Map<String,dynamic>.from(item),
+      );
+
+
+    }).toList();
+
+
+  }
 
 
 }

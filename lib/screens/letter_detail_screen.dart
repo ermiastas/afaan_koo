@@ -1,146 +1,416 @@
 import 'package:flutter/material.dart';
+
 import '../models/letter.dart';
+import '../services/audio_service.dart';
 
 
-class LetterDetailScreen extends StatelessWidget{
+class LetterDetailScreen extends StatelessWidget {
 
 
-final Letter letter;
+  final Letter letter;
 
 
-const LetterDetailScreen({
+  final AudioService audioService = AudioService();
 
-super.key,
 
-required this.letter,
 
-});
+  LetterDetailScreen({
 
+    super.key,
 
+    required this.letter,
 
-@override
+  });
 
-Widget build(BuildContext context){
 
 
-return Scaffold(
 
-appBar:
 
-AppBar(
+  void playSound(String sound) {
 
-title:
-Text(letter.letter),
 
-),
+    if(sound.isEmpty){
 
+      return;
 
+    }
 
-body:
 
-Center(
+    audioService.play(sound);
 
-child:
 
-Column(
+  }
 
-children:[
 
 
-Text(
 
-letter.letter,
 
-style:
 
-const TextStyle(
+  @override
+  Widget build(BuildContext context){
 
-fontSize:100,
 
-fontWeight:
-FontWeight.bold,
+    return Scaffold(
 
-),
 
-),
+      appBar:
 
+      AppBar(
 
+        title:
 
-Image.asset(
+        Text(
 
-letter.image,
+          letter.display,
 
-height:200,
+        ),
 
-),
+      ),
 
 
 
-Text(
 
-letter.wordOromo,
 
-style:
+      body:
 
-const TextStyle(
+      SingleChildScrollView(
 
-fontSize:35,
 
-),
+        padding:
 
-),
+        const EdgeInsets.all(20),
 
 
 
-Text(
+        child:
 
-letter.wordEnglish,
+        Column(
 
-style:
 
-const TextStyle(
+          children:[
 
-fontSize:22,
 
-),
 
-),
 
+            Text(
 
+              letter.display,
 
-ElevatedButton.icon(
+              style:
 
-onPressed:(){
+              const TextStyle(
 
+                fontSize:80,
 
-},
+                fontWeight:
 
+                FontWeight.bold,
 
-icon:
+              ),
 
-const Icon(
-Icons.volume_up,
-),
+            ),
 
 
-label:
 
-const Text(
-"Dhaggeeffadhu"
-),
 
-),
 
+            const SizedBox(height:20),
 
-],
 
-),
 
-),
 
-);
 
+            Image.asset(
 
-}
+              letter.image,
+
+              height:180,
+
+
+              errorBuilder:
+
+              (context,error,stack){
+
+
+                return const Icon(
+
+                  Icons.image_not_supported,
+
+                  size:100,
+
+                );
+
+
+              },
+
+
+            ),
+
+
+
+
+
+            const SizedBox(height:20),
+
+
+
+
+
+            ElevatedButton.icon(
+
+
+              onPressed:(){
+
+
+                playSound(
+
+                  letter.sound,
+
+                );
+
+
+              },
+
+
+
+              icon:
+
+              const Icon(
+
+                Icons.volume_up,
+
+              ),
+
+
+
+              label:
+
+              const Text(
+
+                "Qubee dhaggeeffadhu",
+
+              ),
+
+
+            ),
+
+
+
+
+
+
+            const SizedBox(height:30),
+
+
+
+
+
+
+            const Align(
+
+              alignment:
+
+              Alignment.centerLeft,
+
+
+              child:
+
+              Text(
+
+                "Jechoota Fakkeenyaa",
+
+                style:
+
+                TextStyle(
+
+                  fontSize:24,
+
+                  fontWeight:
+
+                  FontWeight.bold,
+
+                ),
+
+              ),
+
+
+            ),
+
+
+
+
+
+
+            const SizedBox(height:10),
+
+
+
+
+
+
+            ...letter.allExamples.map(
+
+              (example){
+
+
+
+                return Card(
+
+
+
+                  child:
+
+                  ListTile(
+
+
+
+                    leading:
+
+
+                    Image.asset(
+
+                      example.image,
+
+                      width:55,
+
+                      height:55,
+
+
+
+                      errorBuilder:
+
+                      (context,error,stack){
+
+
+                        return const Icon(
+
+                          Icons.image,
+
+                        );
+
+
+                      },
+
+
+                    ),
+
+
+
+
+
+                    title:
+
+
+                    Text(
+
+                      example.wordOromo,
+
+                      style:
+
+                      const TextStyle(
+
+                        fontSize:22,
+
+                        fontWeight:
+
+                        FontWeight.bold,
+
+                      ),
+
+                    ),
+
+
+
+
+
+                    subtitle:
+
+
+                    Text(
+
+                      example.wordEnglish ?? "",
+
+                    ),
+
+
+
+
+
+
+                    trailing:
+
+
+                    IconButton(
+
+
+                      icon:
+
+                      const Icon(
+
+                        Icons.volume_up,
+
+                      ),
+
+
+
+
+
+                      onPressed:(){
+
+
+
+                        if(example.sound != null){
+
+
+
+                          playSound(
+
+                            example.sound!,
+
+                          );
+
+
+                        }
+
+
+
+                      },
+
+
+
+                    ),
+
+
+
+
+
+                  ),
+
+
+                );
+
+
+
+              },
+
+            ),
+
+
+
+
+          ],
+
+
+        ),
+
+
+      ),
+
+
+    );
+
+
+  }
+
 
 }

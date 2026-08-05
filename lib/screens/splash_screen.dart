@@ -2,92 +2,207 @@ import 'package:flutter/material.dart';
 import 'main_screen.dart';
 
 
-class SplashScreen extends StatefulWidget{
+class SplashScreen extends StatefulWidget {
 
-const SplashScreen({super.key});
+  const SplashScreen({super.key});
 
 
-@override
-State<SplashScreen> createState()
-=> _SplashScreenState();
+  @override
+  State<SplashScreen> createState()
+  => _SplashScreenState();
 
 }
 
 
 
 class _SplashScreenState
-extends State<SplashScreen>{
+extends State<SplashScreen>
+with SingleTickerProviderStateMixin {
+
+
+
+late AnimationController animation;
+
+
+
+late Animation<double> scale;
+
 
 
 @override
 void initState(){
 
-  super.initState();
+super.initState();
 
 
-  Future.delayed(
 
-    const Duration(seconds:2),
+animation = AnimationController(
 
-    (){
+vsync:this,
 
-      if(!mounted) return;
+duration:
+
+const Duration(seconds:2),
+
+);
 
 
-      Navigator.pushReplacement(
 
-        context,
+scale = Tween<double>(
 
-        MaterialPageRoute(
+begin:0.5,
 
-          builder:(context)
-          =>
-          const MainScreen(),
+end:1,
 
-        ),
+).animate(
 
-      );
+CurvedAnimation(
 
-    },
+parent:animation,
 
-  );
+curve:Curves.elasticOut,
+
+),
+
+);
+
+
+
+animation.forward();
+
+
+
+Future.delayed(
+
+const Duration(seconds:3),
+
+(){
+
+if(!mounted)return;
+
+
+
+Navigator.pushReplacement(
+
+context,
+
+MaterialPageRoute(
+
+builder:(context)
+
+=> const MainScreen(),
+
+),
+
+);
+
+
+
+},
+
+);
+
+
 
 }
 
-@override
 
+
+@override
+void dispose(){
+
+animation.dispose();
+
+super.dispose();
+
+}
+
+
+
+
+@override
 Widget build(BuildContext context){
+
 
 return Scaffold(
 
 body:
 
+Container(
+
+
+decoration:
+
+const BoxDecoration(
+
+
+gradient:
+
+LinearGradient(
+
+colors:[
+
+Color(0xff43CEA2),
+
+Color(0xff185A9D),
+
+],
+
+begin:
+
+Alignment.topLeft,
+
+end:
+
+Alignment.bottomRight,
+
+),
+
+),
+
+
+
+child:
+
 Center(
+
+
+child:
+
+ScaleTransition(
+
+scale:scale,
+
 
 child:
 
 Column(
 
 mainAxisAlignment:
+
 MainAxisAlignment.center,
 
 
 children:[
 
 
-const Icon(
-
-Icons.menu_book,
-
-size:100,
-
-color:Colors.green,
-
+Container(
+  padding: const EdgeInsets.all(20),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(30),
+  ),
+  child: Image.asset(
+    'assets/logo/splash.png',
+    width: 180,
+    height: 180,
+    fit: BoxFit.contain,
+  ),
 ),
 
 
 
-const SizedBox(height:20),
+const SizedBox(height:25),
 
 
 
@@ -99,14 +214,23 @@ style:
 
 TextStyle(
 
-fontSize:40,
+fontSize:45,
 
 fontWeight:
+
 FontWeight.bold,
 
+color:
+
+Colors.white,
+
 ),
 
 ),
+
+
+
+const SizedBox(height:10),
 
 
 
@@ -114,7 +238,35 @@ const Text(
 
 "Baradhu • Taphadhu • Guddadhu",
 
+style:
+
+TextStyle(
+
+fontSize:18,
+
+color:
+
+Colors.white,
+
 ),
+
+),
+
+
+
+const SizedBox(height:30),
+
+
+
+const CircularProgressIndicator(
+
+color:
+
+Colors.white,
+
+)
+
+
 
 ],
 
@@ -122,8 +274,18 @@ const Text(
 
 ),
 
+
+),
+
+
+),
+
+
 );
 
+
+
 }
+
 
 }

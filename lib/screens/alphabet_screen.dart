@@ -1,242 +1,108 @@
 import 'package:flutter/material.dart';
 
-import '../services/content_service.dart';
+import '../data/alphabet_data.dart';
+import '../data/lesson_ids.dart';
 import '../models/letter.dart';
 import '../widgets/letter_card.dart';
+import '../widgets/lesson_complete_button.dart';
 import 'letter_detail_screen.dart';
 
-
-
-class AlphabetScreen extends StatefulWidget {
-
-
-const AlphabetScreen({super.key});
-
-
-@override
-State<AlphabetScreen> createState()
-=> _AlphabetScreenState();
-
-
-}
-
-
-
-class _AlphabetScreenState extends State<AlphabetScreen> {
-
-
-final ContentService contentService =
-ContentService();
-
-
-late Future<List<Letter>> letters;
-
-
-
-@override
-void initState(){
-
-super.initState();
-
-
-letters =
-contentService.getLetters();
-
-
-}
-
-
-
-@override
-Widget build(BuildContext context){
-
-
-return Scaffold(
-
-appBar:
-
-AppBar(
-
-title:
-const Text(
-"Qubee Koo"
-),
-
-),
-
-
-
-body:
-
-FutureBuilder<List<Letter>>(
-
-
-future:
-letters,
-
-
-builder:
-(context,snapshot){
-
-
-
-if(snapshot.connectionState ==
-ConnectionState.waiting){
-
-return const Center(
-
-child:
-CircularProgressIndicator(),
-
-);
-
-}
-
-
-
-
-
-if(snapshot.hasError){
-
-return Center(
-
-child:
-
-Text(
-"Dogoggora: ${snapshot.error}"
-),
-
-);
-
-}
-
-
-
-
-
-if(!snapshot.hasData ||
-snapshot.data!.isEmpty){
-
-return const Center(
-
-child:
-
-Text(
-"Qubee hin argamne"
-),
-
-);
-
-}
-
-
-
-
-
-final letterList =
-snapshot.data!;
-
-
-
-return GridView.builder(
-
-
-padding:
-const EdgeInsets.all(15),
-
-
-
-gridDelegate:
-
-const SliverGridDelegateWithFixedCrossAxisCount(
-
-crossAxisCount:2,
-
-),
-
-
-
-itemCount:
-
-letterList.length,
-
-
-
-itemBuilder:
-
-(context,index){
-
-
-final item =
-letterList[index];
-
-
-
-return LetterCard(
-
-
-letter:
-
-item.letter,
-
-
-word:
-
-item.wordOromo,
-
-
-image:
-
-item.image,
-
-
-
-onTap:(){
-
-
-Navigator.push(
-
-context,
-
-MaterialPageRoute(
-
-builder:(context)
-
-=>
-
-LetterDetailScreen(
-
-letter:item,
-
-),
-
-),
-
-);
-
-
-},
-
-
-);
-
-
-},
-
-
-);
-
-
-},
-
-
-),
-
-
-);
-
-
-}
-
-
+class AlphabetScreen extends StatelessWidget {
+  const AlphabetScreen({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Letter> alphabet = letters;
+
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Responsive columns
+    const double cardWidth = 180;
+
+    final int columns =
+        (screenWidth / cardWidth).floor().clamp(2, 8);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Qubee Guguddaa 🔠"),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 1400,
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth > 900 ? 40 : 16,
+                      vertical: 20,
+                    ),
+                    itemCount: alphabet.length,
+                    gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: columns,
+                      childAspectRatio: screenWidth < 500
+                          ? 0.82
+                          : screenWidth < 900
+                              ? 0.90
+                              : 0.98,
+                      crossAxisSpacing:
+                          screenWidth > 900 ? 20 : 12,
+                      mainAxisSpacing:
+                          screenWidth > 900 ? 20 : 12,
+                    ),
+                    itemBuilder: (context, index) {
+                      final letter = alphabet[index];
+
+                      return Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxWidth: 220,
+                          ),
+                          child: LetterCard(
+                            letter: letter.uppercase,
+                            word: letter.example,
+                            image: letter.image,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      LetterDetailScreen(
+                                    letter: letter,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    screenWidth > 900 ? 40 : 16,
+                    0,
+                    screenWidth > 900 ? 40 : 16,
+                    20,
+                  ),
+                  child: const LessonCompleteButton(
+                    lessonId: LessonIds.alphabet,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

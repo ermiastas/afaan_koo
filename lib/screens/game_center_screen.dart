@@ -1,279 +1,218 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/reward_provider.dart';
+
+import '../data/game_data.dart';
+import '../models/game_item.dart';
 
 import '../games/letter_game.dart';
 import '../games/matching_game.dart';
 import '../games/memory_game.dart';
 import '../games/sound_game.dart';
+import '../games/balloon_count_game.dart';
+import '../games/alphabet_tracing_game.dart';
+import '../games/handwriting_trace_game.dart';
+import '../utils/responsive.dart';
 
 
 
 class GameCenterScreen extends StatelessWidget {
 
 
-const GameCenterScreen({super.key});
+  const GameCenterScreen({
+    super.key,
+  });
 
 
 
-@override
-Widget build(BuildContext context){
+  Color _categoryColor(String category){
 
 
-return Scaffold(
+    switch(category){
 
 
-appBar:
+      case "Language":
+        return Colors.orange;
 
-AppBar(
 
-title:
+      case "Nature":
+        return Colors.green;
 
-const Text(
 
-"Taphoota Koo 🎮"
+      case "Health":
+        return Colors.pink;
 
-),
 
-),
+      case "Culture":
+        return Colors.brown;
 
 
+      default:
+        return Colors.blue;
 
 
-body:
+    }
 
-GridView.count(
+  }
 
 
-padding:
 
-const EdgeInsets.all(15),
 
+  @override
+  Widget build(BuildContext context){
 
 
-crossAxisCount:
+    return Scaffold(
 
-2,
 
+      appBar:
 
+      AppBar(
 
-crossAxisSpacing:
+        title:
 
-12,
+        const Text(
+          "Taphoota Koo 🎮",
+        ),
 
+      ),
 
-mainAxisSpacing:
 
-12,
 
 
+      body:
 
-children:[
+      Consumer<RewardProvider>(
 
+        builder:(context,reward,child){
 
 
-// Letter Game
+          return GridView.builder(
 
-gameCard(
 
-context,
+            padding:
 
-title:
+            EdgeInsets.all(Responsive.pagePadding(context)),
 
-"Qubee\nWalitti Qabi",
 
-icon:
 
-Icons.abc,
+            gridDelegate:
 
-color:
+            SliverGridDelegateWithFixedCrossAxisCount(
 
-Colors.orange,
 
+              crossAxisCount:
 
-onTap:(){
+              Responsive.gridColumns(
+                context,
+                minimumTileWidth: 180,
+                min: 2,
+                max: 5,
+              ),
 
 
-Navigator.push(
+              crossAxisSpacing:
 
-context,
+              12,
 
-MaterialPageRoute(
 
-builder:(context)
+              mainAxisSpacing:
 
-=>
+              12,
 
-const LetterGame(),
+              childAspectRatio: 0.82,
 
-),
 
-);
+            ),
 
 
-},
 
-),
 
+            itemCount:
 
+            games.length,
 
 
 
 
-// Matching Game
+            itemBuilder:
 
-gameCard(
+            (context,index){
 
-context,
 
-title:
 
-"Fakkii\nWalitti Qabi",
+              final originalGame = games[index];
 
-icon:
 
-Icons.image,
 
-color:
+              final game = GameItem(
 
-Colors.blue,
 
+                id: originalGame.id,
 
-onTap:(){
 
+                title: originalGame.title,
 
-Navigator.push(
 
-context,
+                description: originalGame.description,
 
-MaterialPageRoute(
 
-builder:(context)
+                icon: originalGame.icon,
 
-=>
 
-const MatchingGame(),
+                iconData: originalGame.iconData,
 
-),
 
-);
+                rewardXP: originalGame.rewardXP,
 
 
-},
+                rewardCoins: originalGame.rewardCoins,
 
-),
 
+                unlocked: originalGame.unlocked,
 
 
+                category: originalGame.category,
 
 
+                completed:
 
+                reward.completedGames[originalGame.id]
+                    ??
+                    false,
 
-// Memory Game
 
-gameCard(
+              );
 
-context,
 
-title:
 
-"Yaadannoo\n🧠",
 
-icon:
+              return gameCard(
 
-Icons.memory,
+                context,
 
-color:
+                game,
 
-Colors.purple,
+              );
 
 
-onTap:(){
+            },
 
 
-Navigator.push(
+          );
 
-context,
 
-MaterialPageRoute(
+        },
 
-builder:(context)
 
-=>
+      ),
 
-const MemoryGame(),
 
-),
+    );
 
-);
 
-
-},
-
-),
-
-
-
-
-
-
-
-// Sound Game
-
-gameCard(
-
-context,
-
-title:
-
-"Sagalee\nBeeki",
-
-icon:
-
-Icons.volume_up,
-
-color:
-
-Colors.green,
-
-
-onTap:(){
-
-
-Navigator.push(
-
-context,
-
-MaterialPageRoute(
-
-builder:(context)
-
-=>
-
-const SoundGame(),
-
-),
-
-);
-
-
-},
-
-),
-
-
-
-
-
-],
-
-
-),
-
-
-);
-
-
-}
-
+  }
 
 
 
@@ -282,178 +221,463 @@ const SoundGame(),
 
 Widget gameCard(
 
-BuildContext context,{
+    BuildContext context,
 
-required String title,
+    GameItem game,
 
-required IconData icon,
+){
 
-required Color color,
-
-required VoidCallback onTap,
-
-}){
+  return InkWell(
 
 
-return InkWell(
+    onTap:
+
+    game.unlocked
+
+    ?
+
+    (){
+
+      openGame(
+
+        context,
+
+        game,
+
+      );
 
 
-onTap:
+    }
 
-onTap,
+    :
 
-
-
-borderRadius:
-
-BorderRadius.circular(25),
+    null,
 
 
 
+    borderRadius:
+
+    BorderRadius.circular(25),
 
 
-child:
-
-Container(
 
 
-decoration:
+    child:
 
-BoxDecoration(
-
-
-color:
-
-color,
+    Container(
 
 
-borderRadius:
 
-BorderRadius.circular(25),
+      decoration:
 
-
-boxShadow:[
+      BoxDecoration(
 
 
-BoxShadow(
 
-blurRadius:5,
+        gradient:
 
-offset:
+        LinearGradient(
 
-const Offset(0,3),
 
-color:
 
-Colors.black26,
+          colors:
+
+
+          game.unlocked
+
+
+          ?
+
+
+          [
+
+            _categoryColor(game.category),
+
+            _categoryColor(game.category)
+                .withValues(alpha:0.65),
+
+
+          ]
+
+
+          :
+
+
+          [
+
+            Colors.grey,
+
+            Colors.grey.shade700,
+
+          ],
+
+
+        ),
+
+
+
+
+        borderRadius:
+
+        BorderRadius.circular(25),
+
+
+
+        boxShadow:[
+
+
+          const BoxShadow(
+
+            blurRadius:6,
+
+            offset:
+
+            Offset(0,4),
+
+            color:
+
+            Colors.black26,
+
+          ),
+
+
+        ],
+
+
+
+      ),
+
+
+
+
+      child:
+
+      Stack(
+
+
+        children:[
+
+
+
+          Center(
+
+
+            child:
+
+            Column(
+
+
+              mainAxisAlignment:
+
+              MainAxisAlignment.center,
+
+
+
+              children:[
+
+
+
+                Text(
+
+                  game.icon,
+
+                  style:
+
+                  const TextStyle(
+
+                    fontSize:50,
+
+                  ),
+
+                ),
+
+
+
+                const SizedBox(height:10),
+
+
+
+
+                Text(
+
+                  game.title,
+
+
+                  textAlign:
+
+                  TextAlign.center,
+
+
+
+                  style:
+
+                  const TextStyle(
+
+                    fontSize:18,
+
+                    fontWeight:
+
+                    FontWeight.bold,
+
+                    color:
+
+                    Colors.white,
+
+                  ),
+
+                ),
+
+
+
+
+                const SizedBox(height:5),
+
+
+
+
+                Text(
+
+                  "+${game.rewardXP} XP",
+
+                  style:
+
+                  const TextStyle(
+
+                    color:
+
+                    Colors.white,
+
+                  ),
+
+                ),
+
+
+
+
+                const SizedBox(height:5),
+
+
+
+
+                Text(
+
+                  game.completed
+
+                  ?
+
+                  "✅ Xumurame"
+
+                  :
+
+                  "🪙 ${game.rewardCoins}",
+
+
+                  style:
+
+                  const TextStyle(
+
+                    color:
+
+                    Colors.white,
+
+                    fontWeight:
+
+                    FontWeight.bold,
+
+                  ),
+
+                ),
+
+
+
+              ],
+
+
+            ),
+
+
+
+          ),
+
+
+
+
+          if(!game.unlocked)
+
+          const Positioned(
+
+            right:10,
+
+            top:10,
+
+            child:
+
+            Icon(
+
+              Icons.lock,
+
+              color:
+
+              Colors.white,
+
+            ),
+
+          ),
+
+
+
+        ],
+
+
+      ),
+
+
+    ),
+
+
+  );
+
+}
+
+
+
+
+
+
+void openGame(
+
+    BuildContext context,
+
+    GameItem game,
+
+){
+
+
+switch(game.id){
+
+case "handwriting_trace":
+
+Navigator.push(context, MaterialPageRoute(builder: (_) => HandwritingTraceGame(game: game)));
+
+break;
+
+case "alphabet_trace":
+
+Navigator.push(context, MaterialPageRoute(builder: (_) => AlphabetTracingGame(game: game)));
+
+break;
+
+case "balloon_count":
+
+Navigator.push(context, MaterialPageRoute(builder: (_) => BalloonCountGame(game: game)));
+
+break;
+
+
+
+case "alphabet_match":
+
+
+Navigator.push(
+
+context,
+
+MaterialPageRoute(
+
+builder:(_)=>
+
+LetterGame(game:game),
 
 ),
-
-
-],
-
-
-),
-
-
-
-
-child:
-
-Column(
-
-
-mainAxisAlignment:
-
-MainAxisAlignment.center,
-
-
-
-children:[
-
-
-
-Icon(
-
-icon,
-
-size:
-
-60,
-
-color:
-
-Colors.white,
-
-),
-
-
-
-
-const SizedBox(
-
-height:15,
-
-),
-
-
-
-
-
-Text(
-
-
-title,
-
-
-textAlign:
-
-TextAlign.center,
-
-
-
-style:
-
-const TextStyle(
-
-
-fontSize:
-
-20,
-
-
-fontWeight:
-
-FontWeight.bold,
-
-
-color:
-
-Colors.white,
-
-
-),
-
-
-
-),
-
-
-
-
-
-],
-
-
-),
-
-
-
-),
-
-
 
 );
+
+
+break;
+
+
+
+
+case "word_memory":
+
+
+Navigator.push(
+
+context,
+
+MaterialPageRoute(
+
+builder:(_)=>
+
+MemoryGame(
+
+game:game,
+
+),
+
+),
+
+);
+
+
+break;
+
+
+
+
+case "animal_quiz":
+
+
+Navigator.push(
+
+context,
+
+MaterialPageRoute(
+
+builder:(_)=>
+
+MatchingGame(
+
+game:game,
+
+),
+
+),
+
+);
+
+
+break;
+
+
+
+
+case "listening":
+
+
+Navigator.push(
+
+context,
+
+MaterialPageRoute(
+
+builder:(_)=>
+
+SoundGame(
+
+game:game,
+
+),
+
+),
+
+);
+
+
+break;
+
+
+}
 
 
 

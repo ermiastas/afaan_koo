@@ -3,35 +3,134 @@
     "nameOromo": "Leenca",
     "nameEnglish": "Lion",
     "category": "Bineensa Bosonaa",
-    "image": "assets/images/lion.png",
-    "sound": "lion.mp3"
+    "image": "assets/images/animals/lion.png",
+    "sound": "assets/audio/animals/lion.mp3"
   },
   {
     "nameOromo": "Arba",
     "nameEnglish": "Elephant",
     "category": "Bineensa Bosonaa",
-    "image": "assets/images/elephant.png",
-    "sound": "elephant.mp3"
+    "image": "assets/images/animals/elephant.png",
+    "sound": "assets/audio/animals/elephant.mp3"
   },
   {
     "nameOromo": "Qamalee",
     "nameEnglish": "Monkey",
     "category": "Bineensa Bosonaa",
-    "image": "assets/images/monkey.png",
-    "sound": "monkey.mp3"
+    "image": "assets/images/animals/monkey.png",
+    "sound": "assets/audio/animals/monkey.mp3"
   },
+  {
+    "nameOromo": "Qeeransa",
+    "nameEnglish": "Tiger",
+    "category": "Bineensa Bosonaa",
+    "image": "assets/images/animals/tiger.png",
+    "sound": "assets/audio/animals/tiger.mp3"
+  },
+  {
+    "nameOromo": "Waraabessa",
+    "nameEnglish": "Hyena",
+    "category": "Bineensa Bosonaa",
+    "image": "assets/images/animals/hyena.png",
+    "sound": "assets/audio/animals/hyena.mp3"
+  },
+  {
+    "nameOromo": "Wangoo",
+    "nameEnglish": "Fox",
+    "category": "Bineensa Bosonaa",
+    "image": "assets/images/animals/fox.png",
+    "sound": "assets/audio/animals/fox.mp3"
+  },
+  {
+    "nameOromo": "Gafarsa",
+    "nameEnglish": "Buffalo",
+    "category": "Bineensa Bosonaa",
+    "image": "assets/images/animals/buffalo.png",
+    "sound": "assets/audio/animals/buffalo.mp3"
+  },
+  {
+    "nameOromo": "Naacha",
+    "nameEnglish": "Crocodile",
+    "category": "Bineensa Bosonaa",
+    "image": "assets/images/animals/crocodile.png",
+    "sound": "assets/audio/animals/crocodile.mp3"
+  },
+  {
+    "nameOromo": "Simbira",
+    "nameEnglish": "Bird",
+    "category": "Bineensa Bosonaa",
+    "image": "assets/images/animals/bird.png",
+    "sound": "assets/audio/animals/bird.mp3"
+  },
+  {
+    "nameOromo": "Yeeyyii",
+    "nameEnglish": "Wild Dog",
+    "category": "Bineensa Bosonaa",
+    "image": "assets/images/animals/wild_dog.png",
+    "sound": "assets/audio/animals/wild_dog.mp3"
+  },
+
   {
     "nameOromo": "Saree",
     "nameEnglish": "Dog",
     "category": "Bineensa Manaa",
-    "image": "assets/images/dog.png",
-    "sound": "dog.mp3"
+    "image": "assets/images/animals/dog.png",
+    "sound": "assets/audio/animals/dog.mp3"
   },
   {
     "nameOromo": "Adurree",
     "nameEnglish": "Cat",
     "category": "Bineensa Manaa",
-    "image": "assets/images/cat.png",
-    "sound": "cat.mp3"
+    "image": "assets/images/animals/cat.png",
+    "sound": "assets/audio/animals/cat.mp3"
+  },
+  {
+    "nameOromo": "Sa'a",
+    "nameEnglish": "Cow",
+    "category": "Bineensa Manaa",
+    "image": "assets/images/animals/cow.png",
+    "sound": "assets/audio/animals/cow.mp3"
+  },
+  {
+    "nameOromo": "Re'ee",
+    "nameEnglish": "Goat",
+    "category": "Bineensa Manaa",
+    "image": "assets/images/animals/goat.png",
+    "sound": "assets/audio/animals/goat.mp3"
+  },
+  {
+    "nameOromo": "Hoolaa",
+    "nameEnglish": "Sheep",
+    "category": "Bineensa Manaa",
+    "image": "assets/images/animals/sheep.png",
+    "sound": "assets/audio/animals/sheep.mp3"
+  },
+  {
+    "nameOromo": "Farda",
+    "nameEnglish": "Horse",
+    "category": "Bineensa Manaa",
+    "image": "assets/images/animals/horse.png",
+    "sound": "assets/audio/animals/horse.mp3"
+  },
+  {
+    "nameOromo": "Harree",
+    "nameEnglish": "Donkey",
+    "category": "Bineensa Manaa",
+    "image": "assets/images/animals/donkey.png",
+    "sound": "assets/audio/animals/donkey.mp3"
+  },
+  {
+    "nameOromo": "Lukkuu",
+    "nameEnglish": "Chicken",
+    "category": "Bineensa Manaa",
+    "image": "assets/images/animals/chicken.png",
+    "sound": "assets/audio/animals/chicken.mp3"
+  },
+  {
+    "nameOromo": "Gaala",
+    "nameEnglish": "Camel",
+    "category": "Bineensa Manaa",
+    "image": "assets/images/animals/camel.png",
+    "sound": "assets/audio/animals/camel.mp3"
   }
 ]
