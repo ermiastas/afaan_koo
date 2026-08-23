@@ -40,8 +40,8 @@ jobs:
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release --no-wasm-dry-run
-
+        run: flutter build apk --release
+        
       - name: Check APK
         run: |
           ls -lh build/app/outputs/flutter-apk/
