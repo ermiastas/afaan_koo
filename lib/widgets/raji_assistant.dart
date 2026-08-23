@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../providers/profile_provider.dart';
 import '../services/raji_audio_service.dart';
 import 'package:provider/provider.dart';
+import '../ai/raji/widgets/raji_cartoon.dart';
 
 class RajiAssistant extends StatefulWidget {
 
@@ -171,17 +172,7 @@ class _RajiAssistantState
 
                   scale: 1 + (_bounce.value * .12),
 
-                  child: const Text(
-
-                    "🦉",
-
-                    style: TextStyle(
-
-                      fontSize: 90,
-
-                    ),
-
-                  ),
+                  child: const RajiCartoon(size: 90),
 
                 ),
 

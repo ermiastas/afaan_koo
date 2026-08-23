@@ -7,6 +7,7 @@ import '../services/progress_service.dart';
 import '../services/badge_service.dart';
 import '../widgets/reward_dialog.dart';
 import '../widgets/lesson_complete_button.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -306,7 +307,7 @@ double.infinity,
 
 padding:
 
-const EdgeInsets.all(16),
+  EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
@@ -437,13 +438,8 @@ widget.items.length,
 
 gridDelegate:
 
-const SliverGridDelegateWithFixedCrossAxisCount(
-
-
-
-crossAxisCount:
-
-2,
+  Responsive.homeGridDelegate(
+    context,
 
 
 

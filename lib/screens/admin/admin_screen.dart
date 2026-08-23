@@ -1,412 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'content_manager_screen.dart';
 import '../../providers/admin_provider.dart';
-
-
+import 'coloring_review_screen.dart';
+import 'content_manager_screen.dart';
+import '../../utils/responsive.dart';
 
 class AdminScreen extends StatelessWidget {
-
-
-const AdminScreen({
-
-super.key,
-
-});
-
-
-
-
-
-@override
-Widget build(BuildContext context){
-
-
-
-final categories = [
-
-
-{
-"name":"Animals",
-"icon":Icons.pets,
-"color":Colors.green,
-},
-
-
-{
-"name":"Alphabet",
-"icon":Icons.abc,
-"color":Colors.orange,
-},
-
-
-{
-"name":"Words",
-"icon":Icons.menu_book,
-"color":Colors.blue,
-},
-
-
-{
-"name":"Colors",
-"icon":Icons.color_lens,
-"color":Colors.purple,
-},
-
-
-{
-"name":"Numbers",
-"icon":Icons.numbers,
-"color":Colors.red,
-},
-
-
-{
-"name":"Stories",
-"icon":Icons.auto_stories,
-"color":Colors.brown,
-},
-
-
-{
-"name":"Songs",
-"icon":Icons.music_note,
-"color":Colors.teal,
-},
-
-
-{
-"name":"Quiz",
-"icon":Icons.quiz,
-"color":Colors.indigo,
-},
-
-
-];
-
-
-
-
-
-
-
-return Scaffold(
-
-
-
-appBar:
-
-AppBar(
-
-title:
-
-const Text(
-
-"Admin Dashboard 🔐",
-
-),
-
-actions:[
-
-
-IconButton(
-
-tooltip:"Sign out",
-
-icon:const Icon(Icons.logout),
-
-onPressed:(){
-
-context.read<AdminProvider>().logout();
-
-Navigator.of(context).pop();
-
-},
-
-),
-
-],
-
-),
-
-
-
-
-
-
-
-body:
-
-GridView.builder(
-
-
-
-padding:
-
-const EdgeInsets.all(15),
-
-
-
-
-
-gridDelegate:
-
-SliverGridDelegateWithFixedCrossAxisCount(
-
-
-
-crossAxisCount:
-
-MediaQuery.of(context).size.width >= 600 ? 3 : 2,
-
-
-
-crossAxisSpacing:
-
-15,
-
-
-
-mainAxisSpacing:
-
-15,
-
-
-
-),
-
-
-
-
-
-
-
-itemCount:
-
-categories.length,
-
-
-
-
-
-
-
-
-itemBuilder:
-
-(context,index){
-
-
-
-final item =
-
-categories[index];
-
-
-
-
-
-
-
-return Card(
-
-
-
-elevation:
-
-5,
-
-
-
-shape:
-
-RoundedRectangleBorder(
-
-borderRadius:
-
-BorderRadius.circular(20),
-
-),
-
-
-
-
-
-
-
-
-child:
-
-InkWell(
-
-
-
-borderRadius:
-
-BorderRadius.circular(20),
-
-
-
-onTap:
-
-(){
-
-
-
-Navigator.push(
-
-
-
-context,
-
-
-
-MaterialPageRoute(
-
-
-
-builder:
-
-(context)
-
-=>
-
-ContentManagerScreen(
-
-
-
-category:
-
-item["name"] as String,
-
-
-
-),
-
-
-
-),
-
-
-
-);
-
-
-
-},
-
-
-
-
-
-
-child:
-
-Column(
-
-
-
-mainAxisAlignment:
-
-MainAxisAlignment.center,
-
-
-
-children:[
-
-
-
-Icon(
-
-item["icon"] as IconData,
-
-size:55,
-
-color:
-
-item["color"] as Color,
-
-),
-
-
-
-
-
-const SizedBox(
-
-height:15,
-
-),
-
-
-
-
-
-Text(
-
-
-
-item["name"] as String,
-
-
-
-style:
-
-const TextStyle(
-
-
-
-fontSize:20,
-
-
-
-fontWeight:
-
-FontWeight.bold,
-
-
-
-),
-
-
-
-),
-
-
-
-
-
-],
-
-
-
-),
-
-
-
-),
-
-
-
-);
-
-
-
-},
-
-
-
-),
-
-
-
-);
-
-
-
-}
-
-
-
+  const AdminScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const categories = [
+      ('animals', 'Animals', Icons.pets, Colors.green),
+      ('alphabet', 'Alphabet', Icons.abc, Colors.orange),
+      ('words', 'Words', Icons.menu_book, Colors.blue),
+      ('colors', 'Colors', Icons.color_lens, Colors.purple),
+      ('numbers', 'Numbers', Icons.numbers, Colors.red),
+      ('stories', 'Stories', Icons.auto_stories, Colors.brown),
+      ('songs', 'Songs', Icons.music_note, Colors.teal),
+      ('quiz', 'Quiz', Icons.quiz, Colors.indigo),
+      ('videos', 'Videos', Icons.ondemand_video_rounded, Colors.deepPurple),
+      ('custom', 'Custom content', Icons.edit_note_rounded, Colors.blueGrey),
+    ];
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Admin Dashboard'),
+        actions: [
+          IconButton(
+            tooltip: 'Sign out',
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              context.read<AdminProvider>().logout();
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+            child: SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                icon: const Icon(Icons.palette_outlined),
+                label: const Text('Review generated coloring pages'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (_) => const ColoringReviewScreen()),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: EdgeInsets.all(Responsive.pagePadding(context)),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: Responsive.homeColumns(context, max: 5),
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
+              ),
+              itemCount: categories.length,
+              itemBuilder: (_, index) {
+                final item = categories[index];
+                return Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(20),
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => ContentManagerScreen(category: item.$1),
+                    )),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(item.$3, size: 55, color: item.$4),
+                        const SizedBox(height: 15),
+                        Text(item.$2,
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -10,6 +10,7 @@ import '../models/animal.dart';
 import '../data/lesson_ids.dart';
 
 import '../widgets/lesson_complete_button.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -273,7 +274,7 @@ GridView.builder(
 
 padding:
 
-const EdgeInsets.all(12),
+EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
@@ -281,13 +282,8 @@ const EdgeInsets.all(12),
 
 gridDelegate:
 
-const SliverGridDelegateWithFixedCrossAxisCount(
-
-
-
-crossAxisCount:
-
-2,
+Responsive.homeGridDelegate(
+context,
 
 
 

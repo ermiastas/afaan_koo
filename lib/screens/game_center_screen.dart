@@ -104,12 +104,7 @@ class GameCenterScreen extends StatelessWidget {
 
               crossAxisCount:
 
-              Responsive.gridColumns(
-                context,
-                minimumTileWidth: 180,
-                min: 2,
-                max: 5,
-              ),
+              Responsive.homeColumns(context, max: 5),
 
 
               crossAxisSpacing:

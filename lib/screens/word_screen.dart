@@ -6,6 +6,7 @@ import '../services/content_service.dart';
 
 import '../widgets/word_card.dart';
 import '../widgets/lesson_complete_button.dart';
+import '../utils/responsive.dart';
 
 import '../data/lesson_ids.dart';
 
@@ -558,7 +559,7 @@ extends State<WordScreen>{
 
                   padding:
 
-                  const EdgeInsets.all(15),
+                    EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
@@ -569,13 +570,8 @@ extends State<WordScreen>{
 
                   gridDelegate:
 
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-
-
-
-                    crossAxisCount:
-
-                    2,
+                    Responsive.homeGridDelegate(
+                      context,
 
 
 

@@ -7,6 +7,7 @@ import 'number_detail_screen.dart';
 import 'tracing_practice_screen.dart';
 
 import '../widgets/lesson_complete_button.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -463,19 +464,14 @@ class _NumberScreenState
 
                   padding:
 
-                  const EdgeInsets.all(16),
+                  EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
                   gridDelegate:
 
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-
-
-
-                    crossAxisCount:
-
-                    2,
+                  Responsive.homeGridDelegate(
+                    context,
 
 
                     crossAxisSpacing:

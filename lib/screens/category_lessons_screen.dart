@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/lesson_category.dart';
 import '../models/lesson_item.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -101,7 +102,7 @@ class CategoryLessonsScreen extends StatelessWidget {
             child: GridView.builder(
 
               padding:
-              const EdgeInsets.all(16),
+              EdgeInsets.all(Responsive.pagePadding(context)),
 
 
               itemCount:
@@ -109,9 +110,8 @@ class CategoryLessonsScreen extends StatelessWidget {
 
 
               gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(
-
-                crossAxisCount:2,
+              Responsive.homeGridDelegate(
+                context,
 
                 childAspectRatio:.95,
 

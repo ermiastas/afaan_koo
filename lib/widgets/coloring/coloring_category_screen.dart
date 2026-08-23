@@ -1,281 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../data/coloring_data.dart';
-import '../../models/coloring_category.dart';
-import '../../models/coloring_page.dart';
-
+import '../../providers/coloring_catalog_provider.dart';
 import '../../screens/coloring/coloring_canvas_screen.dart';
+import '../../utils/responsive.dart';
 import 'coloring_page_card.dart';
 
-
 class ColoringCategoryScreen extends StatefulWidget {
+  const ColoringCategoryScreen({super.key, required this.category});
 
-  final ColoringCategory category;
-
-  const ColoringCategoryScreen({
-
-    super.key,
-
-    required this.category,
-
-  });
+  final String category;
 
   @override
-  State<ColoringCategoryScreen> createState() =>
-      _ColoringCategoryScreenState();
-
+  State<ColoringCategoryScreen> createState() => _ColoringCategoryScreenState();
 }
 
-class _ColoringCategoryScreenState
-    extends State<ColoringCategoryScreen> {
-
-  String search = "";
+class _ColoringCategoryScreenState extends State<ColoringCategoryScreen> {
+  String _search = '';
 
   @override
   Widget build(BuildContext context) {
-
-    final width = MediaQuery.of(context).size.width;
-
-    final columns =
-
-        width < 500
-
-            ? 2
-
-            : width < 900
-
-                ? 3
-
-                : 4;
-
-    final List<ColoringPage> pages =
-
-        coloringPages.where((page) {
-
-      if (page.category != widget.category.id) {
-
-        return false;
-
-      }
-
-      if (search.isEmpty) {
-
-        return true;
-
-      }
-
-      final q = search.toLowerCase();
-
-      return page.titleOromo
-              .toLowerCase()
-              .contains(q) ||
-
-          page.titleEnglish
-              .toLowerCase()
-              .contains(q);
-
+    final pages = context.watch<ColoringCatalogProvider>().pages.where((page) {
+      final query = _search.toLowerCase();
+      return page.category == widget.category &&
+          (query.isEmpty ||
+              page.titleOromo.toLowerCase().contains(query) ||
+              page.titleEnglish.toLowerCase().contains(query));
     }).toList();
-
+    final columns = Responsive.homeColumns(context, max: 4);
     return Scaffold(
-
-      backgroundColor:
-          const Color(0xffEAF7FF),
-
-      appBar: AppBar(
-
-        backgroundColor:
-            Colors.transparent,
-
-        elevation: 0,
-
-        centerTitle: true,
-
-        title: Row(
-
-          mainAxisSize: MainAxisSize.min,
-
-          children: [
-
-            Hero(
-
-              tag: widget.category.id,
-
-              child: Text(
-
-                widget.category.emoji,
-
-                style: const TextStyle(
-
-                  fontSize: 34,
-
-                ),
-
-              ),
-
-            ),
-
-            const SizedBox(width: 10),
-
-            Text(
-
-              widget.category.title,
-
-              style: const TextStyle(
-
-                color: Colors.black,
-
-              ),
-
-            ),
-
-          ],
-
-        ),
-
-      ),
-
+      backgroundColor: const Color(0xffEAF7FF),
+      appBar: AppBar(title: Text(widget.category)),
       body: Column(
-
         children: [
-
           Padding(
-
-            padding: const EdgeInsets.all(16),
-
+            padding: EdgeInsets.all(Responsive.pagePadding(context)),
             child: TextField(
-
-              onChanged: (value) {
-
-                setState(() {
-
-                  search = value;
-
-                });
-
-              },
-
+              onChanged: (value) => setState(() => _search = value),
               decoration: InputDecoration(
-
-                hintText:
-
-                    "🔍 Suuraa barbaadi",
-
-                prefixIcon:
-                    const Icon(Icons.search),
-
+                hintText: '🔍 Suuraa barbaadi',
+                prefixIcon: const Icon(Icons.search),
                 filled: true,
-
                 fillColor: Colors.white,
-
                 border: OutlineInputBorder(
-
-                  borderRadius:
-                      BorderRadius.circular(20),
-
-                  borderSide:
-                      BorderSide.none,
-
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide.none,
                 ),
-
               ),
-
             ),
-
           ),
-
           Padding(
-
-            padding: const EdgeInsets.symmetric(
-              horizontal: 18,
-            ),
-
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Align(
-
               alignment: Alignment.centerLeft,
-
-              child: Text(
-
-                "${pages.length} Suuraawwan",
-
-                style: const TextStyle(
-
-                  fontWeight: FontWeight.bold,
-
-                  fontSize: 18,
-
-                ),
-
-              ),
-
+              child: Text('${pages.length} Suuraawwan',
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
-
           ),
-
-          const SizedBox(height: 10),
-
+          const SizedBox(height: 8),
           Expanded(
-
             child: GridView.builder(
-
-              padding:
-                  const EdgeInsets.all(16),
-
+              padding: EdgeInsets.all(Responsive.pagePadding(context)),
               itemCount: pages.length,
-
-              gridDelegate:
-
-                  SliverGridDelegateWithFixedCrossAxisCount(
-
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: columns,
-
                 crossAxisSpacing: 14,
-
                 mainAxisSpacing: 14,
-
                 childAspectRatio: .82,
-
               ),
-
-              itemBuilder: (_, index) {
-
-                final page = pages[index];
-
-                return ColoringPageCard(
-
-                  page: page,
-
-                  onTap: () {
-
-                    Navigator.of(context).push(
-
-                      MaterialPageRoute(
-
-                        builder: (context) => ColoringCanvasScreen(
-
-                          page: page,
-
-                        ),
-
-                      ),
-
-                    );
-
-                  },
-
-                );
-
-              },
-
+              itemBuilder: (_, index) => ColoringPageCard(
+                page: pages[index],
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => ColoringCanvasScreen(page: pages[index]),
+                )),
+              ),
             ),
-
           ),
-
         ],
-
       ),
-
     );
-
   }
-
 }

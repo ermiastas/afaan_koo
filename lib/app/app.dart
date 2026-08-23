@@ -6,6 +6,7 @@ import '../screens/splash_screen.dart';
 import '../core/theme.dart';
 import '../providers/settings_provider.dart';
 import '../widgets/app_states.dart';
+import '../ai/raji/widgets/raji_assistant_overlay.dart';
 
 
 
@@ -40,6 +41,10 @@ class AfaanKooApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
 
       themeMode: themeMode,
+
+      builder: (context, child) => RajiAssistantOverlay(
+        child: child ?? const SizedBox.shrink(),
+      ),
 
 
 

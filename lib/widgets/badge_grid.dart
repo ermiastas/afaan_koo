@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/reward_provider.dart';
 import 'badge_card.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -48,9 +49,8 @@ class BadgeGrid extends StatelessWidget {
 
       gridDelegate:
 
-      const SliverGridDelegateWithFixedCrossAxisCount(
-
-        crossAxisCount:2,
+      Responsive.homeGridDelegate(
+        context,
 
         childAspectRatio:.85,
 

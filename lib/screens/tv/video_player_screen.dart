@@ -4,6 +4,7 @@ import 'package:chewie/chewie.dart';
 
 import '../../models/video_item.dart';
 import '../../services/video_download_service.dart';
+import '../../services/video_player_controller.dart';
 
 
 
@@ -64,10 +65,7 @@ class _VideoPlayerScreenState
   Future<void> _initializeVideo() async {
 
 
-    videoController =
-        VideoPlayerController.asset(
-          widget.video.videoUrl,
-        );
+    videoController = createVideoPlayerController(widget.video.videoUrl);
 
 
     await videoController!.initialize();

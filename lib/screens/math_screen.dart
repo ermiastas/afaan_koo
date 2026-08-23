@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/math_data.dart';
 
 import 'math_lesson_detail_screen.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -44,15 +45,14 @@ GridView.builder(
 
 padding:
 
-const EdgeInsets.all(16),
+EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
 gridDelegate:
 
-const SliverGridDelegateWithFixedCrossAxisCount(
-
-crossAxisCount:2,
+Responsive.homeGridDelegate(
+context,
 
 crossAxisSpacing:15,
 

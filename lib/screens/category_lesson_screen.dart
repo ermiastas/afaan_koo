@@ -4,6 +4,7 @@ import '../models/lesson_category.dart';
 import '../models/lesson_item.dart';
 import '../utils/app_animations.dart';
 import '../widgets/animations/animated_entrance.dart';
+import '../utils/responsive.dart';
 
 class CategoryLessonScreen extends StatelessWidget {
   final LessonCategory category;
@@ -22,7 +23,7 @@ class CategoryLessonScreen extends StatelessWidget {
         title: Text("${category.emoji} ${category.title}"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(Responsive.pagePadding(context)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -82,8 +83,8 @@ class CategoryLessonScreen extends StatelessWidget {
               child: GridView.builder(
                 itemCount: lessons.length,
                 gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                    Responsive.homeGridDelegate(
+                  context,
                   crossAxisSpacing: 15,
                   mainAxisSpacing: 15,
                   // Cards carry an icon, title, and two lines of description.

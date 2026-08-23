@@ -1,152 +1,392 @@
 [
   {
-    "question":"Kun maal dha?",
-    "image":"assets/images/animals/dog.png",
-    "options":["Saree","Leenca","Arba"],
-    "answer":"Saree"
+    "id": "animal_dog_name",
+    "category": "animals",
+    "type": "multipleChoice",
+    "question": "Kun maal dha?",
+    "image": "assets/images/animals/dog.png",
+    "sound": "",
+    "options": ["Saree", "Leenca", "Arba"],
+    "answer": "Saree"
   },
   {
-    "question":"Kun maal dha?",
-    "image":"assets/images/animals/cat.png",
-    "options":["Adurree","Farda","Re'ee"],
-    "answer":"Adurree"
+    "id": "animal_cat_name",
+    "category": "animals",
+    "type": "multipleChoice",
+    "question": "Kun maal dha?",
+    "image": "assets/images/animals/cat.png",
+    "sound": "",
+    "options": ["Adurree", "Farda", "Re'ee"],
+    "answer": "Adurree"
   },
   {
-    "question":"Leenci maal dha?",
-    "image":"assets/images/animals/lion.png",
-    "options":["Bineensa bosonaa","Mana","Muka"],
-    "answer":"Bineensa bosonaa"
+    "id": "animal_lion_type",
+    "category": "animals",
+    "type": "multipleChoice",
+    "question": "Leenci maal dha?",
+    "image": "assets/images/animals/Lion.png",
+    "sound": "",
+    "options": ["Bineensa bosonaa", "Mana", "Muka"],
+    "answer": "Bineensa bosonaa"
   },
   {
-    "question":"Arbi maal fakkaata?",
-    "image":"assets/images/animals/elephant.png",
-    "options":["Bineensa guddaa","Simbira","Qorichaa"],
-    "answer":"Bineensa guddaa"
+    "id": "animal_elephant_size",
+    "category": "animals",
+    "type": "multipleChoice",
+    "question": "Arbi maal fakkaata?",
+    "image": "assets/images/animals/elephant.png",
+    "sound": "",
+    "options": ["Bineensa guddaa", "Simbira", "Qorichaa"],
+    "answer": "Bineensa guddaa"
   },
   {
-    "question":"Kun maal dha?",
-    "image":"assets/images/animals/goat.png",
-    "options":["Re'ee","Saree","Gaala"],
-    "answer":"Re'ee"
+    "id": "animal_goat_name",
+    "category": "animals",
+    "type": "multipleChoice",
+    "question": "Kun maal dha?",
+    "image": "assets/images/animals/goat.png",
+    "sound": "",
+    "options": ["Re'ee", "Saree", "Gaala"],
+    "answer": "Re'ee"
   },
   {
-    "question":"Qubee kana dubbisi",
-    "image":"assets/images/alphabet/a.png",
-    "options":["A","B","C"],
-    "answer":"A"
+    "id": "animal_camel_name",
+    "category": "animals",
+    "type": "multipleChoice",
+    "question": "Gaalli maal dha?",
+    "image": "assets/images/animals/camel.png",
+    "sound": "",
+    "options": ["Bineensa", "Halluu", "Meeshaa"],
+    "answer": "Bineensa"
   },
   {
-    "question":"Qubee kana dubbisi",
-    "image":"assets/images/alphabet/b.png",
-    "options":["D","B","E"],
-    "answer":"B"
+    "id": "animal_bird_action",
+    "category": "animals",
+    "type": "multipleChoice",
+    "question": "Simbirri maal gochuu dandeessi?",
+    "image": "assets/images/animals/bird.png",
+    "sound": "",
+    "options": ["Balali'uu", "Dhuma", "Kuta"],
+    "answer": "Balali'uu"
   },
   {
-    "question":"Qubee A booda maal dhufa?",
-    "image":"assets/images/alphabet/a.png",
-    "options":["B","C","D"],
-    "answer":"B"
+    "id": "animal_cow_name",
+    "category": "animals",
+    "type": "multipleChoice",
+    "question": "Kun maal dha?",
+    "image": "assets/images/animals/Cow.png",
+    "sound": "",
+    "options": ["Sa'a", "Leenca", "Saree"],
+    "answer": "Sa'a"
   },
   {
-    "question":"Qubee Z dura maal jira?",
-    "image":"assets/images/alphabet/z.png",
-    "options":["Y","X","W"],
-    "answer":"Y"
+    "id": "alphabet_a_read",
+    "category": "alphabet",
+    "type": "multipleChoice",
+    "question": "Qubee kana dubbisi.",
+    "image": "assets/images/alphabet/a.png",
+    "sound": "assets/audio/alphabet/a.mp3",
+    "options": ["A", "B", "C"],
+    "answer": "A"
   },
   {
-    "question":"Kun halluu maali?",
-    "image":"assets/images/colors/red.png",
-    "options":["Diimaa","Magariisa","Cuquliisa"],
-    "answer":"Diimaa"
+    "id": "alphabet_b_read",
+    "category": "alphabet",
+    "type": "multipleChoice",
+    "question": "Qubee kana dubbisi.",
+    "image": "assets/images/alphabet/b.png",
+    "sound": "",
+    "options": ["D", "B", "E"],
+    "answer": "B"
   },
   {
-    "question":"Kun halluu maali?",
-    "image":"assets/images/colors/green.png",
-    "options":["Keelloo","Magariisa","Gurraacha"],
-    "answer":"Magariisa"
+    "id": "alphabet_a_next",
+    "category": "alphabet",
+    "type": "multipleChoice",
+    "question": "Qubee A booda maal dhufa?",
+    "image": "assets/images/alphabet/a.png",
+    "sound": "",
+    "options": ["B", "C", "D"],
+    "answer": "B"
   },
   {
-    "question":"Kun halluu maali?",
-    "image":"assets/images/colors/blue.png",
-    "options":["Cuquliisa","Adii","Diimaa"],
-    "answer":"Cuquliisa"
+    "id": "alphabet_z_previous",
+    "category": "alphabet",
+    "type": "multipleChoice",
+    "question": "Qubee Z dura maal jira?",
+    "image": "assets/images/alphabet/z.png",
+    "sound": "",
+    "options": ["Y", "X", "W"],
+    "answer": "Y"
   },
   {
-    "question":"1 jechuun maal jechuu dha?",
-    "image":"assets/images/numbers/one.png",
-    "options":["Tokko","Lama","Sadii"],
-    "answer":"Tokko"
+    "id": "alphabet_m_word",
+    "category": "alphabet",
+    "type": "multipleChoice",
+    "question": "Jechi kun qubee kamiin jalqaba?",
+    "image": "assets/images/mana.png",
+    "sound": "",
+    "options": ["M", "N", "L"],
+    "answer": "M"
   },
   {
-    "question":"2 jechuun maal jechuu dha?",
-    "image":"assets/images/numbers/two.png",
-    "options":["Lama","Shan","Jaha"],
-    "answer":"Lama"
+    "id": "alphabet_k_word",
+    "category": "alphabet",
+    "type": "multipleChoice",
+    "question": "Kitaabni qubee kamiin jalqaba?",
+    "image": "assets/images/kitaaba.png",
+    "sound": "",
+    "options": ["K", "Q", "T"],
+    "answer": "K"
   },
   {
-    "question":"5 jechuun maal jechuu dha?",
-    "image":"assets/images/numbers/five.png",
-    "options":["Af ur","Shan","Torba"],
-    "answer":"Shan"
+    "id": "alphabet_ch_read",
+    "category": "alphabet",
+    "type": "multipleChoice",
+    "question": "Qubee dachaa kana dubbisi.",
+    "image": "assets/images/alphabet/ch.png",
+    "sound": "",
+    "options": ["Ch", "Sh", "Dh"],
+    "answer": "Ch"
   },
   {
-    "question":"Kun maal dha?",
-    "image":"assets/images/objects/book.png",
-    "options":["Kitaaba","Mana","Ulee"],
-    "answer":"Kitaaba"
+    "id": "color_red",
+    "category": "colors",
+    "type": "multipleChoice",
+    "question": "Kun halluu maali?",
+    "image": "assets/images/colors/red.png",
+    "sound": "",
+    "options": ["Diimaa", "Magariisa", "Cuquliisa"],
+    "answer": "Diimaa"
   },
   {
-    "question":"Kun maal dha?",
-    "image":"assets/images/objects/house.png",
-    "options":["Mana","Kophee","Buna"],
-    "answer":"Mana"
+    "id": "color_green",
+    "category": "colors",
+    "type": "multipleChoice",
+    "question": "Kun halluu maali?",
+    "image": "assets/images/colors/green.png",
+    "sound": "",
+    "options": ["Keelloo", "Magariisa", "Gurraacha"],
+    "answer": "Magariisa"
   },
   {
-    "question":"Kun maal dha?",
-    "image":"assets/images/objects/stick.png",
-    "options":["Ulee","Meeshaa","Kitaaba"],
-    "answer":"Ulee"
+    "id": "color_blue",
+    "category": "colors",
+    "type": "multipleChoice",
+    "question": "Kun halluu maali?",
+    "image": "assets/images/colors/blue.png",
+    "sound": "",
+    "options": ["Cuquliisa", "Adii", "Diimaa"],
+    "answer": "Cuquliisa"
   },
   {
-    "question":"Nama argamuun maal qaba?",
-    "image":"assets/images/person.png",
-    "options":["Qaama","Qilleensa","Bishaan"],
-    "answer":"Qaama"
+    "id": "color_yellow",
+    "category": "colors",
+    "type": "multipleChoice",
+    "question": "Kun halluu maali?",
+    "image": "assets/images/colors/yellow.png",
+    "sound": "",
+    "options": ["Keelloo", "Diimaa", "Gurraacha"],
+    "answer": "Keelloo"
   },
   {
-    "question":"Ija keenya maalif fayyadamna?",
-    "image":"assets/images/body/eye.png",
-    "options":["Ilaaluuf","Dhaga'uuf","Urguufuuf"],
-    "answer":"Ilaaluuf"
+    "id": "number_one",
+    "category": "numbers",
+    "type": "multipleChoice",
+    "question": "1 jechuun maal jechuu dha?",
+    "image": "assets/images/numbers/one.png",
+    "sound": "",
+    "options": ["Tokko", "Lama", "Sadii"],
+    "answer": "Tokko"
   },
   {
-    "question":"Gurri keenya maal nu gargaara?",
-    "image":"assets/images/body/ear.png",
-    "options":["Dhaga'uuf","Deemuuf","Nyaachuuf"],
-    "answer":"Dhaga'uuf"
+    "id": "number_two",
+    "category": "numbers",
+    "type": "multipleChoice",
+    "question": "2 jechuun maal jechuu dha?",
+    "image": "assets/images/numbers/two.png",
+    "sound": "",
+    "options": ["Lama", "Shan", "Jaha"],
+    "answer": "Lama"
   },
   {
-    "question":"Bishaan halluu maalii qaba?",
-    "image":"assets/images/water.png",
-    "options":["Adii fakkaata","Diimaa","Gurraacha"],
-    "answer":"Adii fakkaata"
+    "id": "number_five",
+    "category": "numbers",
+    "type": "multipleChoice",
+    "question": "5 jechuun maal jechuu dha?",
+    "image": "assets/images/numbers/five.png",
+    "sound": "",
+    "options": ["Afur", "Shan", "Torba"],
+    "answer": "Shan"
   },
   {
-    "question":"Muka irratti maal argina?",
-    "image":"assets/images/tree.png",
-    "options":["Baala","Kitaaba","Mana"],
-    "answer":"Baala"
+    "id": "number_six",
+    "category": "numbers",
+    "type": "multipleChoice",
+    "question": "6 jechuun maal jechuu dha?",
+    "image": "assets/images/numbers/six.png",
+    "sound": "",
+    "options": ["Jaha", "Sagal", "Afur"],
+    "answer": "Jaha"
   },
   {
-    "question":"Simbirri maal godha?",
-    "image":"assets/images/animals/bird.png",
-    "options":["Balali'a","Dhuma","Kuta"],
-    "answer":"Balali'a"
+    "id": "number_ten",
+    "category": "numbers",
+    "type": "multipleChoice",
+    "question": "10 jechuun maal jechuu dha?",
+    "image": "assets/images/numbers/ten.png",
+    "sound": "",
+    "options": ["Kudhan", "Digdamii", "Shan"],
+    "answer": "Kudhan"
   },
   {
-    "question":"Gaalli maal dha?",
-    "image":"assets/images/animals/camel.png",
-    "options":["Bineensa","Halluu","Meeshaa"],
-    "answer":"Bineensa"
+    "id": "number_twenty",
+    "category": "numbers",
+    "type": "multipleChoice",
+    "question": "20 jechuun maal jechuu dha?",
+    "image": "assets/images/numbers/twenty.png",
+    "sound": "",
+    "options": ["Digdamii", "Kudhan", "Soddoma"],
+    "answer": "Digdamii"
+  },
+  {
+    "id": "object_book",
+    "category": "objects",
+    "type": "multipleChoice",
+    "question": "Kun maal dha?",
+    "image": "assets/images/kitaaba.png",
+    "sound": "",
+    "options": ["Kitaaba", "Mana", "Ulee"],
+    "answer": "Kitaaba"
+  },
+  {
+    "id": "object_house",
+    "category": "objects",
+    "type": "multipleChoice",
+    "question": "Kun maal dha?",
+    "image": "assets/images/mana.png",
+    "sound": "",
+    "options": ["Mana", "Kophee", "Buna"],
+    "answer": "Mana"
+  },
+  {
+    "id": "object_stick",
+    "category": "objects",
+    "type": "multipleChoice",
+    "question": "Kun maal dha?",
+    "image": "assets/images/ulee.png",
+    "sound": "",
+    "options": ["Ulee", "Meeshaa", "Kitaaba"],
+    "answer": "Ulee"
+  },
+  {
+    "id": "body_person",
+    "category": "body",
+    "type": "multipleChoice",
+    "question": "Namni maal qaba?",
+    "image": "assets/images/nama.png",
+    "sound": "",
+    "options": ["Qaama", "Qilleensa", "Bishaan"],
+    "answer": "Qaama"
+  },
+  {
+    "id": "body_eye",
+    "category": "body",
+    "type": "multipleChoice",
+    "question": "Ija keenya maalif fayyadamna?",
+    "image": "assets/images/ija.png",
+    "sound": "",
+    "options": ["Ilaaluuf", "Dhaga'uuf", "Urguufuuf"],
+    "answer": "Ilaaluuf"
+  },
+  {
+    "id": "body_ear",
+    "category": "body",
+    "type": "multipleChoice",
+    "question": "Gurri keenya maal nu gargaara?",
+    "image": "assets/images/gurra.png",
+    "sound": "",
+    "options": ["Dhaga'uuf", "Deemuuf", "Nyaachuuf"],
+    "answer": "Dhaga'uuf"
+  },
+  {
+    "id": "nature_water",
+    "category": "nature",
+    "type": "multipleChoice",
+    "question": "Bishaan halluu maalii fakkaata?",
+    "image": "assets/images/bishaan.png",
+    "sound": "",
+    "options": ["Adii fakkaata", "Diimaa", "Gurraacha"],
+    "answer": "Adii fakkaata"
+  },
+  {
+    "id": "nature_tree",
+    "category": "nature",
+    "type": "multipleChoice",
+    "question": "Muka irratti maal argina?",
+    "image": "assets/images/plants/tree.png",
+    "sound": "",
+    "options": ["Baala", "Kitaaba", "Mana"],
+    "answer": "Baala"
+  },
+  {
+    "id": "fruit_banana",
+    "category": "fruits",
+    "type": "multipleChoice",
+    "question": "Kun muduraa maali?",
+    "image": "assets/images/fruits/muuzii.png",
+    "sound": "",
+    "options": ["Muuzii", "Loomii", "Burtukaana"],
+    "answer": "Muuzii"
+  },
+  {
+    "id": "fruit_orange",
+    "category": "fruits",
+    "type": "multipleChoice",
+    "question": "Kun muduraa maali?",
+    "image": "assets/images/fruits/burtukaana.png",
+    "sound": "",
+    "options": ["Burtukaana", "Appilii", "Avokaadoo"],
+    "answer": "Burtukaana"
+  },
+  {
+    "id": "vegetable_tomato",
+    "category": "vegetables",
+    "type": "multipleChoice",
+    "question": "Kun kuduraa maali?",
+    "image": "assets/images/vegetables/timaatimii.png",
+    "sound": "",
+    "options": ["Timaatimii", "Kaarotaa", "Shunkurtii"],
+    "answer": "Timaatimii"
+  },
+  {
+    "id": "vegetable_carrot",
+    "category": "vegetables",
+    "type": "multipleChoice",
+    "question": "Kun kuduraa maali?",
+    "image": "assets/images/vegetables/kaarotaa.png",
+    "sound": "",
+    "options": ["Kaarotaa", "Dinichaa", "Salaaxaa"],
+    "answer": "Kaarotaa"
+  },
+  {
+    "id": "safety_crosswalk",
+    "category": "traffic",
+    "type": "multipleChoice",
+    "question": "Daandii ce'uuf dura maal goona?",
+    "image": "assets/assets/images/traffic/crosswalk.png",
+    "sound": "",
+    "options": ["Bakka ce'umsaatti ilaalla", "Fiigna", "Konkolaataa duukaa fiigna"],
+    "answer": "Bakka ce'umsaatti ilaalla"
+  },
+  {
+    "id": "school_book",
+    "category": "school",
+    "type": "multipleChoice",
+    "question": "Mana barumsaa keessatti kitaabni maalif nu gargaara?",
+    "image": "assets/assets/images/school/book.png",
+    "sound": "",
+    "options": ["Barachuuf", "Rafachuuf", "Daandii ce'uuf"],
+    "answer": "Barachuuf"
   }
 ]

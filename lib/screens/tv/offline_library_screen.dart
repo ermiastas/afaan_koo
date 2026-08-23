@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/video_item.dart';
 import '../../services/video_download_service.dart';
+import '../../utils/responsive.dart';
 import 'video_player_screen.dart';
 
 
@@ -103,7 +104,7 @@ class _OfflineLibraryScreenState
       GridView.builder(
 
         padding:
-            const EdgeInsets.all(18),
+            EdgeInsets.all(Responsive.pagePadding(context)),
 
 
         itemCount:
@@ -111,9 +112,8 @@ class _OfflineLibraryScreenState
 
 
         gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(
-
-          crossAxisCount:2,
+            Responsive.homeGridDelegate(
+          context,
 
           crossAxisSpacing:15,
 

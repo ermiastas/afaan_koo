@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/alphabet_data.dart';
 import '../widgets/letter_card.dart';
 import 'letter_detail_screen.dart';
+import '../utils/responsive.dart';
 
 
 class LowercaseAlphabetScreen extends StatelessWidget {
@@ -42,15 +43,14 @@ class LowercaseAlphabetScreen extends StatelessWidget {
 
         padding:
 
-        const EdgeInsets.all(15),
+        EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
         gridDelegate:
 
-        const SliverGridDelegateWithFixedCrossAxisCount(
-
-          crossAxisCount:2,
+        Responsive.homeGridDelegate(
+          context,
 
           crossAxisSpacing:12,
 

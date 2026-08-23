@@ -7,6 +7,7 @@ import '../services/audio_service.dart';
 
 import '../widgets/fruit_card.dart';
 import '../widgets/lesson_complete_button.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -284,7 +285,7 @@ class FruitScreen extends StatelessWidget {
 
               padding:
 
-              const EdgeInsets.all(16),
+              EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
@@ -300,13 +301,8 @@ class FruitScreen extends StatelessWidget {
 
               gridDelegate:
 
-              const SliverGridDelegateWithFixedCrossAxisCount(
-
-
-
-                crossAxisCount:
-
-                2,
+              Responsive.homeGridDelegate(
+                context,
 
 
 

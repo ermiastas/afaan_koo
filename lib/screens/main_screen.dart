@@ -4,6 +4,7 @@ import 'home/home_screen.dart';
 import 'game_center_screen.dart';
 import 'package:afaan_koo_app/screens/reward_screen.dart';
 import 'package:afaan_koo_app/screens/profile_screen.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -125,6 +126,8 @@ final items = [
 @override
 Widget build(BuildContext context){
 
+final isTiny = Responsive.isTiny(context);
+
 
 
 return Scaffold(
@@ -155,13 +158,13 @@ Container(
 
 margin:
 
-const EdgeInsets.only(
+EdgeInsets.only(
 
-left:15,
+left:isTiny ? 8 : 15,
 
-right:15,
+right:isTiny ? 8 : 15,
 
-bottom:15,
+bottom:isTiny ? 8 : 15,
 
 ),
 
@@ -318,7 +321,7 @@ EdgeInsets.symmetric(
 
 horizontal:
 
-selected ? 18 : 12,
+isTiny ? 4 : selected ? 18 : 12,
 
 
 
@@ -417,7 +420,7 @@ item["icon"] as IconData,
 
 size:
 
-30,
+isTiny ? 26 : 30,
 
 
 
@@ -437,7 +440,7 @@ item["color"] as Color,
 
 
 
-if(selected)
+if(selected && !isTiny)
 
 
 

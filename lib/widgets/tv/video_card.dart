@@ -53,11 +53,16 @@ class VideoCard extends StatelessWidget {
             children: [
 
               Expanded(
-                child: Center(
-                  child: Text(
-                    video.emoji,
-                    style: const TextStyle(
-                      fontSize: 70,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: video.color.withValues(alpha: .12),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.play_circle_fill_rounded,
+                      color: video.color,
+                      size: 64,
                     ),
                   ),
                 ),

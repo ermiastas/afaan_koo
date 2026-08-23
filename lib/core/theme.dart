@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
@@ -33,13 +34,13 @@ class AppTheme {
           isDark ? const Color(0xff101812) : const Color(0xffF7FFF5),
       visualDensity: VisualDensity.standard,
       splashFactory: InkSparkle.splashFactory,
-      pageTransitionsTheme: const PageTransitionsTheme(
+      pageTransitionsTheme: PageTransitionsTheme(
         builders: {
-          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
-          TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.android: const FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
+          TargetPlatform.macOS: const CupertinoPageTransitionsBuilder(),
+          TargetPlatform.windows: const FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.linux: const FadeUpwardsPageTransitionsBuilder(),
         },
       ),
       appBarTheme: AppBarTheme(

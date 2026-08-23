@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/lesson_provider.dart';
 import 'lesson_category_card.dart';
+import '../../utils/responsive.dart';
 
 
 
@@ -51,11 +52,10 @@ class LessonGrid extends StatelessWidget {
 
     return SliverPadding(
 
-      padding:
-          const EdgeInsets.symmetric(
-            horizontal:20,
-            vertical:10,
-          ),
+      padding: EdgeInsets.symmetric(
+        horizontal: Responsive.pagePadding(context),
+        vertical: 10,
+      ),
 
 
       sliver: SliverGrid(
@@ -83,9 +83,8 @@ class LessonGrid extends StatelessWidget {
 
 
         gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(
-
-          crossAxisCount:2,
+            Responsive.homeGridDelegate(
+          context,
 
           crossAxisSpacing:18,
 

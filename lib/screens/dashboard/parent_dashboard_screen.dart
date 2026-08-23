@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/progress_provider.dart';
 import '../../providers/reward_provider.dart';
+import '../../utils/responsive.dart';
 
 
 
@@ -59,7 +60,7 @@ class ParentDashboardScreen extends StatelessWidget {
 
 
         padding:
-        const EdgeInsets.all(16),
+        EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
@@ -312,7 +313,7 @@ class ParentDashboardScreen extends StatelessWidget {
 
 
 
-      crossAxisCount:2,
+      crossAxisCount:Responsive.homeColumns(context, max: 4),
 
 
 

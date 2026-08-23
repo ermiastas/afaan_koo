@@ -5,6 +5,7 @@ import '../services/audio_service.dart';
 
 import '../widgets/vegetable_card.dart';
 import '../widgets/lesson_complete_button.dart';
+import '../utils/responsive.dart';
 
 import '../data/lesson_ids.dart';
 
@@ -305,7 +306,7 @@ class VegetableScreen extends StatelessWidget {
 
               padding:
 
-              const EdgeInsets.all(16),
+              EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
@@ -324,13 +325,8 @@ class VegetableScreen extends StatelessWidget {
 
               gridDelegate:
 
-              const SliverGridDelegateWithFixedCrossAxisCount(
-
-
-
-                crossAxisCount:
-
-                2,
+              Responsive.homeGridDelegate(
+                context,
 
 
 

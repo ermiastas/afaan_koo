@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/lesson_categories.dart';
 
 import '../widgets/category_card.dart';
+import '../utils/responsive.dart';
 
 import 'lesson_list_screen.dart';
 
@@ -52,25 +53,18 @@ GridView.builder(
 
 padding:
 
-const EdgeInsets.all(16),
+EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
 
 gridDelegate:
 
-const SliverGridDelegateWithFixedCrossAxisCount(
-
-
-crossAxisCount:2,
-
-
-crossAxisSpacing:15,
-
-
-mainAxisSpacing:15,
-
-
+Responsive.homeGridDelegate(
+context,
+childAspectRatio: .9,
+crossAxisSpacing: 15,
+mainAxisSpacing: 15,
 ),
 
 

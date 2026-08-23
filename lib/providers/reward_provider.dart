@@ -15,160 +15,89 @@ import '../data/badge_data.dart';
 
 import '../data/badge_rules.dart';
 
-
-
 class RewardProvider extends ChangeNotifier {
-
-
-
   // ==========================================
   // BADGES
   // ==========================================
 
-
-  final List<BadgeItem> _badges =
-      List.from(badgeData);
-
-
+  final List<BadgeItem> _badges = List.from(badgeData);
 
   final List<String> _unlockedBadges = [];
 
+  List<BadgeItem> get badges => _badges;
 
+  List<String> get unlockedBadges => _unlockedBadges;
 
-  List<BadgeItem> get badges =>
-      _badges;
+  static const String _rewardKey = "reward_data_v1";
 
+  static const String _badgeKey = "unlocked_badges_v1";
 
+  static const String _gameRewardKey = "completed_games_v1";
 
-  List<String> get unlockedBadges =>
-      _unlockedBadges;
-
-
-
-
-  static const String _rewardKey =
-      "reward_data_v1";
-
-
-  static const String _badgeKey =
-      "unlocked_badges_v1";
-
-
-  static const String _gameRewardKey =
-      "completed_games_v1";
+  static const String _coloringRewardKey = "completed_coloring_pages_v1";
 
   // ==========================================
   // REWARD VALUES
   // ==========================================
 
-
   int xp = 0;
-
 
   int _coins = 0;
 
-
   int _stars = 0;
-
 
   int lessons = 0;
 
-
   int gamesCompleted = 0;
 
+  int get coins => _coins;
 
-
-  int get coins =>
-      _coins;
-
-
-
-  int get stars =>
-      _stars;
-
-
+  int get stars => _stars;
 
   int get level {
-
     return (xp ~/ 100) + 1;
-
   }
-
-
-
 
   double get levelProgress {
-
-
-    final currentXP =
-        xp % 100;
-
+    final currentXP = xp % 100;
 
     return currentXP / 100;
-
   }
-
-
-
-
-
 
   // ==========================================
   // TRACKING
   // ==========================================
 
+  final Map<String, bool> completedGames = {};
 
-  final Map<String,bool> completedGames = {};
-
-
+  /// Coloring participates in the same rewards ledger as lessons and games.
+  /// It is deliberately not a second, feature-local currency system.
+  final Set<String> completedColoringPages = {};
 
   final List<String> completedLessons = [];
-
-
-
-
 
   // ==========================================
   // STUDENT REWARDS
   // ==========================================
 
-
   final List<StudentReward> _studentRewards = [];
 
+  List<StudentReward> get studentRewards => _studentRewards;
 
-
-  List<StudentReward> get studentRewards =>
-      _studentRewards;
-
-
-
-
-  SupabaseClient get _supabase =>
-      SupabaseService.client!;
-
-
-
-
+  SupabaseClient get _supabase => SupabaseService.client!;
 
   // ==========================================
   // LOAD
   // ==========================================
 
-
   Future<void> load() async {
-
-
     await _loadLocal();
-
 
     await _loadBadges();
 
-
     await _loadCloud();
 
-
     notifyListeners();
-
   }
 
   /// Removes local reward state after a parent explicitly confirms a reset.
@@ -179,6 +108,7 @@ class RewardProvider extends ChangeNotifier {
     lessons = 0;
     gamesCompleted = 0;
     completedGames.clear();
+    completedColoringPages.clear();
     completedLessons.clear();
     _unlockedBadges.clear();
     _studentRewards.clear();
@@ -187,664 +117,273 @@ class RewardProvider extends ChangeNotifier {
     await prefs.remove(_rewardKey);
     await prefs.remove(_badgeKey);
     await prefs.remove(_gameRewardKey);
+    await prefs.remove(_coloringRewardKey);
     notifyListeners();
   }
-
-
-
-
-
 
   // ==========================================
   // LOCAL LOAD
   // ==========================================
 
-
   Future<void> _loadLocal() async {
+    final prefs = await SharedPreferences.getInstance();
 
-    
-    
+    final savedGames = prefs.getStringList(_gameRewardKey);
 
-
-
-
-    final prefs =
-        await SharedPreferences.getInstance();
-
-
-
-    final savedGames =
-    prefs.getStringList(_gameRewardKey);
-
-
-if(savedGames != null){
-
-  completedGames.clear();
-
-
-  for(final game in savedGames){
-
-    completedGames[game] = true;
-
-  }
-
-}
-
-    final data =
-        prefs.getString(_rewardKey);
-
-
-
-    if(data == null){
-
-      return;
-
+    final savedColoring = prefs.getStringList(_coloringRewardKey);
+    if (savedColoring != null) {
+      completedColoringPages
+        ..clear()
+        ..addAll(savedColoring);
     }
 
+    if (savedGames != null) {
+      completedGames.clear();
 
+      for (final game in savedGames) {
+        completedGames[game] = true;
+      }
+    }
 
-    final json =
-        jsonDecode(data);
+    final data = prefs.getString(_rewardKey);
 
+    if (data == null) {
+      return;
+    }
 
+    final json = jsonDecode(data);
 
-    xp =
-        json['xp'] ?? 0;
+    xp = json['xp'] ?? 0;
 
+    _coins = json['coins'] ?? 0;
 
+    _stars = json['stars'] ?? 0;
 
-    _coins =
-        json['coins'] ?? 0;
+    lessons = json['lessons'] ?? 0;
 
+    gamesCompleted = json['games'] ?? 0;
 
-
-    _stars =
-        json['stars'] ?? 0;
-
-
-
-    lessons =
-        json['lessons'] ?? 0;
-
-
-
-    gamesCompleted =
-        json['games'] ?? 0;
-
-
-
-
-    if(json['completedLessons'] != null){
-
-
+    if (json['completedLessons'] != null) {
       completedLessons.clear();
 
-
       completedLessons.addAll(
-
         List<String>.from(
-
           json['completedLessons'],
-
         ),
-
       );
-
-
     }
-
-
-
   }
-
-
-
-
-
-
 
   Future<void> _saveLocal() async {
-
-
-    final prefs =
-        await SharedPreferences.getInstance();
-
-
-
+    final prefs = await SharedPreferences.getInstance();
 
     await prefs.setString(
-
-
       _rewardKey,
-
-
       jsonEncode({
-
-
-
-        "xp":xp,
-
-
-        "coins":_coins,
-
-
-        "stars":_stars,
-
-
-        "lessons":lessons,
-
-
-        "games":gamesCompleted,
-
-
-        "completedLessons":
-        completedLessons,
-
-
-
+        "xp": xp,
+        "coins": _coins,
+        "stars": _stars,
+        "lessons": lessons,
+        "games": gamesCompleted,
+        "completedLessons": completedLessons,
       }),
-
-
-
     );
 
-  await prefs.setStringList(
+    await prefs.setStringList(
+      _gameRewardKey,
+      completedGames.keys.toList(),
+    );
 
-  _gameRewardKey,
-
-  completedGames.keys.toList(),
-
-);
-
-
-
+    await prefs.setStringList(
+      _coloringRewardKey,
+      completedColoringPages.toList(),
+    );
   }
-
-
-
-
-
-
-
 
   // ==========================================
   // BADGE STORAGE
   // ==========================================
 
-
   Future<void> _loadBadges() async {
+    final prefs = await SharedPreferences.getInstance();
 
+    final saved = prefs.getStringList(_badgeKey);
 
-    final prefs =
-        await SharedPreferences.getInstance();
-
-
-
-    final saved =
-        prefs.getStringList(_badgeKey);
-
-
-
-    if(saved != null){
-
-
+    if (saved != null) {
       _unlockedBadges.clear();
 
-
       _unlockedBadges.addAll(saved);
-
-
     }
-
-
   }
-
-
-
-
-
-
 
   Future<void> _saveBadges() async {
-
-
-    final prefs =
-        await SharedPreferences.getInstance();
-
-
+    final prefs = await SharedPreferences.getInstance();
 
     await prefs.setStringList(
-
       _badgeKey,
-
       _unlockedBadges,
-
     );
-
-
   }
 
-
-
-
-
-
-
-  void unlockBadge(String id){
-
-
-    if(_unlockedBadges.contains(id)){
-
+  void unlockBadge(String id) {
+    if (_unlockedBadges.contains(id)) {
       return;
-
     }
-
 
     _unlockedBadges.add(id);
 
-
     _saveBadges();
 
-
     notifyListeners();
-
-
   }
 
-
-
-
-
-
-
-  void checkBadges(){
-
-
-    if(lessons >= 5){
-
+  void checkBadges() {
+    if (lessons >= 5) {
       unlockBadge("alphabet");
-
     }
 
-
-
-    if(lessons >= 10){
-
+    if (lessons >= 10) {
       unlockBadge("animals");
-
     }
 
-
-
-    if(gamesCompleted >= 5){
-
+    if (gamesCompleted >= 5) {
       unlockBadge("games");
-
     }
 
-
-
-
-    if(
-    lessons >= 50 &&
-    gamesCompleted >= 10
-    ){
-
+    if (lessons >= 50 && gamesCompleted >= 10) {
       unlockBadge("master");
-
     }
-
-
   }
-
-
-
-
-
-
-
 
   // ==========================================
   // CLOUD LOAD
   // ==========================================
 
-
   Future<void> _loadCloud() async {
+    try {
+      final user = SupabaseService.currentUser;
 
-
-    try{
-
-
-      final user =
-          SupabaseService.currentUser;
-
-
-
-      if(user == null){
-
+      if (user == null) {
         return;
-
       }
 
-
-
-
-      final result =
-
-      await _supabase
-
+      final result = await _supabase
           .from('rewards')
-
           .select()
-
-          .eq(
-          'user_id',
-          user.id
-      )
-
+          .eq('user_id', user.id)
           .maybeSingle();
 
+      if (result != null) {
+        xp = result['xp'] ?? xp;
 
+        _coins = result['coins'] ?? _coins;
 
+        _stars = result['stars'] ?? _stars;
 
-      if(result != null){
+        lessons = result['lessons_completed'] ?? lessons;
 
-
-        xp =
-            result['xp'] ?? xp;
-
-
-
-        _coins =
-            result['coins'] ?? _coins;
-
-
-
-        _stars =
-            result['stars'] ?? _stars;
-
-
-
-        lessons =
-            result['lessons_completed']
-            ?? lessons;
-
-
-
-        gamesCompleted =
-            result['games_completed']
-            ?? gamesCompleted;
-
-
+        gamesCompleted = result['games_completed'] ?? gamesCompleted;
       }
-
-
-
+    } catch (e) {
+      debugPrint("Reward cloud load error: $e");
     }
-
-    catch(e){
-
-      debugPrint(
-          "Reward cloud load error: $e"
-      );
-
-    }
-
-
-
   }
-
-
-
-
-
-
-
 
   // ==========================================
   // CLOUD SAVE
   // ==========================================
 
-
   Future<void> _saveCloud() async {
+    try {
+      final user = SupabaseService.currentUser;
 
-
-    try{
-
-
-      final user =
-          SupabaseService.currentUser;
-
-
-
-      if(user == null){
-
+      if (user == null) {
         return;
-
       }
 
-
-
-
-      await _supabase
-
-          .from('rewards')
-
-          .upsert({
-
-
-
-        "user_id":
-        user.id,
-
-
-
-        "xp":
-        xp,
-
-
-
-        "coins":
-        _coins,
-
-
-
-        "stars":
-        _stars,
-
-
-
-        "lessons_completed":
-        lessons,
-
-
-
-        "games_completed":
-        gamesCompleted,
-
-
-
-        "updated_at":
-        DateTime.now()
-            .toIso8601String(),
-
-
+      await _supabase.from('rewards').upsert({
+        "user_id": user.id,
+        "xp": xp,
+        "coins": _coins,
+        "stars": _stars,
+        "lessons_completed": lessons,
+        "games_completed": gamesCompleted,
+        "updated_at": DateTime.now().toIso8601String(),
       });
-
-
-
+    } catch (e) {
+      debugPrint("Reward save error: $e");
     }
-
-    catch(e){
-
-
-      debugPrint(
-          "Reward save error: $e"
-      );
-
-
-    }
-
-
   }
 
-
-
-
-
-
   Future<void> _save() async {
-
-
     await _saveLocal();
-
 
     await _saveCloud();
 
-
     notifyListeners();
-
-
   }
-
-
-
-
-
-
 
   // ==========================================
   // ADD XP
   // ==========================================
 
-
   Future<void> addXP(int amount) async {
-
-
     xp += amount;
-
 
     checkBadges();
 
-
     await _save();
-
-
   }
-
-
-
-
-
-
 
   // ==========================================
   // ADD STARS
   // ==========================================
 
-
   Future<void> addStars(int amount) async {
-
-
     _stars += amount;
-
 
     checkBadges();
 
-
     await _save();
-
-
   }
-
-
-
-
-
-
 
   // ==========================================
   // ADD COINS
   // ==========================================
 
-
   Future<void> addCoins(int amount) async {
-
-
     _coins += amount;
 
-
     await _save();
-
-
   }
-
-
-
-
-
-
-
 
   // ==========================================
   // COMPLETE LESSON
   // ==========================================
 
-
   Future<void> completeLesson({
-
     required String lessonId,
-
   }) async {
-
-
-
-    if(completedLessons.contains(lessonId)){
-
+    if (completedLessons.contains(lessonId)) {
       return;
-
     }
-
-
 
     completedLessons.add(lessonId);
 
-
-
     lessons++;
-
 
     xp += 10;
 
-
     _coins += 2;
 
-
-
     await checkLessonBadge(
-
       lessonId,
-
     );
-
-
 
     checkBadges();
 
-
-
     await _save();
-
-
-
   }
-
-
-
-
-
-
-
 
   // ==========================================
   // COMPLETE GAME
@@ -904,240 +443,114 @@ if(savedGames != null){
 
 */
 
-Future<void> completeGame({
+  Future<void> completeGame({
+    required int xp,
+    required int coins,
+    required int stars,
+    required String gameId,
+  }) async {
+    // Prevent duplicate rewards
 
-  required int xp,
+    if (completedGames[gameId] == true) {
+      return;
+    }
 
-  required int coins,
+    // Add rewards
 
-  required int stars,
+    this.xp += xp;
 
-  required String gameId,
+    _coins += coins;
 
-}) async {
+    _stars += stars;
 
+    // Count completed games
 
+    gamesCompleted++;
 
-  // Prevent duplicate rewards
+    // Mark game completed
 
-  if(completedGames[gameId] == true){
+    completedGames[gameId] = true;
 
-    return;
+    // Check badges
 
+    checkBadges();
+
+    // Save data
+
+    await _save();
+
+    // Update UI
+
+    notifyListeners();
   }
 
+  /// Awards a colouring page once, even if the child reopens or replays it.
+  Future<void> completeColoringPage({required String pageId}) async {
+    if (!completedColoringPages.add(pageId)) return;
 
-
-  // Add rewards
-
-  this.xp += xp;
-
-  _coins += coins;
-
-  _stars += stars;
-
-
-
-  // Count completed games
-
-  gamesCompleted++;
-
-
-
-  // Mark game completed
-
-  completedGames[gameId] = true;
-
-
-
-  // Check badges
-
-  checkBadges();
-
-
-
-  // Save data
-
-  await _save();
-
-
-
-  // Update UI
-
-  notifyListeners();
-
-
-}
-
-
-
+    xp += 10;
+    _coins += 5;
+    _stars += 1;
+    if (completedColoringPages.isNotEmpty) unlockBadge('little_artist');
+    if (completedColoringPages.length >= 10) unlockBadge('creative_explorer');
+    await _save();
+  }
 
   // ==========================================
   // CATEGORY BADGES
   // ==========================================
 
-
-  Future<void> completeCategoryBadge(
-      String badgeId
-      ) async {
-
-
-
+  Future<void> completeCategoryBadge(String badgeId) async {
     unlockBadge(badgeId);
-
-
 
     await _saveBadges();
 
-
-
     notifyListeners();
-
-
-
   }
 
+  Future<void> checkLessonBadge(String lessonId) async {
+    final badgeId = badgeRules[lessonId];
 
-
-
-
-
-
-
-  Future<void> checkLessonBadge(
-
-      String lessonId
-
-      ) async {
-
-
-
-    final badgeId =
-    badgeRules[lessonId];
-
-
-
-    if(badgeId == null){
-
+    if (badgeId == null) {
       return;
-
     }
 
-
-
-
-    await completeCategoryBadge(
-
-        badgeId
-
-    );
-
-
-
+    await completeCategoryBadge(badgeId);
   }
-
-
-
-
-
-
-
 
   // ==========================================
   // TEACHER REWARD
   // ==========================================
 
-
   Future<void> giveStudentReward({
-
     required String studentId,
-
     required String title,
-
     required String description,
-
     required int xp,
-
     required int stars,
-
     required String badge,
-
-
   }) async {
-
-
-
     final reward = StudentReward(
-
-
-      id:
-
-      DateTime.now()
-          .millisecondsSinceEpoch
-          .toString(),
-
-
-      studentId:
-      studentId,
-
-
-      title:
-      title,
-
-
-      description:
-      description,
-
-
-      xp:
-      xp,
-
-
-      stars:
-      stars,
-
-
-      badge:
-      badge,
-
-
-      date:
-      DateTime.now(),
-
-
-
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      studentId: studentId,
+      title: title,
+      description: description,
+      xp: xp,
+      stars: stars,
+      badge: badge,
+      date: DateTime.now(),
     );
-
-
-
 
     _studentRewards.add(reward);
 
-
-
     this.xp += xp;
-
 
     _stars += stars;
 
-
-
     checkBadges();
-
-
 
     await _save();
 
-
-
     notifyListeners();
-
-
-
   }
-
-
-
-
-
 }

@@ -6,6 +6,7 @@ import 'vowel_screen.dart';
 import 'consonant_screen.dart';
 import 'double_letter_screen.dart';
 import 'tracing_practice_screen.dart';
+import '../utils/responsive.dart';
 
 
 class AlphabetMenuScreen extends StatelessWidget {
@@ -23,13 +24,7 @@ class AlphabetMenuScreen extends StatelessWidget {
         MediaQuery.of(context).size.width;
 
 
-    const cardWidth = 260.0;
-
-
-    final columns =
-        (screenWidth / cardWidth)
-            .floor()
-            .clamp(2, 4);
+    final columns = Responsive.homeColumns(context, max: 4);
 
 
 
@@ -112,9 +107,7 @@ class AlphabetMenuScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(
 
                       horizontal:
-                      screenWidth > 900
-                          ? 40
-                          : 16,
+                      Responsive.pagePadding(context),
 
 
                       vertical:20,

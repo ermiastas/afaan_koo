@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/local_content_service.dart';
 import '../../services/media_service.dart';
+import '../../providers/video_catalog_provider.dart';
 
 
 
@@ -220,6 +222,22 @@ fieldNames=[
 
 break;
 
+
+
+
+case "videos":
+
+fieldNames=[
+
+"title",
+
+"description",
+
+"videoUrl",
+
+];
+
+break;
 
 
 
@@ -467,6 +485,20 @@ const Text("Audio"),
 
 
 
+if(widget.category == "videos")
+
+ElevatedButton.icon(
+
+onPressed: pickVideo,
+
+icon: const Icon(Icons.video_file_outlined),
+
+label: const Text("Select Video File"),
+
+),
+
+
+
 const SizedBox(height:30),
 
 
@@ -591,13 +623,13 @@ await media.pickImage();
 
 
 
-if(!mounted)return;
+if(!mounted || result == null)return;
 
 
 
-setState((){
+setState(() {
 
-imagePath=result;
+imagePath = result.path;
 
 });
 
@@ -623,13 +655,13 @@ await media.pickAudio();
 
 
 
-if(!mounted)return;
+if(!mounted || result == null)return;
 
 
 
-setState((){
+setState(() {
 
-audioPath=result;
+audioPath = result.path;
 
 });
 
@@ -642,6 +674,30 @@ audioPath=result;
 
 
 
+
+
+
+Future<void> pickVideo() async {
+
+
+
+final result = await media.pickVideo();
+
+
+
+if(!mounted || result == null)return;
+
+
+
+setState((){
+
+fields["videoUrl"]?.text = result.path ?? "";
+
+});
+
+
+
+}
 
 
 
@@ -822,6 +878,14 @@ widget.category,
 data,
 
 );
+
+
+
+if(widget.category=="videos"){
+
+await context.read<VideoCatalogProvider>().load();
+
+}
 
 
 

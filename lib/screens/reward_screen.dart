@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/progress_provider.dart';
 import '../providers/reward_provider.dart';
+import '../utils/responsive.dart';
 
 class RewardScreen extends StatelessWidget {
   const RewardScreen({super.key});
@@ -16,7 +17,7 @@ class RewardScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('My rewards')),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(Responsive.pagePadding(context)),
           child: Column(children: [
             Container(
               width: double.infinity,
@@ -31,7 +32,7 @@ class RewardScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             GridView.count(
-              crossAxisCount: 2,
+              crossAxisCount: Responsive.homeColumns(context, max: 4),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 12,

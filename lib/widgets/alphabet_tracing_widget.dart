@@ -104,191 +104,61 @@ class _AlphabetTracingWidgetState
 
 
   @override
-  Widget build(BuildContext context){
-
-
+  Widget build(BuildContext context) {
     return Column(
-
-      children:[
-
-
-
+      children: [
         Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 500),
             child: Container(
-
-          height:Responsive.tracingHeight(context),
-
-          width:double.infinity,
-
-
-          decoration:
-
-          BoxDecoration(
-
-            color:
-            Colors.white,
-
-
-            borderRadius:
-            BorderRadius.circular(25),
-
-
-            border:
-
-            Border.all(
-
-              color:
-              Colors.orange,
-
-              width:3,
-
-            ),
-
-          ),
-
-
-
-          child:
-
-          GestureDetector(
-
-
-            onPanUpdate:(details){
-
-
-              addPoint(details.localPosition);
-
-
-            },
-
-
-
-            onPanEnd:(details){
-
-              setState(() => points.add(null));
-
-              finish();
-
-            },
-
-
-
-            child:
-
-            CustomPaint(
-
-              painter:
-
-              LetterTracePainter(
-
-                points:points,
-
-                letter:
-                widget.capitalLetter,
-
+              height: Responsive.tracingHeight(context),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+                border: Border.all(
+                  color: Colors.orange,
+                  width: 3,
+                ),
               ),
-
-              size:
-
-              Size.infinite,
-
+              child: GestureDetector(
+                onPanUpdate: (details) {
+                  addPoint(details.localPosition);
+                },
+                onPanEnd: (details) {
+                  setState(() => points.add(null));
+                  finish();
+                },
+                child: CustomPaint(
+                  painter: LetterTracePainter(
+                    points: points,
+                    letter: widget.capitalLetter,
+                  ),
+                  size: Size.infinite,
+                ),
+              ),
             ),
-
-
-          ),
-
-
-        ),
-            ),
           ),
         ),
-
-
-
-
-        const SizedBox(height:15),
-
-
-
-
-
+        const SizedBox(height: 15),
         Row(
-
-          mainAxisAlignment:
-          MainAxisAlignment.spaceEvenly,
-
-
-          children:[
-
-
-
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
             ElevatedButton.icon(
-
-              onPressed:
-              clearDrawing,
-
-
-              icon:
-
-              const Icon(
-                Icons.refresh,
-              ),
-
-
-              label:
-
-              const Text(
-                "Haquu",
-              ),
-
+              onPressed: clearDrawing,
+              icon: const Icon(Icons.refresh),
+              label: const Text("Haquu"),
             ),
-
-
-
-
-
-
             ElevatedButton.icon(
-
-              onPressed:
-              finish,
-
-
-              icon:
-
-              const Icon(
-                Icons.check,
-              ),
-
-
-              label:
-
-              const Text(
-                "Xumuri",
-              ),
-
+              onPressed: finish,
+              icon: const Icon(Icons.check),
+              label: const Text("Xumuri"),
             ),
-
-
-
           ],
-
-
         ),
-
-
-
       ],
-
-
     );
-
-
   }
-
-
 }
 
 

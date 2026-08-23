@@ -7,6 +7,7 @@ import '../models/letter.dart';
 
 import '../widgets/letter_card.dart';
 import '../widgets/lesson_complete_button.dart';
+import '../utils/responsive.dart';
 
 import 'letter_detail_screen.dart';
 
@@ -35,18 +36,7 @@ class ConsonantScreen extends StatelessWidget {
 
 
 
-    // Responsive columns
-    final columns =
-
-    width < 500
-
-        ? 2
-
-        : width < 900
-
-            ? 3
-
-            : 5;
+    final columns = Responsive.homeColumns(context, max: 5);
 
 
 
@@ -215,15 +205,7 @@ class ConsonantScreen extends StatelessWidget {
 
                 padding:
 
-                EdgeInsets.all(
-
-                  width > 900
-
-                      ? 30
-
-                      : 16,
-
-                ),
+                  EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 

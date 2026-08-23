@@ -6,6 +6,7 @@ import '../data/lesson_ids.dart';
 import '../widgets/hibboo_card.dart';
 import '../services/audio_service.dart';
 import '../widgets/lesson_complete_button.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -106,7 +107,7 @@ class HibbooScreen extends StatelessWidget {
 
               padding:
 
-              const EdgeInsets.all(16),
+              EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
@@ -115,13 +116,8 @@ class HibbooScreen extends StatelessWidget {
 
               gridDelegate:
 
-              const SliverGridDelegateWithFixedCrossAxisCount(
-
-
-
-                crossAxisCount:
-
-                2,
+              Responsive.homeGridDelegate(
+                context,
 
 
 

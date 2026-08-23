@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/local_content_service.dart';
+import '../../providers/video_catalog_provider.dart';
 
 import 'content_editor_screen.dart';
 import 'edit_content_screen.dart';
@@ -742,6 +744,14 @@ widget.category,
 id,
 
 );
+
+
+
+if(widget.category=="videos"){
+
+await context.read<VideoCatalogProvider>().load();
+
+}
 
 
 

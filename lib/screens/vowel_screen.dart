@@ -9,6 +9,7 @@ import '../widgets/lesson_complete_button.dart';
 import '../data/lesson_ids.dart';
 
 import 'letter_detail_screen.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -344,7 +345,7 @@ class VowelScreen extends StatelessWidget {
 
               padding:
 
-              const EdgeInsets.all(15),
+              EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
@@ -352,13 +353,8 @@ class VowelScreen extends StatelessWidget {
 
               gridDelegate:
 
-              const SliverGridDelegateWithFixedCrossAxisCount(
-
-
-
-                crossAxisCount:
-
-                2,
+              Responsive.homeGridDelegate(
+                context,
 
 
 

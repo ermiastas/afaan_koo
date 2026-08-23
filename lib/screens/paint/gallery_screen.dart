@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
+import '../../utils/responsive.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({super.key});
@@ -112,8 +113,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final columns = width < 500 ? 2 : 3;
+    final columns = Responsive.homeColumns(context, max: 4);
 
     return Scaffold(
       backgroundColor: const Color(0xffEAF7FF),
@@ -134,7 +134,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
           : paintings.isEmpty
               ? _buildEmptyState()
               : GridView.builder(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(Responsive.pagePadding(context)),
                   itemCount: paintings.length,
                   gridDelegate:
                       SliverGridDelegateWithFixedCrossAxisCount(

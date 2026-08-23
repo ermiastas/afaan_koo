@@ -6,6 +6,7 @@ import 'vowel_screen.dart';
 import 'consonant_screen.dart';
 import 'double_letter_screen.dart';
 import 'tracing_practice_screen.dart';
+import '../utils/responsive.dart';
 
 
 
@@ -41,7 +42,9 @@ class AlphabetMenuScreen extends StatelessWidget {
 
 
             final cardWidth =
-            width < 400
+            width < Responsive.tinyBreakpoint
+                ? width - (Responsive.pagePadding(context) * 2)
+                : width < 400
                 ? (width - 40) / 2
                 : width < 800
                 ? (width - 60) / 3
@@ -140,7 +143,7 @@ class AlphabetMenuScreen extends StatelessWidget {
               child: Padding(
 
                 padding:
-                const EdgeInsets.all(16),
+                EdgeInsets.all(Responsive.pagePadding(context)),
 
 
                 child: Wrap(

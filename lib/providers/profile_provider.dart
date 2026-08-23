@@ -41,7 +41,7 @@ class ProfileProvider extends ChangeNotifier {
 
     _name =
         prefs.getString(_nameKey)
-        ?? "Obboleessa";
+        ?? "Leenca Xiqqaa";
 
 
 

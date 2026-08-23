@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../screens/admin_dashboard_screen.dart';
+//import '../screens/admin_dashboard_screen.dart';
+import '../screens/admin/admin_screen.dart';
 import '../screens/alphabet_screen.dart';
 import '../screens/alphabet_menu_screen.dart';
 
@@ -353,7 +354,7 @@ final Map<String, WidgetBuilder> lessonRoutes = {
 
 "/teacher_dashboard": (_) => const TeacherDashboardScreen(),
 
-"/admin_dashboard": (_) => const AdminDashboardScreen(),
+"/admin_dashboard": (_) => const AdminScreen(),
 "/age-selection":
     (_) => const AgeSelectionScreen(),
 

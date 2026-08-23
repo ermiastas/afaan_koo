@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/audio_service.dart';
+import '../utils/responsive.dart';
 
 class DoubleLetterScreen extends StatelessWidget {
   const DoubleLetterScreen({super.key});
@@ -40,11 +41,11 @@ class DoubleLetterScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: GridView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(Responsive.pagePadding(context)),
         itemCount: _letters.length,
         gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+            Responsive.homeGridDelegate(
+          context,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
           childAspectRatio: .82,

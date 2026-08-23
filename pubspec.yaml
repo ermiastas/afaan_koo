@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_tts: ^4.2.3
   cupertino_icons: ^1.0.8
 
   # State Management
@@ -30,7 +30,7 @@ dependencies:
   # Audio
   audioplayers: ^6.1.0
   just_audio: ^0.9.36
-  video_player: ^2.9.2
+  video_player: ^2.14.0
   dio: ^5.8.0+1
   permission_handler: ^12.0.0
 
@@ -115,7 +115,9 @@ flutter:
     - assets/images/transport/
     - assets/images/values/
     - assets/images/weather/
-    
+    - assets/assets/images/traffic/
+    - assets/assets/images/school/
+
 
     - assets/logo/
     - assets/icon/
@@ -131,10 +133,10 @@ flutter:
     - assets/audio/songs/
     - assets/audio/raji/
 
-    # Video 
+    # Video
     - assets/videos/
     - assets/videos/alphabet/
-    - assets/videos/animals/ 
+    - assets/videos/animals/
     - assets/videos/words/
     - assets/videos/colors/
     - assets/videos/numbers/

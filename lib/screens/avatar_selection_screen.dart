@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/responsive.dart';
 import '../providers/profile_provider.dart';
 
 
@@ -61,7 +62,7 @@ GridView.builder(
 
 padding:
 
-const EdgeInsets.all(20),
+EdgeInsets.all(Responsive.pagePadding(context)),
 
 
 
@@ -73,14 +74,11 @@ avatars.length,
 
 gridDelegate:
 
-const SliverGridDelegateWithFixedCrossAxisCount(
-
-crossAxisCount:3,
-
-crossAxisSpacing:15,
-
-mainAxisSpacing:15,
-
+Responsive.homeGridDelegate(
+context,
+childAspectRatio: 1,
+crossAxisSpacing: 15,
+mainAxisSpacing: 15,
 ),
 
 

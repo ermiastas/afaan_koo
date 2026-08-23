@@ -5,6 +5,7 @@ import '../data/lesson_ids.dart';
 import '../models/letter.dart';
 import '../widgets/letter_card.dart';
 import '../widgets/lesson_complete_button.dart';
+import '../utils/responsive.dart';
 import 'letter_detail_screen.dart';
 
 class AlphabetScreen extends StatelessWidget {
@@ -18,11 +19,7 @@ class AlphabetScreen extends StatelessWidget {
 
     final screenWidth = MediaQuery.of(context).size.width;
 
-    // Responsive columns
-    const double cardWidth = 180;
-
-    final int columns =
-        (screenWidth / cardWidth).floor().clamp(2, 8);
+    final columns = Responsive.homeColumns(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +37,7 @@ class AlphabetScreen extends StatelessWidget {
                 Expanded(
                   child: GridView.builder(
                     padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth > 900 ? 40 : 16,
+                      horizontal: Responsive.pagePadding(context),
                       vertical: 20,
                     ),
                     itemCount: alphabet.length,
@@ -89,9 +86,9 @@ class AlphabetScreen extends StatelessWidget {
 
                 Padding(
                   padding: EdgeInsets.fromLTRB(
-                    screenWidth > 900 ? 40 : 16,
+                    Responsive.pagePadding(context),
                     0,
-                    screenWidth > 900 ? 40 : 16,
+                    Responsive.pagePadding(context),
                     20,
                   ),
                   child: const LessonCompleteButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/coloring_page.dart';
+import 'coloring_frame.dart';
 
 
 class ColoringPageCard extends StatefulWidget {
@@ -169,7 +170,11 @@ class _ColoringPageCardState
 
                 Expanded(
 
-                  child:ClipRRect(
+                  child:ColoringFrame(
+
+                    padding:const EdgeInsets.all(6),
+
+                    child:ClipRRect(
 
                     borderRadius:
                     BorderRadius.circular(18),
@@ -205,6 +210,8 @@ class _ColoringPageCardState
                         );
 
                       },
+
+                    ),
 
                     ),
 
