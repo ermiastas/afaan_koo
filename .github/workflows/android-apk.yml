@@ -33,9 +33,6 @@ jobs:
       - name: Flutter pub get
         run: flutter pub get
 
-      - name: Show Gradle version
-        working-directory: android
-        run: ./gradlew --version
 
       - name: Build APK
         run: flutter build apk --release
