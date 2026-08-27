@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../providers/progress_provider.dart';
 import '../providers/reward_provider.dart';
 import '../services/raji_audio_service.dart';
-import 'raji_assistant.dart';
 
 
 class LessonCompleteButton extends StatelessWidget {
@@ -15,6 +14,9 @@ class LessonCompleteButton extends StatelessWidget {
 
   final VoidCallback? onCompleted;
 
+  /// A completed lesson should lead directly into a short knowledge check.
+  final bool openQuizAfterCompletion;
+
 
 
   const LessonCompleteButton({
@@ -24,6 +26,8 @@ class LessonCompleteButton extends StatelessWidget {
     required this.lessonId,
 
     this.onCompleted,
+
+    this.openQuizAfterCompletion = true,
 
   });
 
@@ -189,28 +193,6 @@ class LessonCompleteButton extends StatelessWidget {
 
           );
 
-        showDialog(
-
-  context: context,
-
-  builder: (_) => const Dialog(
-
-    backgroundColor: Colors.transparent,
-
-    child: RajiAssistant(
-
-      celebrate: true,
-
-      message:
-          "Ajaa'ib! Barnoota kana xumurteetta! 🎉",
-
-    ),
-
-  ),
-
-);
-
-
   await RajiAudioService.lessonComplete();
 
 
@@ -295,6 +277,14 @@ class LessonCompleteButton extends StatelessWidget {
             );
 
 
+          }
+
+          // Keep the learning loop moving: each completed lesson leads to the
+          // quiz screen, unless this button is itself used for a quiz.
+          if (openQuizAfterCompletion &&
+              lessonId != 'quiz' &&
+              context.mounted) {
+            Navigator.of(context).pushNamed('/quiz');
           }
 
 

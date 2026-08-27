@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import '../../services/raji_audio_service.dart';
@@ -8,11 +6,13 @@ import '../../utils/responsive.dart';
 class NumberTracingWidget extends StatefulWidget {
   final int number;
   final VoidCallback? onComplete;
+  final bool showCelebration;
 
   const NumberTracingWidget({
     super.key,
     required this.number,
     this.onComplete,
+    this.showCelebration = true,
   });
 
   @override
@@ -21,7 +21,7 @@ class NumberTracingWidget extends StatefulWidget {
 }
 
 class _NumberTracingWidgetState extends State<NumberTracingWidget> {
-  final List<Offset> userPoints = [];
+  final List<List<Offset>> completedStrokes = [];
 
   List<Offset> currentStroke = [];
 
@@ -159,6 +159,8 @@ class _NumberTracingWidgetState extends State<NumberTracingWidget> {
       DragStartDetails details,
       Size size,
       ) {
+    if (completed) return;
+
     setState(() {
       currentStroke = [
         normalize(
@@ -174,6 +176,8 @@ class _NumberTracingWidgetState extends State<NumberTracingWidget> {
       DragUpdateDetails details,
       Size size,
       ) {
+    if (completed || currentStroke.isEmpty) return;
+
     setState(() {
       currentStroke.add(
         normalize(
@@ -190,23 +194,14 @@ class _NumberTracingWidgetState extends State<NumberTracingWidget> {
       return;
     }
 
-    final score = calculateAccuracy(
-      currentStroke,
-      getNumberPath(),
-    );
-
-
     setState(() {
-      accuracy = score;
-
-
-      if (score >= .70) {
-        userPoints.addAll(currentStroke);
-
-        completed = true;
-      } else {
-        currentStroke = [];
-      }
+      completedStrokes.add(List<Offset>.from(currentStroke));
+      currentStroke = [];
+      accuracy = calculateAccuracy(
+        completedStrokes.expand((stroke) => stroke),
+        getNumberPath(),
+      );
+      completed = accuracy >= .72;
     });
 
 
@@ -217,34 +212,43 @@ class _NumberTracingWidgetState extends State<NumberTracingWidget> {
 
 
   double calculateAccuracy(
-      List<Offset> user,
+      Iterable<Offset> user,
       List<Offset> target,
       ) {
-    if (user.isEmpty || target.isEmpty) {
+    final drawing = user.toList(growable: false);
+    if (drawing.length < 2 || target.length < 2) {
       return 0;
     }
 
+    final guide = _samplePath(target);
+    const guideTolerance = .085;
+    const inkTolerance = .12;
+    final coverage = guide
+            .where((point) => drawing.any(
+                (sample) => (sample - point).distance <= guideTolerance))
+            .length /
+        guide.length;
+    final precision = drawing
+            .where((point) => guide.any(
+                (sample) => (sample - point).distance <= inkTolerance))
+            .length /
+        drawing.length;
 
-    double error = 0;
+    // A short mark on one segment can no longer complete a whole number.
+    return (coverage * .72) + (precision * .28);
+  }
 
-
-    for (final point in user) {
-      error += target
-          .map(
-            (targetPoint) =>
-            (targetPoint - point).distance,
-      )
-          .reduce(min);
+  List<Offset> _samplePath(List<Offset> path) {
+    final samples = <Offset>[];
+    for (var index = 0; index < path.length - 1; index++) {
+      final start = path[index];
+      final end = path[index + 1];
+      final steps = ((end - start).distance / .025).ceil().clamp(1, 80);
+      for (var step = 0; step <= steps; step++) {
+        samples.add(Offset.lerp(start, end, step / steps)!);
+      }
     }
-
-
-    error /= user.length;
-
-
-    return max(
-      0,
-      1 - (error * 3),
-    );
+    return samples;
   }
 
 
@@ -261,6 +265,10 @@ class _NumberTracingWidgetState extends State<NumberTracingWidget> {
     RajiAudioService.reward();
 
     widget.onComplete?.call();
+
+    if (!widget.showCelebration) {
+      return;
+    }
 
 
     String medal;
@@ -311,7 +319,7 @@ class _NumberTracingWidgetState extends State<NumberTracingWidget> {
 
   void reset() {
     setState(() {
-      userPoints.clear();
+      completedStrokes.clear();
 
       currentStroke = [];
 
@@ -423,6 +431,8 @@ class _NumberTracingWidgetState extends State<NumberTracingWidget> {
                       endStroke();
                     },
 
+                    onPanCancel: endStroke,
+
 
                     child: CustomPaint(
                       size: size,
@@ -430,7 +440,7 @@ class _NumberTracingWidgetState extends State<NumberTracingWidget> {
                       painter: NumberPainter(
                         getNumberPath(),
 
-                        userPoints,
+                        completedStrokes,
 
                         currentStroke,
                       ),
@@ -481,14 +491,14 @@ class _NumberTracingWidgetState extends State<NumberTracingWidget> {
 class NumberPainter extends CustomPainter {
   final List<Offset> guide;
 
-  final List<Offset> user;
+  final List<List<Offset>> userStrokes;
 
   final List<Offset> current;
 
 
   NumberPainter(
     this.guide,
-    this.user,
+    this.userStrokes,
     this.current,
   );
 
@@ -525,12 +535,14 @@ class NumberPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
 
-    drawStroke(
-      canvas,
-      user,
-      size,
-      userPaint,
-    );
+    for (final stroke in userStrokes) {
+      drawStroke(
+        canvas,
+        stroke,
+        size,
+        userPaint,
+      );
+    }
 
 
     // Current finger stroke
@@ -588,8 +600,8 @@ class NumberPainter extends CustomPainter {
     covariant NumberPainter oldDelegate,
   ) {
 
-    return oldDelegate.guide != guide ||
-        oldDelegate.user.length != user.length ||
-        oldDelegate.current.length != current.length;
+    // The lists are updated in place during a drag, so comparing their
+    // identities or current lengths against the old painter can miss a frame.
+    return true;
   }
 }

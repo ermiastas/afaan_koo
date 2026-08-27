@@ -26,6 +26,7 @@ class _AlphabetTracingWidgetState
 
   List<Offset?> points = [];
   bool _completed = false;
+  Size _canvasSize = Size.zero;
 
 
   @override
@@ -87,15 +88,33 @@ class _AlphabetTracingWidgetState
 
 
   void finish(){
+    if (_completed) return;
 
-    if(!_completed && points.whereType<Offset>().length > 20){
-
-      _completed = true;
-
-      widget.onComplete();
-
+    final drawing = points.whereType<Offset>().toList(growable: false);
+    final minimumLength = _canvasSize.shortestSide * .32;
+    if (drawing.length < 12 || _drawingLength() < minimumLength) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Mee mallattoo qubee kana guutuun hordofi 😊"),
+        ),
+      );
+      return;
     }
 
+    setState(() => _completed = true);
+    widget.onComplete();
+  }
+
+  double _drawingLength() {
+    var length = 0.0;
+    for (var index = 0; index < points.length - 1; index++) {
+      final current = points[index];
+      final next = points[index + 1];
+      if (current != null && next != null) {
+        length += (current - next).distance;
+      }
+    }
+    return length;
   }
 
 
@@ -121,13 +140,19 @@ class _AlphabetTracingWidgetState
                   width: 3,
                 ),
               ),
-              child: GestureDetector(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  _canvasSize = Size(constraints.maxWidth, constraints.maxHeight);
+                  return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onPanStart: (details) {
+                  addPoint(details.localPosition);
+                },
                 onPanUpdate: (details) {
                   addPoint(details.localPosition);
                 },
-                onPanEnd: (details) {
+                onPanEnd: (_) {
                   setState(() => points.add(null));
-                  finish();
                 },
                 child: CustomPaint(
                   painter: LetterTracePainter(
@@ -136,6 +161,8 @@ class _AlphabetTracingWidgetState
                   ),
                   size: Size.infinite,
                 ),
+                  );
+                },
               ),
             ),
           ),
@@ -213,7 +240,7 @@ class LetterTracePainter
 
         TextStyle(
 
-          fontSize:220,
+          fontSize:(size.shortestSide * .64).clamp(110.0, 220.0),
 
           fontWeight:
           FontWeight.bold,

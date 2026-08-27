@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import '../models/quiz.dart';
 import '../models/quiz_type.dart';
 
 
 
 class QuizGenerator {
+
+  static final Random _random = Random();
 
 
 
@@ -516,19 +520,7 @@ class QuizGenerator {
 
 
 
-          options:
-
-          [
-
-            word,
-
-            _randomWord(letters),
-
-            _randomWord(letters),
-
-            _randomWord(letters),
-
-          ],
+          options: _wordOptions(word, letters),
 
 
 
@@ -864,47 +856,17 @@ class QuizGenerator {
 
 
 
-    final options=<String>[];
+    final candidates = data
+        .map((item) => item[field]?.toString() ?? '')
+        .where((value) => value.isNotEmpty && value != answer)
+        .toSet()
+        .toList()
+      ..shuffle(_random);
 
-
-
-    options.add(answer);
-
-
-
-    for(final item in data){
-
-
-      final value =
-      item[field] ?? "";
-
-
-      if(value != answer &&
-          value.toString().isNotEmpty){
-
-
-        options.add(
-            value
-        );
-
-
-      }
-      
-
-      if(options.length==4){
-        break;
-        
-      }
-
-    }
-
-
-
-    options.shuffle();
-
-
-
-    return options;
+    return <String>[
+      answer,
+      ...candidates.take(3),
+    ]..shuffle(_random);
 
 
   }
@@ -926,45 +888,17 @@ class QuizGenerator {
 
 
 
-    final options=<String>[];
+    final candidates = data
+        .map((item) => item['letter']?.toString() ?? '')
+        .where((value) => value.isNotEmpty && value != answer)
+        .toSet()
+        .toList()
+      ..shuffle(_random);
 
-
-
-    options.add(answer);
-
-
-
-    for(final item in data){
-
-
-      final value =
-      item["letter"] ?? "";
-
-
-
-      if(value != answer){
-
-
-        options.add(value);
-
-
-      }
-
-
-
-      if(options.length==4){
-        break;
-      }
-
-    }
-
-
-
-    options.shuffle();
-
-
-
-    return options;
+    return <String>[
+      answer,
+      ...candidates.take(3),
+    ]..shuffle(_random);
 
 
   }
@@ -977,22 +911,18 @@ class QuizGenerator {
 
 
 
-  static String _randomWord(
+  static List<String> _wordOptions(
+      String answer,
+      List<dynamic> data,
+      ) {
+    final candidates = data
+        .map((item) => item['word']?.toString() ?? '')
+        .where((value) => value.isNotEmpty && value != answer)
+        .toSet()
+        .toList()
+      ..shuffle(_random);
 
-      List<dynamic> data
-
-      ){
-
-
-
-    if(data.isEmpty){
-      return "";
-
-    }
-
-    return data[0]["word"] ?? "";
-
-    
+    return <String>[answer, ...candidates.take(3)]..shuffle(_random);
   }
 
 

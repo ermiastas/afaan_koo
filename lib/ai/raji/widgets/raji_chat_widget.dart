@@ -1001,10 +1001,7 @@ Widget _buildAction(
     padding: const EdgeInsets.only(top: 10),
     child: OutlinedButton.icon(
       onPressed: () {
-        widget.onAction?.call(
-          message.actionType!,
-          message.actionId,
-        );
+        _handleAction(message);
       },
       icon: const Icon(
         Icons.play_arrow_rounded,

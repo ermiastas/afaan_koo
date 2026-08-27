@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'quiz_type.dart';
 
 
@@ -46,7 +48,7 @@ required this.image,
 
 required this.sound,
 
-required this.options,
+required List<String> options,
 
 required this.answer,
 
@@ -56,7 +58,9 @@ this.tracingLetter,
 this.tracingSmallLetter,
 this.numberToTrace,
 
-});
+}) : options = List<String>.unmodifiable(
+        List<String>.from(options)..shuffle(Random()),
+      );
 
 
 

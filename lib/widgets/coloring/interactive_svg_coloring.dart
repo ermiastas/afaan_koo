@@ -49,7 +49,6 @@ class ColoringSession {
 
 class InteractiveSvgColoringState
     extends State<InteractiveSvgColoring> {
-  static const double _viewBoxSize = 96.0;
 
   final SvgColorEngine _colorEngine = SvgColorEngine();
 
@@ -66,6 +65,8 @@ class InteractiveSvgColoringState
 
   List<_RegionGeometry> _regions =
       const <_RegionGeometry>[];
+
+  Rect _viewBox = const Rect.fromLTWH(0, 0, 96, 96);
 
   String? _originalSvg;
   String? _renderedSvg;
@@ -152,6 +153,7 @@ class InteractiveSvgColoringState
         );
       }
 
+      _viewBox = _parseViewBox(svg);
       final regions = _parseRegions(svg);
 
       debugPrint(
@@ -227,6 +229,23 @@ class InteractiveSvgColoringState
   // ===========================================================================
   // SVG REGION PARSER
   // ===========================================================================
+
+  Rect _parseViewBox(String svg) {
+    try {
+      final root = XmlDocument.parse(svg).rootElement;
+      final values = (root.getAttribute('viewBox') ?? '')
+          .split(RegExp(r'[ ,]+'))
+          .map(double.tryParse)
+          .whereType<double>()
+          .toList(growable: false);
+      if (values.length == 4 && values[2] > 0 && values[3] > 0) {
+        return Rect.fromLTWH(values[0], values[1], values[2], values[3]);
+      }
+    } catch (_) {
+      // The region parser will show the normal SVG error state if needed.
+    }
+    return const Rect.fromLTWH(0, 0, 96, 96);
+  }
 
   List<_RegionGeometry> _parseRegions(
     String svg,
@@ -805,15 +824,11 @@ class InteractiveSvgColoringState
       return null;
     }
 
-    final x =
-        localPosition.dx /
-            canvasSize *
-            _viewBoxSize;
+    final x = _viewBox.left +
+        (localPosition.dx / canvasSize * _viewBox.width);
 
-    final y =
-        localPosition.dy /
-            canvasSize *
-            _viewBoxSize;
+    final y = _viewBox.top +
+        (localPosition.dy / canvasSize * _viewBox.height);
 
     final point =
         Offset(x, y);

@@ -7,6 +7,7 @@ import 'consonant_screen.dart';
 import 'double_letter_screen.dart';
 import 'tracing_practice_screen.dart';
 import '../utils/responsive.dart';
+import '../widgets/background/moving_clouds.dart';
 
 
 
@@ -30,7 +31,25 @@ class AlphabetMenuScreen extends StatelessWidget {
       ),
 
 
-      body: SafeArea(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xff8ED6FF),
+                    Color(0xffCDEEFF),
+                    Color(0xffF7FCFF),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const MovingClouds(),
+          SafeArea(
 
         child: LayoutBuilder(
 
@@ -146,7 +165,30 @@ class AlphabetMenuScreen extends StatelessWidget {
                 EdgeInsets.all(Responsive.pagePadding(context)),
 
 
-                child: Wrap(
+                child: Column(
+
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                  children: [
+
+                    const Text(
+                      "🔤 Qubee Afaan Oromoo",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    const Text(
+                      "Kutaa barnootaa filadhu",
+                      style: TextStyle(fontSize: 16),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    Wrap(
 
                   spacing:16,
 
@@ -168,6 +210,8 @@ class AlphabetMenuScreen extends StatelessWidget {
                   }).toList(),
 
 
+                    ),
+                  ],
                 ),
 
 
@@ -181,6 +225,8 @@ class AlphabetMenuScreen extends StatelessWidget {
 
         ),
 
+          ),
+        ],
       ),
 
     );

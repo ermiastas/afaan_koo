@@ -28,7 +28,7 @@ await SharedPreferences.getInstance();
 
 
 _age =
-prefs.getInt(key) ?? 5;
+(prefs.getInt(key) ?? 5).clamp(3, 12);
 
 
 notifyListeners();
@@ -41,6 +41,10 @@ notifyListeners();
 
 
 Future<void> setAge(int value) async {
+
+if (value < 3 || value > 12) {
+  return;
+}
 
 
 _age=value;

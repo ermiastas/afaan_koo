@@ -770,7 +770,12 @@ class _HomeScreenState extends State<HomeScreen>
     }
 
 
-    return Container(
+    return Semantics(
+      button: true,
+      label: 'Change age category',
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).pushNamed('/age-selection'),
+        child: Container(
 
       padding:
           const EdgeInsets.all(16),
@@ -841,6 +846,8 @@ class _HomeScreenState extends State<HomeScreen>
 
       ),
 
+        ),
+      ),
     );
 
   }

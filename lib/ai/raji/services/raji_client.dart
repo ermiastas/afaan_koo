@@ -125,6 +125,14 @@ class RajiClient {
 
       if (response.statusCode < 200 ||
           response.statusCode >= 300) {
+        // Keep the assistant useful when an optional hosted backend is down
+        // or has not been deployed at the configured address.
+        if (response.statusCode == 404 || response.statusCode >= 500) {
+          return RajiLocalResponder.respond(
+            message: cleanMessage,
+            context: context,
+          );
+        }
         throw RajiApiException(
           message: _extractErrorMessage(
             response.body,

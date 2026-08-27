@@ -133,7 +133,7 @@ Future<void> main() async {
         // =================================================
 
         ChangeNotifierProvider(
-          create: (_) => AgeProvider(),
+          create: (_) => AgeProvider()..load(),
         ),
 
         // Shared educational image catalog and offline colouring cache.

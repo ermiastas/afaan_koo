@@ -256,6 +256,21 @@ extends State<QuizScreen>{
 
   }
 
+  void checkTracingComplete(List<Quiz> quizList) {
+    if (answered) {
+      return;
+    }
+
+    setState(() {
+      answered = true;
+      correctAnswers++;
+    });
+
+    context.read<RewardProvider>().addStars(5);
+    showMessage("Baay'ee gaarii! ⭐");
+    nextQuestion(quizList);
+  }
+
 
 
 
@@ -777,19 +792,7 @@ await RajiAudioService.correct();
 
 
 
-                    onComplete:(){
-
-
-
-                      context
-
-                          .read<RewardProvider>()
-
-                          .addStars(5);
-
-
-
-                    },
+                    onComplete: () => checkTracingComplete(quizList),
 
 
 
@@ -807,7 +810,7 @@ await RajiAudioService.correct();
 
 
 
-                  NumberTracingWidget(
+                    NumberTracingWidget(
 
 
 
@@ -823,21 +826,11 @@ await RajiAudioService.correct();
 
                         0,
 
-
-
-                    onComplete:(){
-
-
-
-                      context
-
-                          .read<RewardProvider>()
-
-                          .addStars(5);
+                    showCelebration: false,
 
 
 
-                    },
+                    onComplete: () => checkTracingComplete(quizList),
 
 
 

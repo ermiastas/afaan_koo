@@ -198,6 +198,11 @@ class HandwritingCanvasState extends State<HandwritingCanvas>
                 _checkAccuracy();
               },
 
+              onPanCancel: () {
+                setState(() => _points.add(Offset.infinite));
+                _checkAccuracy();
+              },
+
               child: CustomPaint(
                 size: Size(
                   constraints.maxWidth,
