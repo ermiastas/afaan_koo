@@ -336,12 +336,21 @@ class ContentPackInstaller {
     );
 
     if (await finalDirectory.exists()) {
-      await _deleteDirectoryIfExists(finalDirectory);
+      throw const ContentPackInstallationException(
+        'The target installation directory already exists.',
+      );
     }
 
-    await temporaryDirectory.rename(
-      finalDirectory.path,
-    );
+    try {
+      await temporaryDirectory.rename(
+        finalDirectory.path,
+      );
+    } on FileSystemException catch (error) {
+      throw ContentPackInstallationException(
+        'Could not activate the installed content pack.',
+        error,
+      );
+    }
   }
 
   void _validatePack(ContentPack pack) {
