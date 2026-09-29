@@ -1,9 +1,10 @@
-import 'package:afaan_koo_app/models/content_pack.dart';
+﻿import 'package:afaan_koo_app/models/content_pack.dart';
 import 'package:afaan_koo_app/services/content_pack_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   const pack = ContentPack(
     id: 'uumama_v1',
     slug: 'uumama',
@@ -26,7 +27,9 @@ void main() {
   });
 
   test('records a locally completed installation', () async {
-    final manager = ContentPackManager();
+    final manager = ContentPackManager(
+      initializationCleanup: () async {},
+    );
 
     await manager.beginInstallation(pack);
     expect(
@@ -46,7 +49,9 @@ void main() {
   });
 
   test('keeps the installed version usable when an update is available', () async {
-    final manager = ContentPackManager();
+    final manager = ContentPackManager(
+      initializationCleanup: () async {},
+    );
     await manager.beginInstallation(pack);
     await manager.completeInstallation(
       pack: pack,
@@ -80,7 +85,9 @@ void main() {
   });
 
   test('removes a local record without changing lesson progress', () async {
-    final manager = ContentPackManager();
+    final manager = ContentPackManager(
+      initializationCleanup: () async {},
+    );
     await manager.beginInstallation(pack);
     await manager.completeInstallation(
       pack: pack,

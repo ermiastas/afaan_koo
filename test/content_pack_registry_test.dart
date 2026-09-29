@@ -1,9 +1,10 @@
-import 'package:afaan_koo_app/models/content_pack.dart';
+﻿import 'package:afaan_koo_app/models/content_pack.dart';
 import 'package:afaan_koo_app/services/content_pack_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() {
     SharedPreferences.setMockInitialValues({
       'lesson_progress_v1': '{"animals":1.0}',
