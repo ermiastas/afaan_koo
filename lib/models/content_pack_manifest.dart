@@ -1,7 +1,8 @@
-/// The metadata embedded in a downloaded lesson-content pack.
+/// Metadata embedded inside every downloadable content pack.
 ///
-/// During installation, this manifest will be compared with the catalog entry
-/// before the pack is made available to the child.
+/// The manifest is validated against the server-side catalog before a pack
+/// is activated. It describes the content package itself; it does not contain
+/// learner progress or rewards.
 class ContentPackManifest {
   const ContentPackManifest({
     required this.id,
@@ -25,17 +26,37 @@ class ContentPackManifest {
   final String checksum;
   final bool isActive;
 
-  factory ContentPackManifest.fromJson(Map<String, dynamic> json) {
+  factory ContentPackManifest.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return ContentPackManifest(
       id: _requiredString(json, 'id'),
       name: _requiredString(json, 'name'),
-      version: _requiredInt(json, 'version'),
-      minAppVersion: _requiredString(json, 'min_app_version'),
-      lessonCount: _requiredInt(json, 'lesson_count'),
-      sizeBytes: _requiredInt(json, 'size_bytes'),
-      language: _requiredString(json, 'language'),
-      checksum: _requiredString(json, 'checksum'),
-      isActive: _requiredBool(json, 'is_active'),
+      version: _requiredPositiveInt(json, 'version'),
+      minAppVersion: _requiredString(
+        json,
+        'min_app_version',
+      ),
+      lessonCount: _requiredNonNegativeInt(
+        json,
+        'lesson_count',
+      ),
+      sizeBytes: _requiredNonNegativeInt(
+        json,
+        'size_bytes',
+      ),
+      language: _requiredString(
+        json,
+        'language',
+      ),
+      checksum: _requiredChecksum(
+        json,
+        'checksum',
+      ),
+      isActive: _requiredBool(
+        json,
+        'is_active',
+      ),
     );
   }
 
@@ -52,34 +73,82 @@ class ContentPackManifest {
       'is_active': isActive,
     };
   }
+}
 
-  static String _requiredString(Map<String, dynamic> json, String key) {
-    final value = json[key];
-    if (value is String && value.trim().isNotEmpty) {
-      return value;
-    }
+String _requiredString(
+  Map<String, dynamic> json,
+  String key,
+) {
+  final value = json[key];
+
+  if (value is String && value.trim().isNotEmpty) {
+    return value.trim();
+  }
+
+  throw FormatException(
+    'Content pack manifest field "$key" must be a non-empty string.',
+  );
+}
+
+int _requiredPositiveInt(
+  Map<String, dynamic> json,
+  String key,
+) {
+  final value = _requiredNonNegativeInt(json, key);
+
+  if (value > 0) {
+    return value;
+  }
+
+  throw FormatException(
+    'Content pack manifest field "$key" must be greater than zero.',
+  );
+}
+
+int _requiredNonNegativeInt(
+  Map<String, dynamic> json,
+  String key,
+) {
+  final value = json[key];
+
+  if (value is num &&
+      value.isFinite &&
+      value == value.roundToDouble() &&
+      value >= 0) {
+    return value.toInt();
+  }
+
+  throw FormatException(
+    'Content pack manifest field "$key" must be a non-negative integer.',
+  );
+}
+
+bool _requiredBool(
+  Map<String, dynamic> json,
+  String key,
+) {
+  final value = json[key];
+
+  if (value is bool) {
+    return value;
+  }
+
+  throw FormatException(
+    'Content pack manifest field "$key" must be a boolean.',
+  );
+}
+
+String _requiredChecksum(
+  Map<String, dynamic> json,
+  String key,
+) {
+  final value = _requiredString(json, key);
+
+  if (!RegExp(r'^[a-fA-F0-9]{64}$').hasMatch(value)) {
     throw FormatException(
-      'Content pack manifest field "$key" must be a non-empty string.',
+      'Content pack manifest field "$key" must be a SHA-256 checksum.',
     );
   }
 
-  static int _requiredInt(Map<String, dynamic> json, String key) {
-    final value = json[key];
-    if (value is num && value.isFinite && value == value.roundToDouble()) {
-      return value.toInt();
-    }
-    throw FormatException(
-      'Content pack manifest field "$key" must be an integer.',
-    );
-  }
-
-  static bool _requiredBool(Map<String, dynamic> json, String key) {
-    final value = json[key];
-    if (value is bool) {
-      return value;
-    }
-    throw FormatException(
-      'Content pack manifest field "$key" must be a boolean.',
-    );
-  }
+  return value.toLowerCase();
 }
