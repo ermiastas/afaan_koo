@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -9,19 +9,9 @@ import '../models/content_pack.dart';
 import '../models/content_pack_manifest.dart';
 
 /// Validates downloaded content-pack archives before installation.
-///
-/// Integrity is checked at two levels:
-///
-/// 1. The catalog checksum verifies the complete downloaded ZIP.
-/// 2. The manifest checksum verifies the logical extracted content.
-///
-/// The manifest itself is excluded from the content checksum so that the
-/// checksum does not become circular.
 class ContentPackValidator {
   const ContentPackValidator();
 
-  /// Calculates SHA-256 for a file without loading the entire file into
-  /// memory.
   Future<String> calculateSha256(File file) async {
     if (!await file.exists()) {
       throw const ContentPackValidationException(
@@ -33,7 +23,6 @@ class ContentPackValidator {
     return digest.toString().toLowerCase();
   }
 
-  /// Verifies the complete downloaded ZIP against the catalog checksum.
   Future<void> verifyChecksum({
     required File file,
     required String expectedChecksum,
@@ -57,8 +46,11 @@ class ContentPackValidator {
     }
   }
 
-  /// Validates the ZIP archive and its embedded manifest.
-  Future<ContentPackManifest> validateArchive({
+  /// Reads and validates the ZIP once.
+  ///
+  /// The returned archive can be passed directly to the installer so the
+  /// archive does not need to be decoded a second time.
+  Future<ContentPackValidationResult> validateArchiveForInstallation({
     required File archiveFile,
     required ContentPack expectedPack,
   }) async {
@@ -81,20 +73,22 @@ class ContentPackValidator {
       );
     }
 
-    final manifestEntry = _findManifest(archive);
+    final manifestEntry = _findRootManifest(archive);
 
     if (manifestEntry == null) {
       throw const ContentPackValidationException(
-        'The content pack does not contain manifest.json.',
+        'The content pack must contain manifest.json at its root.',
       );
     }
 
-    final manifestBytes = _readArchiveEntry(manifestEntry);
+    final manifestBytes = manifestEntry.content;
 
     late Map<String, dynamic> json;
 
     try {
-      final decoded = jsonDecode(utf8.decode(manifestBytes));
+      final decoded = jsonDecode(
+        utf8.decode(manifestBytes),
+      );
 
       if (decoded is! Map) {
         throw const FormatException(
@@ -128,15 +122,76 @@ class ContentPackValidator {
 
     _validateRequiredFiles(archive);
 
-    return manifest;
+    return ContentPackValidationResult(
+      archive: archive,
+      manifest: manifest,
+    );
   }
 
-  /// Calculates the checksum of the logical pack content.
-  ///
-  /// `manifest.json` is intentionally excluded.
-  ///
-  /// Files are sorted by normalized path so that the checksum is deterministic
-  /// regardless of ZIP entry order.
+  Future<ContentPackManifest> validateArchive({
+    required File archiveFile,
+    required ContentPack expectedPack,
+  }) async {
+    final result = await validateArchiveForInstallation(
+      archiveFile: archiveFile,
+      expectedPack: expectedPack,
+    );
+
+    return result.manifest;
+  }
+
+  void verifyManifestContentChecksumForArchive({
+    required Archive archive,
+    required ContentPackManifest manifest,
+  }) {
+    final expected = manifest.checksum.trim().toLowerCase();
+
+    if (!_isSha256(expected)) {
+      throw const ContentPackValidationException(
+        'The manifest content checksum is invalid.',
+      );
+    }
+
+    final actual = calculateArchiveContentChecksum(archive);
+
+    if (actual != expected) {
+      throw ContentPackChecksumException(
+        expected: expected,
+        actual: actual,
+        source: 'manifest content',
+      );
+    }
+  }
+
+  Future<void> verifyManifestContentChecksum({
+    required File archiveFile,
+    required ContentPackManifest manifest,
+  }) async {
+    if (!await archiveFile.exists()) {
+      throw const ContentPackValidationException(
+        'Content-pack archive does not exist.',
+      );
+    }
+
+    final bytes = await archiveFile.readAsBytes();
+
+    late Archive archive;
+
+    try {
+      archive = ZipDecoder().decodeBytes(bytes);
+    } catch (error) {
+      throw ContentPackValidationException(
+        'The content-pack archive is invalid.',
+        error,
+      );
+    }
+
+    verifyManifestContentChecksumForArchive(
+      archive: archive,
+      manifest: manifest,
+    );
+  }
+
   String calculateArchiveContentChecksum(Archive archive) {
     final entries = archive
         .where((entry) => entry.isFile)
@@ -144,12 +199,14 @@ class ContentPackValidator {
         .map(
           (entry) => _ContentEntry(
             path: _normalizePath(entry.name),
-            bytes: _readArchiveEntry(entry),
+            bytes: entry.content,
           ),
         )
         .toList();
 
-    entries.sort((a, b) => a.path.compareTo(b.path));
+    entries.sort(
+      (a, b) => a.path.compareTo(b.path),
+    );
 
     final accumulator = BytesBuilder(copy: false);
 
@@ -167,61 +224,24 @@ class ContentPackValidator {
       accumulator.add(entry.bytes);
     }
 
-    return sha256.convert(accumulator.takeBytes()).toString().toLowerCase();
+    return sha256
+        .convert(accumulator.takeBytes())
+        .toString()
+        .toLowerCase();
   }
 
-  /// Verifies the manifest checksum against the actual archive content.
-  Future<void> verifyManifestContentChecksum({
-    required File archiveFile,
-    required ContentPackManifest manifest,
-  }) async {
-    final bytes = await archiveFile.readAsBytes();
-
-    late Archive archive;
-
-    try {
-      archive = ZipDecoder().decodeBytes(bytes);
-    } catch (error) {
-      throw ContentPackValidationException(
-        'The content-pack archive is invalid.',
-        error,
-      );
-    }
-
-    final actual = calculateArchiveContentChecksum(archive);
-    final expected = manifest.checksum.trim().toLowerCase();
-
-    if (!_isSha256(expected)) {
-      throw const ContentPackValidationException(
-        'The manifest content checksum is invalid.',
-      );
-    }
-
-    if (actual != expected) {
-      throw ContentPackChecksumException(
-        expected: expected,
-        actual: actual,
-        source: 'manifest content',
-      );
-    }
-  }
-
-  ArchiveFile? _findManifest(Archive archive) {
-    for (final file in archive) {
-      if (!file.isFile) {
+  ArchiveFile? _findRootManifest(Archive archive) {
+    for (final entry in archive) {
+      if (!entry.isFile) {
         continue;
       }
 
-      if (_isManifestPath(file.name)) {
-        return file;
+      if (_normalizePath(entry.name) == 'manifest.json') {
+        return entry;
       }
     }
 
     return null;
-  }
-
-  Uint8List _readArchiveEntry(ArchiveFile file) {
-    return file.content;
   }
 
   void _compareManifest({
@@ -249,13 +269,13 @@ class ContentPackValidator {
     }
 
     if (manifest.lessonCount != expectedPack.lessonCount) {
-      throw ContentPackValidationException(
+      throw const ContentPackValidationException(
         'Manifest lesson count does not match the catalog.',
       );
     }
 
     if (manifest.language != expectedPack.language) {
-      throw ContentPackValidationException(
+      throw const ContentPackValidationException(
         'Manifest language does not match the catalog.',
       );
     }
@@ -265,15 +285,6 @@ class ContentPackValidator {
         'The content pack is not active.',
       );
     }
-
-    /*
-     * IMPORTANT:
-     *
-     * manifest.sizeBytes represents the uncompressed logical content size.
-     * catalog.sizeBytes represents the downloaded ZIP size.
-     *
-     * They intentionally are NOT compared here.
-     */
   }
 
   void _validateRequiredFiles(Archive archive) {
@@ -289,9 +300,9 @@ class ContentPackValidator {
       );
     }
 
-    if (!files.any(_isManifestPath)) {
+    if (!files.contains('manifest.json')) {
       throw const ContentPackValidationException(
-        'The content pack is missing manifest.json.',
+        'The content pack is missing root manifest.json.',
       );
     }
 
@@ -310,17 +321,22 @@ class ContentPackValidator {
   }
 
   static bool _isManifestPath(String path) {
-    final normalized = _normalizePath(path);
-
-    return normalized == 'manifest.json' ||
-        normalized.endsWith('/manifest.json');
+    return _normalizePath(path) == 'manifest.json';
   }
 
   static String _normalizePath(String path) {
-    return path.replaceAll('\\', '/').replaceFirst(
-          RegExp(r'^/+'),
-          '',
-        );
+    var normalized = path.replaceAll('\\', '/');
+
+    normalized = normalized.replaceFirst(
+      RegExp(r'^/+'),
+      '',
+    );
+
+    while (normalized.contains('//')) {
+      normalized = normalized.replaceAll('//', '/');
+    }
+
+    return normalized;
   }
 
   static bool _isSha256(String value) {
@@ -329,6 +345,7 @@ class ContentPackValidator {
 
   static Uint8List _int64Bytes(int value) {
     final data = ByteData(8);
+
     data.setUint64(
       0,
       value,
@@ -337,6 +354,16 @@ class ContentPackValidator {
 
     return data.buffer.asUint8List();
   }
+}
+
+class ContentPackValidationResult {
+  const ContentPackValidationResult({
+    required this.archive,
+    required this.manifest,
+  });
+
+  final Archive archive;
+  final ContentPackManifest manifest;
 }
 
 class _ContentEntry {
@@ -349,7 +376,6 @@ class _ContentEntry {
   final Uint8List bytes;
 }
 
-/// General content-pack validation failure.
 class ContentPackValidationException implements Exception {
   const ContentPackValidationException(
     this.message, [
@@ -365,8 +391,6 @@ class ContentPackValidationException implements Exception {
   }
 }
 
-/// Raised when a downloaded archive or its logical content does not match
-/// the expected checksum.
 class ContentPackChecksumException
     extends ContentPackValidationException {
   ContentPackChecksumException({

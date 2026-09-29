@@ -88,13 +88,16 @@ class ContentPackInstaller {
       );
     }
 
-    final manifest = await _validator.validateArchive(
+    final validation =
+        await _validator.validateArchiveForInstallation(
       archiveFile: archiveFile,
       expectedPack: pack,
     );
 
-    await _validator.verifyManifestContentChecksum(
-      archiveFile: archiveFile,
+    final manifest = validation.manifest;
+
+    _validator.verifyManifestContentChecksumForArchive(
+      archive: validation.archive,
       manifest: manifest,
     );
 
@@ -119,7 +122,7 @@ class ContentPackInstaller {
       await temporaryDirectory.create(recursive: true);
 
       await _extractArchive(
-        archiveFile: archiveFile,
+        archive: validation.archive,
         destination: temporaryDirectory,
       );
 
@@ -188,24 +191,12 @@ class ContentPackInstaller {
   }
 
   Future<void> _extractArchive({
-    required File archiveFile,
+    required Archive archive,
     required Directory destination,
   }) async {
-    final bytes = await archiveFile.readAsBytes();
-
-    late Archive archive;
-
-    try {
-      archive = ZipDecoder().decodeBytes(bytes);
-    } catch (error) {
-      throw ContentPackInstallationException(
-        'Unable to open the content-pack ZIP archive.',
-        error,
-      );
-    }
-
     for (final entry in archive) {
-      final normalizedPath = _normalizeArchivePath(entry.name);
+      final normalizedPath =
+          _normalizeArchivePath(entry.name);
 
       if (normalizedPath.isEmpty) {
         continue;
@@ -221,7 +212,9 @@ class ContentPackInstaller {
       if (entry.isFile) {
         final target = File(targetPath);
 
-        await target.parent.create(recursive: true);
+        await target.parent.create(
+          recursive: true,
+        );
 
         await target.writeAsBytes(
           entry.content,
