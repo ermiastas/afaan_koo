@@ -24,6 +24,11 @@ class LessonCategory {
   /// Lessons inside this category
   final List<LessonItem> lessons;
 
+  /// The downloadable content pack that provides this category.
+  ///
+  /// A null value means the category is available as starter content.
+  final String? packId;
+
 
 
   const LessonCategory({
@@ -37,6 +42,8 @@ class LessonCategory {
     required this.color,
 
     required this.lessons,
+
+    this.packId,
 
   });
 

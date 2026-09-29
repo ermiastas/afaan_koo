@@ -10,6 +10,11 @@ class LessonItem {
   final Color color;
   final Widget screen;
 
+  /// The downloadable content pack that provides this lesson.
+  ///
+  /// A null value means the lesson is part of the app's starter content.
+  final String? packId;
+
   bool completed;
 
 
@@ -23,6 +28,7 @@ class LessonItem {
     required this.color,
     required this.screen,
     this.completed = false,
+    this.packId,
 
   });
 
