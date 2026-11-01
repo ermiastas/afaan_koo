@@ -10,7 +10,7 @@ import '../../models/drawing_point.dart';
 import '../../models/paint_mode.dart';
 import '../../providers/reward_provider.dart';
 import '../../utils/responsive.dart';
-import '../../widgets/paint/brush_picker.dart';
+//import '../../widgets/paint/brush_picker.dart';
 import '../../widgets/paint/color_picker.dart';
 import '../../widgets/paint/drawing_canvas.dart';
 import '../../widgets/paint/paint_toolbar.dart';
@@ -35,7 +35,7 @@ class _PaintCanvasScreenState extends State<PaintCanvasScreen> {
   Color _selectedColor = Colors.red;
   Color _canvasColor = Colors.white;
   double _brushSize = 8;
-  BrushType _selectedBrush = BrushType.normal;
+  final BrushType _selectedBrush = BrushType.normal;
   PaintMode _selectedMode = PaintMode.brush;
   bool _isSaving = false;
 
@@ -194,7 +194,8 @@ class _PaintCanvasScreenState extends State<PaintCanvasScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Clear drawing?'),
-        content: const Text('This removes the current drawing from the canvas.'),
+        content:
+            const Text('This removes the current drawing from the canvas.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -226,7 +227,8 @@ class _PaintCanvasScreenState extends State<PaintCanvasScreen> {
       final directory = await getApplicationDocumentsDirectory();
       final folder = Directory('${directory.path}/paintings');
       await folder.create(recursive: true);
-      final file = File('${folder.path}/${DateTime.now().millisecondsSinceEpoch}.png');
+      final file =
+          File('${folder.path}/${DateTime.now().millisecondsSinceEpoch}.png');
       await file.writeAsBytes(image, flush: true);
       if (!mounted) return;
 
@@ -236,7 +238,9 @@ class _PaintCanvasScreenState extends State<PaintCanvasScreen> {
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Your drawing could not be saved. Please try again.')),
+        const SnackBar(
+            content:
+                Text('Your drawing could not be saved. Please try again.')),
       );
     } finally {
       if (mounted) setState(() => _isSaving = false);
@@ -290,8 +294,10 @@ class _PaintCanvasScreenState extends State<PaintCanvasScreen> {
                       controller: _screenshotController,
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
-                        onPanStart: (details) => _startStroke(details.localPosition),
-                        onPanUpdate: (details) => _extendStroke(details.localPosition),
+                        onPanStart: (details) =>
+                            _startStroke(details.localPosition),
+                        onPanUpdate: (details) =>
+                            _extendStroke(details.localPosition),
                         child: CustomPaint(
                           painter: DrawingCanvas(
                             points: _points,
@@ -304,59 +310,57 @@ class _PaintCanvasScreenState extends State<PaintCanvasScreen> {
                   ),
                 ),
               ),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: constraints.maxHeight * .42),
-                child: Material(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.fromLTRB(padding, 0, padding, 12),
-                    child: Column(
-                      children: [
-                        BrushPicker(
-                          selectedBrush: _selectedBrush,
-                          onBrushSelected: (brush) => setState(() {
-                            _selectedBrush = brush;
-                            _selectedMode = brush == BrushType.rainbow
-                                ? PaintMode.rainbow
-                                : brush == BrushType.magic
-                                    ? PaintMode.glitter
-                                    : PaintMode.brush;
-                          }),
-                        ),
-                        StickerPicker(
-                          onStickerSelected: (sticker) => setState(() {
-                            _selectedSticker = sticker.emoji;
-                            _selectedMode = PaintMode.sticker;
-                          }),
-                        ),
-                        PaintColorPicker(
-                          colors: _paintColors,
-                          selectedColor: _selectedColor,
-                          onColorSelected: (color) => setState(() {
-                            _selectedColor = color;
-                            if (_selectedMode == PaintMode.bucket) {
-                              _selectedMode = PaintMode.brush;
-                            }
-                          }),
-                        ),
-                        PaintToolbar(
-                          selectedMode: _selectedMode,
-                          brushSize: _brushSize,
-                          canUndo: _strokes.isNotEmpty,
-                          canRedo: _redoStrokes.isNotEmpty,
-                          isSaving: _isSaving,
-                          onBrushChanged: (value) => setState(() => _brushSize = value),
-                          onModeChanged: (mode) => setState(() => _selectedMode = mode),
-                          onUndo: _undo,
-                          onRedo: _redo,
-                          onClear: _confirmClear,
-                          onSave: _saveDrawing,
-                          onGallery: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => const GalleryScreen()),
+              Flexible(
+                fit: FlexFit.loose,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: constraints.maxHeight * .42,
+                  ),
+                  child: Material(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.fromLTRB(padding, 0, padding, 12),
+                      child: Column(
+                        children: [
+                          StickerPicker(
+                            onStickerSelected: (sticker) => setState(() {
+                              _selectedSticker = sticker.emoji;
+                              _selectedMode = PaintMode.sticker;
+                            }),
                           ),
-                        ),
-                      ],
+                          PaintColorPicker(
+                            colors: _paintColors,
+                            selectedColor: _selectedColor,
+                            onColorSelected: (color) => setState(() {
+                              _selectedColor = color;
+                              if (_selectedMode == PaintMode.bucket) {
+                                _selectedMode = PaintMode.brush;
+                              }
+                            }),
+                          ),
+                          PaintToolbar(
+                            selectedMode: _selectedMode,
+                            brushSize: _brushSize,
+                            canUndo: _strokes.isNotEmpty,
+                            canRedo: _redoStrokes.isNotEmpty,
+                            isSaving: _isSaving,
+                            onBrushChanged: (value) =>
+                                setState(() => _brushSize = value),
+                            onModeChanged: (mode) =>
+                                setState(() => _selectedMode = mode),
+                            onUndo: _undo,
+                            onRedo: _redo,
+                            onClear: _confirmClear,
+                            onSave: _saveDrawing,
+                            onGallery: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const GalleryScreen(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -7,10 +7,14 @@ import 'package:crypto/crypto.dart';
 
 import '../models/content_pack.dart';
 import '../models/content_pack_manifest.dart';
+import 'content_pack_archive_validator.dart';
 
 /// Validates downloaded content-pack archives before installation.
 class ContentPackValidator {
-  const ContentPackValidator();
+  const ContentPackValidator()
+      : _archiveValidator = const ContentPackArchiveValidator();
+
+  final ContentPackArchiveValidator _archiveValidator;
 
   Future<String> calculateSha256(File file) async {
     if (!await file.exists()) {
@@ -193,41 +197,7 @@ class ContentPackValidator {
   }
 
   String calculateArchiveContentChecksum(Archive archive) {
-    final entries = archive
-        .where((entry) => entry.isFile)
-        .where((entry) => !_isManifestPath(entry.name))
-        .map(
-          (entry) => _ContentEntry(
-            path: _normalizePath(entry.name),
-            bytes: entry.content,
-          ),
-        )
-        .toList();
-
-    entries.sort(
-      (a, b) => a.path.compareTo(b.path),
-    );
-
-    final accumulator = BytesBuilder(copy: false);
-
-    for (final entry in entries) {
-      final pathBytes = utf8.encode(entry.path);
-
-      accumulator.add(
-        _int64Bytes(pathBytes.length),
-      );
-      accumulator.add(pathBytes);
-
-      accumulator.add(
-        _int64Bytes(entry.bytes.length),
-      );
-      accumulator.add(entry.bytes);
-    }
-
-    return sha256
-        .convert(accumulator.takeBytes())
-        .toString()
-        .toLowerCase();
+    return _archiveValidator.calculateArchiveContentChecksum(archive);
   }
 
   ArchiveFile? _findRootManifest(Archive archive) {
@@ -405,3 +375,5 @@ class ContentPackChecksumException
   final String actual;
   final String source;
 }
+
+

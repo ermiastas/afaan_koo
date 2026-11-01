@@ -15,7 +15,7 @@ hour:3,
 
 minute:0,
 
-activity:"Mana barumsa irraa deebi'uu",
+activity:"Ganama",
 
 answer:"3:00",
 
@@ -30,7 +30,7 @@ hour:7,
 
 minute:0,
 
-activity:"Mana barumsaa deemuu",
+activity:"Guyyaa",
 
 answer:"7:00",
 
@@ -46,7 +46,7 @@ hour:12,
 
 minute:30,
 
-activity:"Sa'aatii nyaataa",
+activity:"Galgala",
 
 answer:"12:30",
 
@@ -62,7 +62,7 @@ hour:6,
 
 minute:30,
 
-activity:"Hirriba irraa ka'uu",
+activity:"Yeroo Laaqanaa",
 
 answer:"6:30",
 

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -15,6 +15,7 @@ import 'providers/assignment_provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/class_provider.dart';
 import 'providers/coloring_catalog_provider.dart';
+import 'providers/content_pack_provider.dart';
 import 'providers/game_provider.dart';
 import 'providers/learning_path_provider.dart';
 import 'providers/lesson_provider.dart';
@@ -54,20 +55,18 @@ Future<void> main() async {
         url: BackendConfig.url,
         publishableKey: BackendConfig.anonKey,
       );
-
-      debugPrint('✅ Supabase initialized.');
-    } catch (e, s) {
-      debugPrint('❌ Failed to initialize Supabase');
-      debugPrint('Error: $e');
-      debugPrint('Stack trace: $s');
-    }
-  } else {
-    debugPrint(
-      '⚠️ Supabase is not configured. '
-      'Running in LOCAL mode.',
-    );
-  }
-
+debugPrint('✅ Supabase initialized.');
+} catch (e, s) {
+  debugPrint('❌ Failed to initialize Supabase');
+  debugPrint('Error: $e');
+  debugPrint('Stack trace: $s');
+}
+} else {
+  debugPrint(
+    '⚠️ Supabase is not configured. '
+    'Running in LOCAL mode.',
+  );
+}
   // ===================================================
   // CREATE PERSISTENT PROVIDERS
   // ===================================================
@@ -85,7 +84,7 @@ Future<void> main() async {
     await progressProvider.load();
   } catch (e) {
     debugPrint(
-      '⚠️ Progress load failed: $e',
+      'âš ï¸ Progress load failed: $e',
     );
   }
 
@@ -93,7 +92,7 @@ Future<void> main() async {
     await rewardProvider.load();
   } catch (e) {
     debugPrint(
-      '⚠️ Reward load failed: $e',
+      'âš ï¸ Reward load failed: $e',
     );
   }
 
@@ -101,7 +100,7 @@ Future<void> main() async {
     await profileProvider.load();
   } catch (e) {
     debugPrint(
-      '⚠️ Profile load failed: $e',
+      'âš ï¸ Profile load failed: $e',
     );
   }
 
@@ -109,7 +108,7 @@ Future<void> main() async {
     await settingsProvider.load();
   } catch (e) {
     debugPrint(
-      '⚠️ Settings load failed: $e',
+      'âš ï¸ Settings load failed: $e',
     );
   }
 
@@ -168,6 +167,10 @@ Future<void> main() async {
         // =================================================
         // LESSONS
         // =================================================
+
+        ChangeNotifierProvider(
+          create: (_) => ContentPackProvider()..load(),
+        ),
 
         ChangeNotifierProvider(
           create: (_) => LessonProvider(),
@@ -280,3 +283,5 @@ Future<void> main() async {
     ),
   );
 }
+
+

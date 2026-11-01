@@ -6,51 +6,31 @@ import '../screens/splash_screen.dart';
 import '../core/theme.dart';
 import '../providers/settings_provider.dart';
 import '../widgets/app_states.dart';
-import '../ai/raji/widgets/raji_assistant_overlay.dart';
-
-
 
 class AfaanKooApp extends StatelessWidget {
-
-
   const AfaanKooApp({
     super.key,
   });
 
-
-
   @override
-  Widget build(BuildContext context){
-
-
+  Widget build(BuildContext context) {
     final themeMode = context.watch<SettingsProvider>().themeMode;
 
     return MaterialApp(
-
-
       debugShowCheckedModeBanner: false,
-
 
       title: "Afaan Koo",
 
-
-
-      theme:
-      AppTheme.theme,
+      theme: AppTheme.theme,
 
       darkTheme: AppTheme.darkTheme,
 
       themeMode: themeMode,
 
-      builder: (context, child) => RajiAssistantOverlay(
-        child: child ?? const SizedBox.shrink(),
-      ),
-
-
+      builder: (context, child) => child ?? const SizedBox.shrink(),
 
       // All lesson navigation routes
-      routes:
-      lessonRoutes,
+      routes: lessonRoutes,
 
       onUnknownRoute: (settings) => MaterialPageRoute(
         settings: settings,
@@ -64,18 +44,8 @@ class AfaanKooApp extends StatelessWidget {
         ),
       ),
 
-
-
       // Starting screen
-      home:
-      const SplashScreen(),
-
-
-
+      home: const SplashScreen(),
     );
-
-
   }
-
-
 }

@@ -68,12 +68,12 @@ import '../screens/school_screen.dart';
 import '../screens/shape_screen.dart';
 import '../screens/song_screen.dart';
 
-
 import '../screens/traffic_screen.dart';
 import '../screens/transport_screen.dart';
 
 import '../screens/tv/afaankoo_tv_home_screen.dart';
 import '../screens/tv/downloads_screen.dart';
+import '../screens/tv/content_pack_screen.dart';
 import '../screens/tv/offline_library_screen.dart';
 import '../screens/vegetable_screen.dart';
 import '../screens/vowel_screen.dart';
@@ -87,278 +87,149 @@ import '../screens/settings_screen.dart';
 import '../screens/double_letter_screen.dart';
 import '../screens/tracing_practice_screen.dart';
 
-
-
 final Map<String, WidgetBuilder> lessonRoutes = {
+  "/qubee": (_) => const AlphabetMenuScreen(),
 
+  "/alphabet": (_) => const AlphabetScreen(),
 
-  "/qubee":
-      (_) => const AlphabetMenuScreen(),
+  "/alphabet-menu": (_) => const AlphabetMenuScreen(),
 
+  "/animals": (_) => const AnimalScreen(),
 
-  "/alphabet":
-      (_) => const AlphabetScreen(),
+  "/body": (_) => const BodyScreen(),
 
+  "/clothing": (_) => const ClothingScreen(),
 
-  "/alphabet-menu":
-      (_) => const AlphabetMenuScreen(),
+  "/colors": (_) => const ColorScreen(),
 
+  "/consonant": (_) => const ConsonantScreen(),
 
+  '  /counting_game': (context) => const CountingGameScreen(),
 
-  "/animals":
-      (_) => const AnimalScreen(),
+  "/days": (_) => const DayScreen(),
 
+  "/direction": (_) => const DirectionScreen(),
 
-  "/body":
-      (_) => const BodyScreen(),
+  "/double-letter": (_) => const DoubleLetterScreen(),
 
+  "/environment": (_) => const EnvironmentScreen(),
 
+  "/family": (_) => const FamilyScreen(),
 
-  "/clothing":
-      (_) => const ClothingScreen(),
+  "/food": (_) => const FoodScreen(),
 
+  "/fruits": (_) => FruitScreen(),
 
-  "/colors":
-      (_) => const ColorScreen(),
+  "/hibboo": (_) => const HibbooScreen(),
 
+  "/home-objects": (_) => const HomeObjectScreen(),
 
+  "/hygiene": (_) => const HygieneScreen(),
 
-  "/consonant":
-      (_) => const ConsonantScreen(),
+  "/journey": (_) => const JourneyScreen(),
 
+  "/downloads": (_) => const DownloadsScreen(),
 
-'  /counting_game':
-
-      (context)=>
-      const CountingGameScreen(),
-
-  "/days":
-      (_) => const DayScreen(),
-
-
-
-  "/direction":
-      (_) => const DirectionScreen(),
-
-  "/double-letter": (_) =>
-      const DoubleLetterScreen(),
-
-  "/environment":
-      (_) => const EnvironmentScreen(),
-
-
-
-  "/family":
-      (_) => const FamilyScreen(),
-
-
-
-  "/food":
-      (_) => const FoodScreen(),
-
-
-
-  "/fruits":
-      (_) => FruitScreen(),
-
-
-
-  "/hibboo":
-      (_) => const HibbooScreen(),
-
-
-
-  "/home-objects":
-      (_) => const HomeObjectScreen(),
-
-
-
-  "/hygiene":
-      (_) => const HygieneScreen(),
-
-
-
-  "/journey":
-      (_) => const JourneyScreen(),
-
-"/downloads":
-    (_) => const DownloadsScreen(),
+  "/content-packs": (_) => const ContentPackScreen(),
 
   // Learning screen needs arguments
-  "/learning":
-      (_) => LearningScreen(
+  "/learning": (_) => LearningScreen(
         title: "Barnoota",
         color: Colors.blue,
         items: const [],
-        rajiMessage:
-            "Barnoota kee itti fufi!",
-        lessonId:
-            "learning",
+        rajiMessage: "Barnoota kee itti fufi!",
+        lessonId: "learning",
       ),
 
+  "/lowercase": (_) => const LowercaseScreen(),
 
+  "/mammaaksa": (_) => const MammaaksaScreen(),
 
-  "/lowercase":
-      (_) => const LowercaseScreen(),
+  "/manner": (_) => const MannersScreen(),
 
+  "/market": (_) => const MarketScreen(),
 
+  '/math': (context) => const MathScreen(),
 
-  "/mammaaksa":
-      (_) => const MammaaksaScreen(),
+  "/money": (_) => const MoneyScreen(),
 
+  "/month": (_) => const MonthScreen(),
 
+  "/numbers": (_) => const NumberScreen(),
 
-  "/manner":
-      (_) => const MannersScreen(),
+  "/number-menu": (_) => const NumberMenuScreen(),
 
+  "/occupation": (_) => const OccupationScreen(),
 
+  "/oromo_culture": (_) => const OromoCultureScreen(),
 
-  "/market":
-      (_) => const MarketScreen(),
+  "/avatar-selection": (_) => const AvatarSelectionScreen(),
 
-'/math':
+  "/profile-setup": (_) => const ProfileSetupScreen(),
 
-(context)=>const MathScreen(),
-
-  "/money":
-      (_) => const MoneyScreen(),
-
-
-
-  "/month":
-      (_) => const MonthScreen(),
-
-
-
-  "/numbers":
-      (_) => const NumberScreen(),
-
-
-
-  "/number-menu":
-      (_) => const NumberMenuScreen(),
-
-
-
-  "/occupation":
-      (_) => const OccupationScreen(),
-
-
-
-  "/oromo_culture":
-      (_) => const OromoCultureScreen(),
-
-  "/avatar-selection":
-    (_) => const AvatarSelectionScreen(),
-  
-"/profile-setup":
-    (_) => const ProfileSetupScreen(),
-
-  "/plants":
-      (_) => const PlantScreen(),
+  "/plants": (_) => const PlantScreen(),
 
   "/time": (_) => const TimeScreen(),
 
   '/paint': (context) => PaintCanvasScreen(),
 
-  "/quiz":
-      (_) => const QuizScreen(),
+  "/quiz": (_) => const QuizScreen(),
 
-  "/afaankoo_tv":
-    (_) => const AfaanKooTVHomeScreen(),
+  "/afaankoo_tv": (_) => const AfaanKooTVHomeScreen(),
 
-  "/school":
-      (_) => const SchoolScreen(),
+  "/school": (_) => const SchoolScreen(),
 
   "/school_supplies": (_) => const SchoolSuppliesScreen(),
 
-  "/shape":
-      (_) => const ShapeScreen(),
+  "/shape": (_) => const ShapeScreen(),
 
+  "/songs": (_) => const SongScreen(),
 
+  "/offline-library": (_) => const OfflineLibraryScreen(),
 
-  "/songs":
-      (_) => const SongScreen(),
+  "/story": (_) => const StoryScreen(),
 
-
-
-"/offline-library":
-    (_) => const OfflineLibraryScreen(),
-
-
-
-  "/story":
-      (_) => const StoryScreen(),
-
-
-  "/tracing": (_) =>
-      const TracingPracticeScreen(
+  "/tracing": (_) => const TracingPracticeScreen(
         mode: TracingMode.alphabet,
       ),
 
+  "/traffic": (_) => const TrafficScreen(),
 
+  "/transport": (_) => const TransportScreen(),
 
-  "/traffic":
-      (_) => const TrafficScreen(),
+  "/vegetables": (_) => VegetableScreen(),
 
+  "/vowel": (_) => const VowelScreen(),
 
+  "/weather": (_) => const WeatherScreen(),
 
-  "/transport":
-      (_) => const TransportScreen(),
+  "/words": (_) => const WordScreen(),
+  '/handwriting': (context) => const HandwritingCategoryScreen(),
 
+  '/coloring': (_) => const ColoringHomeScreen(),
 
+  '/counting_game': (context) => const CountingGameScreen(),
 
-  "/vegetables":
-      (_) => VegetableScreen(),
+  '/addition_game': (context) => const AdditionGameScreen(),
 
+  '/subtraction_game': (context) => const SubtractionGameScreen(),
 
+  '/multiplication_game': (context) => const MultiplicationGameScreen(),
 
-  "/vowel":
-      (_) => const VowelScreen(),
+  '/division_game': (context) => const DivisionGameScreen(),
 
+  '/fraction_game': (context) => const FractionGameScreen(),
 
+  '/money_math_game': (context) => const MoneyMathGameScreen(),
 
-  "/weather":
-      (_) => const WeatherScreen(),
+  '/time_math_game': (context) => const TimeMathGameScreen(),
 
+  "/parent_dashboard": (_) => const ParentDashboardScreen(),
 
+  "/teacher_dashboard": (_) => const TeacherDashboardScreen(),
 
-  "/words":
-      (_) => const WordScreen(),
-  '/handwriting':
-    (context) => const HandwritingCategoryScreen(),
+  "/admin_dashboard": (_) => const AdminScreen(),
+  "/age-selection": (_) => const AgeSelectionScreen(),
 
-
-
-'/coloring': (_) => const ColoringHomeScreen(),
-
-
-  '/counting_game': (context)=> const CountingGameScreen(),
-
-'/addition_game': (context)=> const AdditionGameScreen(),
-
-'/subtraction_game': (context)=> const SubtractionGameScreen(),
-
-'/multiplication_game': (context)=> const MultiplicationGameScreen(),
-
-'/division_game': (context)=> const DivisionGameScreen(),
-
-'/fraction_game': (context)=> const FractionGameScreen(),
-
-'/money_math_game': (context)=> const MoneyMathGameScreen(),
-
-'/time_math_game': (context)=> const TimeMathGameScreen(),
-
-
-"/parent_dashboard": (_) => const ParentDashboardScreen(),
-
-"/teacher_dashboard": (_) => const TeacherDashboardScreen(),
-
-"/admin_dashboard": (_) => const AdminScreen(),
-"/age-selection":
-    (_) => const AgeSelectionScreen(),
-
-"/settings":
-    (_) => const SettingsScreen(),
-
+  "/settings": (_) => const SettingsScreen(),
 };

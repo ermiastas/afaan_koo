@@ -1,4 +1,4 @@
-plugins {
+﻿plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("dev.flutter.flutter-gradle-plugin")
@@ -7,9 +7,14 @@ plugins {
 android {
     namespace = "org.afaan_koo.app"
 
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "28.2.13676358"
 
     compileSdk = flutter.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 
     defaultConfig {
         applicationId = "org.afaan_koo.app"
@@ -35,3 +40,4 @@ kotlin {
 flutter {
     source = "../.."
 }
+

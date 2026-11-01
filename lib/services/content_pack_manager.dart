@@ -1,8 +1,14 @@
-﻿import 'dart:io';
+﻿import 'dart:typed_data';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/content_pack.dart';
 import '../models/content_pack_installation.dart';
 import 'content_pack_downloader.dart';
+import 'content_pack_archive_validator.dart' as archive_validator;
+import 'content_pack_web_storage.dart';
 import 'content_pack_installer.dart';
 import 'content_pack_registry.dart';
 import 'content_pack_validator.dart';
@@ -44,7 +50,10 @@ class ContentPackManager {
 
   Future<void> _initialize() async {
     await _registry.load();
-    await _initializationCleanup();
+
+    if (!kIsWeb) {
+      await _initializationCleanup();
+    }
   }
 
   static Future<void> _defaultInitializationCleanup() async {
@@ -115,11 +124,284 @@ class ContentPackManager {
     );
   }
 
+  /// Downloads, validates, and stores a content pack in browser IndexedDB.
+  ///
+  /// The active registry entry is changed only after every file has been
+  /// downloaded, validated, and stored successfully.
+  Future<ContentPackInstallation> _downloadAndInstallWeb({
+    required ContentPack pack,
+    required void Function(ContentPackDownloadProgress progress)? onProgress,
+    required bool allowUpdate,
+  }) async {
+    await initialize();
+
+    debugPrint(
+      '[ContentPackWeb] Starting pack=${pack.id}, '
+      'version=${pack.version}, sizeBytes=${pack.sizeBytes}, '
+      'checksumLength=${pack.checksum?.trim().length}',
+    );
+
+    try {
+      _validateInstallablePack(pack);
+    } catch (error, stackTrace) {
+      debugPrint('[ContentPackWeb] Pack validation failed: $error');
+      debugPrintStack(stackTrace: stackTrace);
+      rethrow;
+    }
+
+    final url = pack.downloadUrl?.trim();
+    if (url == null || url.isEmpty) {
+      throw const ContentPackPipelineException(
+        'This content pack does not have a download URL.',
+      );
+    }
+
+    final checksum = pack.checksum?.trim().toLowerCase();
+    if (checksum == null || !RegExp(r'^[a-f0-9]{64}$').hasMatch(checksum)) {
+      throw const ContentPackPipelineException(
+        'This content pack does not have a valid SHA-256 checksum.',
+      );
+    }
+
+    final existing = _registry.getInstallation(pack.id);
+    if (existing != null && existing.isUsable) {
+      if (!allowUpdate) {
+        throw ContentPackPipelineException(
+          'Content pack ${pack.id} is already installed '
+          'at version ${existing.version}.',
+        );
+      }
+      if (pack.version <= existing.version) {
+        throw ContentPackPipelineException(
+          'Content pack ${pack.id} version ${pack.version} is not newer '
+          'than installed version ${existing.version}.',
+        );
+      }
+    }
+
+    final pending = _registry.getPendingInstallation(pack.id);
+    if (pending != null && pending.version != pack.version) {
+      throw const ContentPackPipelineException(
+        'Another content-pack operation is already pending.',
+      );
+    }
+
+    final storage = ContentPackWebStorage();
+    var pendingRecorded = false;
+    var storageWriteStarted = false;
+
+    try {
+      await _registry.recordPendingStatus(
+        packId: pack.id,
+        version: pack.version,
+        status: ContentPackInstallationStatus.downloading,
+        sizeBytes: pack.sizeBytes,
+        checksum: checksum,
+      );
+      pendingRecorded = true;
+
+      final uri = Uri.parse(url);
+      if (uri.scheme != 'https' && uri.scheme != 'http') {
+        throw const ContentPackPipelineException(
+          'The content-pack URL must use HTTP or HTTPS.',
+        );
+      }
+
+      final client = http.Client();
+      late http.StreamedResponse response;
+
+      try {
+        response = await client.send(http.Request('GET', uri));
+        if (response.statusCode != 200) {
+          throw ContentPackPipelineException(
+            'Content-pack download failed with HTTP '
+            '${response.statusCode}.',
+          );
+        }
+
+        final totalBytes = response.contentLength ?? pack.sizeBytes;
+        final builder = BytesBuilder(copy: false);
+        var receivedBytes = 0;
+
+        await for (final chunk in response.stream) {
+          builder.add(chunk);
+          receivedBytes += chunk.length;
+          onProgress?.call(
+            ContentPackDownloadProgress(
+              receivedBytes: receivedBytes,
+              totalBytes: totalBytes,
+            ),
+          );
+        }
+
+        final bytes = builder.takeBytes();
+
+        if (bytes.isEmpty) {
+          throw const ContentPackPipelineException(
+            'The downloaded content-pack archive is empty.',
+          );
+        }
+
+        if (pack.sizeBytes > 0 && bytes.length != pack.sizeBytes) {
+          throw ContentPackPipelineException(
+            'Downloaded size (${bytes.length} bytes) does not match '
+            'the catalog size (${pack.sizeBytes} bytes).',
+          );
+        }
+
+        final archiveValidator =
+            const archive_validator.ContentPackArchiveValidator();
+
+        final actualArchiveChecksum =
+            archiveValidator.calculateBytesSha256(bytes);
+
+        if (actualArchiveChecksum != checksum) {
+          throw archive_validator.ContentPackChecksumException(
+            expected: checksum,
+            actual: actualArchiveChecksum,
+            source: 'downloaded archive',
+          );
+        }
+
+        final validated = archiveValidator.validateArchiveBytes(
+          bytes: bytes,
+          expectedPack: pack,
+        );
+
+        archiveValidator.verifyManifestContentChecksumForArchive(
+          archive: validated.archive,
+          manifest: validated.manifest,
+        );
+
+        await _registry.recordPendingStatus(
+          packId: pack.id,
+          version: pack.version,
+          status: ContentPackInstallationStatus.installing,
+          sizeBytes: bytes.length,
+          checksum: checksum,
+        );
+
+        // Store under the new version. The existing active version is not
+        // removed if any subsequent operation fails.
+        storageWriteStarted = true;
+
+        for (final entry in validated.archive) {
+          if (!entry.isFile) continue;
+
+          final relativePath = _normalizeWebPackPath(entry.name);
+          final content = entry.content;
+
+          await storage.writeFile(
+            packId: pack.id,
+            version: pack.version.toString(),
+            relativePath: relativePath,
+            bytes: content,
+          );
+        }
+
+        final localPath = 'indexeddb://${pack.id}/${pack.version}';
+
+        await _registry.markInstalled(
+          packId: pack.id,
+          version: pack.version,
+          sizeBytes: bytes.length,
+          checksum: checksum,
+          localPath: localPath,
+        );
+
+        final installation = _registry.getInstallation(pack.id);
+        if (installation == null || !installation.isUsable) {
+          throw const ContentPackPipelineException(
+            'The content pack was stored, but its registry entry '
+            'could not be activated.',
+          );
+        }
+
+        await _registry.clearPending(pack.id);
+        pendingRecorded = false;
+
+        return installation;
+      } finally {
+        client.close();
+      }
+    } catch (error, stackTrace) {
+      debugPrint(
+        '[ContentPackWeb] Download/install failed for '
+        'pack=${pack.id}, version=${pack.version}: $error',
+      );
+      debugPrintStack(stackTrace: stackTrace);
+      // Remove only the failed new version. Keep the old active version.
+      if (storageWriteStarted) {
+        try {
+          await storage.deletePackVersion(
+            packId: pack.id,
+            version: pack.version.toString(),
+          );
+        } catch (_) {
+          // Preserve the original failure.
+        }
+      }
+
+      if (pendingRecorded) {
+        try {
+          await _registry.clearPending(pack.id);
+        } catch (_) {
+          // Preserve the original failure.
+        }
+      }
+
+      if (error is ContentPackPipelineException ||
+          error is ContentPackDownloadException ||
+          error is ContentPackDownloadCancelledException ||
+          error is archive_validator.ContentPackValidationException ||
+          error is archive_validator.ContentPackChecksumException) {
+        rethrow;
+      }
+
+      throw ContentPackPipelineException(
+        'Web content-pack download and installation failed.',
+        error,
+      );
+    }
+  }
+
+  /// Normalizes and rejects unsafe paths before writing ZIP entries to storage.
+  String _normalizeWebPackPath(String input) {
+    final path = input.replaceAll(r'\', '/').trim();
+
+    if (path.isEmpty ||
+        path.startsWith('/') ||
+        RegExp(r'^[a-zA-Z]:').hasMatch(path)) {
+      throw const ContentPackPipelineException(
+        'The archive contains an unsafe file path.',
+      );
+    }
+
+    final segments = path.split('/');
+    if (segments.any(
+      (segment) => segment.isEmpty || segment == '.' || segment == '..',
+    )) {
+      throw const ContentPackPipelineException(
+        'The archive contains an unsafe file path.',
+      );
+    }
+
+    return segments.join('/');
+  }
+
   Future<ContentPackInstallation> _downloadAndInstall({
     required ContentPack pack,
     required void Function(ContentPackDownloadProgress progress)? onProgress,
     required bool allowUpdate,
   }) async {
+    if (kIsWeb) {
+      return _downloadAndInstallWeb(
+        pack: pack,
+        onProgress: onProgress,
+        allowUpdate: allowUpdate,
+      );
+    }
+
     await initialize();
 
     _validateInstallablePack(pack);
@@ -162,15 +444,13 @@ class ContentPackManager {
       pack.id,
     );
 
-    if (pending != null &&
-        pending.version != pack.version) {
+    if (pending != null && pending.version != pack.version) {
       throw const ContentPackPipelineException(
         'Another content-pack operation is already pending.',
       );
     }
 
-    final temporaryRoot =
-        await _installer.getTemporaryRootDirectory();
+    final temporaryRoot = await _installer.getTemporaryRootDirectory();
 
     final downloadPath = _join(
       temporaryRoot.path,
@@ -346,8 +626,7 @@ class ContentPackManager {
   Future<void> removePack(String packId) async {
     await initialize();
 
-    final installation =
-        _registry.getInstallation(packId);
+    final installation = _registry.getInstallation(packId);
 
     if (installation == null) {
       return;
@@ -355,8 +634,7 @@ class ContentPackManager {
 
     final localPath = installation.localPath;
 
-    if (localPath != null &&
-        localPath.trim().isNotEmpty) {
+    if (localPath != null && localPath.trim().isNotEmpty) {
       await _deleteDirectoryIfExists(
         Directory(localPath),
       );
@@ -379,8 +657,7 @@ class ContentPackManager {
       availablePack,
     );
 
-    final existing =
-        _registry.getInstallation(
+    final existing = _registry.getInstallation(
       availablePack.id,
     );
 
@@ -493,8 +770,7 @@ class ContentPackManager {
   }
 }
 
-class ContentPackPipelineException
-    implements Exception {
+class ContentPackPipelineException implements Exception {
   const ContentPackPipelineException(
     this.message, [
     this.cause,
@@ -508,3 +784,5 @@ class ContentPackPipelineException
     return 'ContentPackPipelineException: $message';
   }
 }
+
+

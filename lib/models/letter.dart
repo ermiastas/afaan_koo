@@ -23,7 +23,7 @@ class Letter {
   final String? exampleEnglish;
 
   /// Letter image
-  final String image;
+  //final String image;
 
   /// Pronunciation audio
   final String sound;
@@ -41,7 +41,7 @@ class Letter {
     required this.example,
     this.examples = const [],
     this.exampleEnglish,
-    required this.image,
+    //required this.image,
     required this.sound,
     required this.type,
     this.tracing,
@@ -83,8 +83,8 @@ class Letter {
           json['exampleEnglish'] ??
           json['wordEnglish'],
 
-      image:
-          json['image'] ?? '',
+      //image:
+       //   json['image'] ?? '',
 
       sound:
           json['sound'] ?? '',
@@ -112,7 +112,7 @@ class Letter {
           .map((e) => e.toJson())
           .toList(),
       'exampleEnglish': exampleEnglish,
-      'image': image,
+      // 'image': image,
       'sound': sound,
       'type': type.name,
       'tracing': tracing,
@@ -144,7 +144,7 @@ class Letter {
       LetterExample(
         wordOromo: example,
         wordEnglish: exampleEnglish,
-        image: image,
+        image: '',
         sound: sound,
       ),
     ];

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class VideoItem {
   final String id;
@@ -12,6 +12,8 @@ class VideoItem {
   final String thumbnail;
 
   final String videoUrl;
+  final String youtubeVideoId;
+  final String source;
 
   final String category;
 
@@ -41,9 +43,11 @@ class VideoItem {
     required this.description,
     required this.thumbnail,
     required this.videoUrl,
+    this.youtubeVideoId = '',
+    this.source = 'local',
     required this.category,
     required this.color,
-    this.emoji = "📺",
+    this.emoji = "ðŸ“º",
     this.duration = Duration.zero,
     this.downloadable = true,
     this.featured = false,
@@ -63,8 +67,10 @@ class VideoItem {
       description: json["description"] ?? "",
       thumbnail: json["thumbnail"] ?? "",
       videoUrl: json["videoUrl"] ?? "",
+      youtubeVideoId: json["youtubeVideoId"] ?? "",
+      source: json["source"] ?? 'local',
       category: json["category"] ?? "",
-      emoji: json["emoji"] ?? "📺",
+      emoji: json["emoji"] ?? "ðŸ“º",
       downloadable: json["downloadable"] ?? true,
       featured: json["featured"] ?? false,
       favorite: json["favorite"] ?? false,
@@ -88,6 +94,8 @@ class VideoItem {
       "description": description,
       "thumbnail": thumbnail,
       "videoUrl": videoUrl,
+      "youtubeVideoId": youtubeVideoId,
+      "source": source,
       "category": category,
       "emoji": emoji,
       "duration": duration.inSeconds,
