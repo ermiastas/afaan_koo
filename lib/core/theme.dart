@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../theme/app_colors.dart';
 
@@ -29,7 +30,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: scheme,
-      fontFamily: 'NotoSans',
+      fontFamily: GoogleFonts.nunito().fontFamily,
       scaffoldBackgroundColor:
           isDark ? const Color(0xff101812) : const Color(0xffF7FFF5),
       visualDensity: VisualDensity.standard,
@@ -52,7 +53,7 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         titleTextStyle: TextStyle(
           color: scheme.onSurface,
-          fontFamily: 'NotoSans',
+          fontFamily: GoogleFonts.nunito().fontFamily,
           fontSize: 21,
           fontWeight: FontWeight.w800,
         ),
@@ -103,7 +104,8 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: scheme.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         hintStyle: TextStyle(color: scheme.onSurfaceVariant),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -121,17 +123,18 @@ class AppTheme {
       dialogTheme: DialogThemeData(
         backgroundColor: scheme.surface,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_radius)),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(_radius)),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
-      textTheme: Typography.material2021().black.apply(
-            fontFamily: 'NotoSans',
-            bodyColor: scheme.onSurface,
-            displayColor: scheme.onSurface,
-          ),
+      textTheme:
+          GoogleFonts.nunitoTextTheme(Typography.material2021().black).apply(
+        bodyColor: scheme.onSurface,
+        displayColor: scheme.onSurface,
+      ),
     );
   }
 }

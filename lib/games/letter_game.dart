@@ -366,11 +366,15 @@ class _LetterGameState extends State<LetterGame> {
 
           const SizedBox(height: 20),
 
-          Image.asset(
-            current.image,
-            height: 150,
-            fit: BoxFit.contain,
-          ),
+          if (current.allExamples.isNotEmpty &&
+              current.allExamples.first.image.isNotEmpty)
+            Image.asset(
+              current.allExamples.first.image,
+              height: 150,
+              fit: BoxFit.contain,
+            )
+          else
+            const SizedBox(height: 150),
 
           const SizedBox(height: 25),
 

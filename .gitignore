@@ -43,3 +43,32 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local backups and temporary files
+.backups/
+backup/
+*.bak
+*.bak*
+*.backup
+*.backup.*
+*.emoji-backup
+*.mojibake-backup
+*.encoding-backup
+
+# Generated and local dependencies
+node_modules/
+.venv/
+android/app/build/
+supabase/.temp/
+
+# Local logs and temporary reports
+*.log
+hs_err_pid*.log
+words_pack_search.txt
+
+# Local npm configuration may contain authentication tokens
+.npmrc
+
+# Additional generated files
+/android/build/
+ervicescontent_pack_manager.dart*

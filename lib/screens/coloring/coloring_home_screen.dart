@@ -9,6 +9,7 @@ import '../../utils/responsive.dart';
 import 'coloring_canvas_screen.dart';
 import '../../widgets/coloring/coloring_category_screen.dart';
 import 'coloring_gallery_screen.dart';
+import 'drawing_studio_screen.dart';
 
 class ColoringHomeScreen extends StatefulWidget {
   const ColoringHomeScreen({super.key});
@@ -117,6 +118,16 @@ class _ColoringHomeScreenState extends State<ColoringHomeScreen> {
             const Text('Halluu dibuun baradhu, taphadhu fi kalaqi.'),
             const SizedBox(height: 10),
             FilledButton.icon(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const DrawingStudioScreen(),
+                ),
+              ),
+              icon: const Icon(Icons.draw_rounded),
+              label: const Text('Suuraa Koo Kalaqi'),
+            ),
+            const SizedBox(height: 8),
+            FilledButton.icon(
               onPressed:
                   catalog.pages.isEmpty ? null : () => _pickForMe(catalog),
               icon: const Icon(Icons.casino_rounded),
@@ -136,7 +147,7 @@ class _ColoringHomeScreenState extends State<ColoringHomeScreen> {
                 const Icon(Icons.auto_awesome_rounded,
                     size: 64, color: Colors.deepOrange),
                 const SizedBox(height: 12),
-                const Text('Fuulawwan haaraan qophaa’aa jiru.',
+                const Text('Fuulawwan haaraan qophaaâ€™aa jiru.',
                     textAlign: TextAlign.center),
                 if (catalog.error != null) ...[
                   const SizedBox(height: 8),
@@ -205,16 +216,16 @@ class _ColoringHomeScreenState extends State<ColoringHomeScreen> {
         MaterialPageRoute(builder: (_) => ColoringCanvasScreen(page: page)),
       );
 
-  String _emoji(String category) => switch (category) {
-        'Qubee' => '🔤',
-        'Lakkoofsa' => '🔢',
-        'Bineensota' => '🐾',
-        'Biqiltoota' || 'Uumama' => '🌿',
-        'Muduraa' => '🍎',
-        'Kuduraa' => '🥕',
-        'Nyaata' => '🍽️',
-        'Geejjibaa' => '🚗',
-        'Aadaa' => '🏛️',
-        _ => '🎨',
-      };
+String _emoji(String category) => switch (category) {
+      'Qubee' => '🔤',
+      'Lakkoofsa' => '🔢',
+      'Bineensota' => '🐾',
+      'Biqiltoota' || 'Uumama' => '🌿',
+      'Muduraa' => '🍎',
+      'Kuduraa' => '🥕',
+      'Nyaata' => '🍽️',
+      'Geejjibaa' => '🚗',
+      'Aadaa' => '🏛️',
+      _ => '🎨',
+    };
 }

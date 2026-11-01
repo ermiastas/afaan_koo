@@ -73,13 +73,19 @@ extends State<QuizScreen>{
 
 
 
+  String? _lessonId;
+  bool _initialized = false;
+
   @override
-  void initState(){
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
-    super.initState();
+    if (_initialized) return;
+    _initialized = true;
 
-    quizzes = service.getQuizzes();
-
+    final args = ModalRoute.of(context)?.settings.arguments;
+    _lessonId = args is String ? args : null;
+    quizzes = service.getQuizzes(lessonId: _lessonId);
   }
 
 
@@ -625,7 +631,7 @@ await RajiAudioService.correct();
             return AppErrorState(
               message: 'The quiz could not be loaded. Please try again.',
               onRetry: () => setState(() {
-                quizzes = service.getQuizzes();
+                quizzes = service.getQuizzes(lessonId: _lessonId);
               }),
             );
 
@@ -1081,3 +1087,5 @@ await RajiAudioService.correct();
 
 
 }
+
+

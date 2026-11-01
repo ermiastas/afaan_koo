@@ -1,76 +1,113 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/video_item.dart';
-import '../services/local_content_service.dart';
 
-/// The TV library is driven by videos an administrator adds. Display names are
-/// inferred from a title when present, otherwise from the selected file or URL.
+/// Loads the AfaanKoo TV+ library exclusively from the official Afaan Koo
+/// YouTube channel through the Supabase Edge Function.
 class VideoCatalogProvider extends ChangeNotifier {
-  VideoCatalogProvider({LocalContentService? contentService})
-      : _contentService = contentService ?? LocalContentService();
-
-  final LocalContentService _contentService;
   List<VideoItem> _videos = const [];
   bool _loading = false;
+  String? _error;
+
+  static const String _channelId = 'UC8TaFP8aI0fOuqFOqs3tYyQ';
+  static const String _functionName = 'youtube-channel-videos';
 
   List<VideoItem> get videos => List.unmodifiable(_videos);
   bool get isLoading => _loading;
+  String? get error => _error;
 
   Future<void> load() async {
+    if (_loading) return;
+
     _loading = true;
+    _error = null;
     notifyListeners();
+
     try {
-      final entries = await _contentService.getContent('videos');
-      _videos = entries
-          .map(_videoFromContent)
+      final response = await Supabase.instance.client.functions.invoke(
+        _functionName,
+        body: const {},
+      );
+
+      final data = response.data;
+      debugPrint('TV+ YouTube response type: ${data.runtimeType}');
+      debugPrint('TV+ YouTube response: $data');
+      if (data is! Map) {
+        throw const FormatException('YouTube catalog response is invalid.');
+      }
+
+      final channel = data['channel'];
+      if (channel is! Map || channel['id']?.toString() != _channelId) {
+        throw const FormatException(
+          'The returned channel is not the official Afaan Koo channel.',
+        );
+      }
+
+      final rawVideos = data['videos'];
+      if (rawVideos is! List) {
+        throw const FormatException('YouTube video list is invalid.');
+      }
+
+      _videos = rawVideos
+          .whereType<Map>()
+          .map((item) => _videoFromYouTube(Map<String, dynamic>.from(item)))
           .whereType<VideoItem>()
           .toList()
-        ..sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+        ..sort(
+          (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()),
+        );
+    } catch (e) {
+      _error = 'Viidiyoo AfaanKoo TV+ fe\'uu hin dandeenye.';
+      _videos = const [];
+      debugPrint('AfaanKoo TV+ YouTube error: $e');
     } finally {
       _loading = false;
       notifyListeners();
     }
   }
 
-  VideoItem? _videoFromContent(Map<String, dynamic> content) {
-    final source = _firstNonEmpty([
-      content['videoUrl'],
-      content['video'],
-      content['source'],
-    ]);
-    if (source.isEmpty) return null;
+  VideoItem? _videoFromYouTube(Map<String, dynamic> content) {
+    if (content['channelOnly'] != true) return null;
 
-    final title = _displayName(_firstNonEmpty([content['title'], source]));
+    final channelId = content['youtubeChannelId']?.toString() ?? '';
+    if (channelId != _channelId) return null;
+
+    final videoId = content['youtubeVideoId']?.toString().trim() ?? '';
+    if (videoId.isEmpty) return null;
+
+    final title = _displayName(
+      content['title']?.toString().trim() ?? '',
+    );
+
     return VideoItem(
-      id: content['id']?.toString() ?? source,
+      id: videoId,
       title: title,
-      titleEnglish: _firstNonEmpty([content['english'], content['titleEnglish']]),
-      description: _firstNonEmpty([content['description'], 'Viidiyoo $title']),
-      thumbnail: _firstNonEmpty([content['image'], content['thumbnail']]),
-      videoUrl: source,
-      category: title.substring(0, 1).toUpperCase(),
+      titleEnglish: '',
+      description: content['description']?.toString().trim().isNotEmpty == true
+          ? content['description'].toString().trim()
+          : 'Viidiyoo Afaan Koo',
+      thumbnail: content['thumbnail']?.toString() ?? '',
+      videoUrl: content['videoUrl']?.toString() ??
+          'https://www.youtube.com/watch?v=$videoId',
+      youtubeVideoId: videoId,
+      source: 'youtube',
+      category: 'AfaanKoo',
       color: _colorFor(title),
-      rewardXP: _toInt(content['rewardXP'], fallback: 20),
+      downloadable: false,
     );
   }
 
-  String _firstNonEmpty(Iterable<Object?> values) {
-    for (final value in values) {
-      final text = value?.toString().trim() ?? '';
-      if (text.isNotEmpty) return text;
-    }
-    return '';
-  }
-
   String _displayName(String value) {
-    final withoutQuery = value.split('?').first;
-    final fileName = withoutQuery.split(RegExp(r'[\\/]')).last;
-    final withoutExtension = fileName.replaceFirst(RegExp(r'\.[^.]+$'), '');
-    final words = withoutExtension
-        .replaceAll(RegExp(r'[_\-]+'), ' ')
+    if (value.isEmpty) return 'Viidiyoo AfaanKoo';
+
+    final words = value
+        .replaceAll(RegExp(r'[_\\-]+'), ' ')
         .replaceAll(RegExp(r'\s+'), ' ')
         .trim();
-    if (words.isEmpty) return 'Viidiyoo haaraa';
+
+    if (words.isEmpty) return 'Viidiyoo AfaanKoo';
+
     return words[0].toUpperCase() + words.substring(1);
   }
 
@@ -83,9 +120,8 @@ class VideoCatalogProvider extends ChangeNotifier {
       Color(0xffC2185B),
       Color(0xff00838F),
     ];
-    return colors[name.codeUnits.fold<int>(0, (sum, unit) => sum + unit) % colors.length];
-  }
 
-  int _toInt(Object? value, {required int fallback}) =>
-      int.tryParse(value?.toString() ?? '') ?? fallback;
+    return colors[
+        name.codeUnits.fold<int>(0, (sum, unit) => sum + unit) % colors.length];
+  }
 }

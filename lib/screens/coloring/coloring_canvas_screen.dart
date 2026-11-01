@@ -1,4 +1,6 @@
 import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import '../../providers/coloring_catalog_provider.dart';
 import '../../providers/reward_provider.dart';
 import '../../repositories/lesson_repository.dart';
 import '../../widgets/coloring/interactive_svg_coloring.dart';
+import '../../widgets/coloring/png_coloring_canvas.dart';
 import '../../widgets/coloring/coloring_frame.dart';
 import 'coloring_gallery_screen.dart';
 
@@ -75,6 +78,11 @@ class _ColoringCanvasScreenState extends State<ColoringCanvasScreen> {
             icon: const Icon(Icons.replay_rounded),
           ),
           IconButton(
+            tooltip: 'Import PNG',
+            onPressed: _importPng,
+            icon: const Icon(Icons.add_photo_alternate_rounded),
+          ),
+          IconButton(
             tooltip: 'Save artwork',
             onPressed: _saving ? null : _save,
             icon: Icon(
@@ -91,42 +99,42 @@ class _ColoringCanvasScreenState extends State<ColoringCanvasScreen> {
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                 child: ColoringFrame(
                   child: RepaintBoundary(
-                  key: _captureKey,
-                  child: LayoutBuilder(
-                    builder: (context, constraints) => Stack(
-                      children: [
-                        InteractiveSvgColoring(
-                          key: _canvasKey,
-                          pageId: widget.page.id,
-                          svgMarkup: svg,
-                          selectedColor: activeColor,
-                          onChanged: (session) => _session = session,
-                          onCompleted: _complete,
-                        ),
-                        if (_sticker != null && _stickerPosition != null)
-                          Positioned(
-                            left: _stickerPosition!.dx - 22,
-                            top: _stickerPosition!.dy - 22,
-                            child: GestureDetector(
-                              onPanUpdate: (details) => setState(() {
-                                final candidate =
-                                    _stickerPosition! + details.delta;
-                                _stickerPosition = Offset(
-                                  candidate.dx
-                                      .clamp(0.0, constraints.maxWidth - 44)
-                                      .toDouble(),
-                                  candidate.dy
-                                      .clamp(0.0, constraints.maxHeight - 44)
-                                      .toDouble(),
-                                );
-                              }),
-                              child: Text(_sticker!,
-                                  style: const TextStyle(fontSize: 44)),
-                            ),
+                    key: _captureKey,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => Stack(
+                        children: [
+                          InteractiveSvgColoring(
+                            key: _canvasKey,
+                            pageId: widget.page.id,
+                            svgMarkup: svg,
+                            selectedColor: activeColor,
+                            onChanged: (session) => _session = session,
+                            onCompleted: _complete,
                           ),
-                      ],
+                          if (_sticker != null && _stickerPosition != null)
+                            Positioned(
+                              left: _stickerPosition!.dx - 22,
+                              top: _stickerPosition!.dy - 22,
+                              child: GestureDetector(
+                                onPanUpdate: (details) => setState(() {
+                                  final candidate =
+                                      _stickerPosition! + details.delta;
+                                  _stickerPosition = Offset(
+                                    candidate.dx
+                                        .clamp(0.0, constraints.maxWidth - 44)
+                                        .toDouble(),
+                                    candidate.dy
+                                        .clamp(0.0, constraints.maxHeight - 44)
+                                        .toDouble(),
+                                  );
+                                }),
+                                child: Text(_sticker!,
+                                    style: const TextStyle(fontSize: 44)),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
                   ),
                 ),
               ),
@@ -151,7 +159,8 @@ class _ColoringCanvasScreenState extends State<ColoringCanvasScreen> {
             }
           },
           icon: const Icon(Icons.menu_book_rounded),
-          label: Text('Barnoota kana ilaali • ${widget.page.lessonTitle}'),
+          label: Text(
+              'Barnoota kana ilaali • ${widget.page.lessonTitle}'),
         ),
       );
 
@@ -238,6 +247,45 @@ class _ColoringCanvasScreenState extends State<ColoringCanvasScreen> {
         ),
       );
 
+  Future<void> _importPng() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['png'],
+      withData: true,
+    );
+
+    if (result == null || result.files.isEmpty) {
+      return;
+    }
+
+    final bytes = result.files.single.bytes;
+
+    if (bytes == null || bytes.isEmpty) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('PNG suuraa dubbisuun hin danda\'amne.'),
+        ),
+      );
+      return;
+    }
+
+    if (!mounted) return;
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(
+            title: const Text('PNG Coloring Studio'),
+          ),
+          body: PngColoringCanvas(
+            imageBytes: bytes,
+          ),
+        ),
+      ),
+    );
+  }
+
   Future<void> _complete() async {
     if (_rewardShown) return;
     _rewardShown = true;
@@ -248,7 +296,8 @@ class _ColoringCanvasScreenState extends State<ColoringCanvasScreen> {
     showDialog<void>(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('🎉 Baay’ee bareedaa!'),
+        title: const Text(
+            '🎉 Baay\'ee bareedaa!'),
         content: const Text('+10 XP • +5 Coins'),
         actions: [
           TextButton(
@@ -260,7 +309,13 @@ class _ColoringCanvasScreenState extends State<ColoringCanvasScreen> {
   }
 
   void _showStickerPicker() {
-    const stickers = ['⭐', '🌈', '❤️', '✨', '🦋'];
+    const stickers = [
+  '🌟',
+  '💖',
+  '❤️',
+  '✨',
+  '🦋',
+];
     showModalBottomSheet<void>(
       context: context,
       builder: (sheetContext) => SafeArea(
@@ -307,8 +362,8 @@ class _ColoringCanvasScreenState extends State<ColoringCanvasScreen> {
             previewBytes: preview,
           );
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('🎨 Suuraan kuufame!')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('🎨 Suuraan kuufame!')));
       }
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -327,7 +382,16 @@ class _ColoringCanvasScreenState extends State<ColoringCanvasScreen> {
   }
 
   Widget _legacyFallback() => Scaffold(
-        appBar: AppBar(title: Text(widget.page.titleOromo)),
+        appBar: AppBar(
+          title: Text(widget.page.titleOromo),
+          actions: [
+            IconButton(
+              tooltip: 'Import PNG',
+              onPressed: _importPng,
+              icon: const Icon(Icons.add_photo_alternate_rounded),
+            ),
+          ],
+        ),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -341,7 +405,7 @@ class _ColoringCanvasScreenState extends State<ColoringCanvasScreen> {
                   ),
                 ),
                 const Text(
-                    'Suuraan kun qophaa’aa jira. Fuula halluu dibamu filadhu.'),
+                    'Suuraan kun qophaa\'aa jira. Fuula halluu dibamu filadhu.'),
               ],
             ),
           ),

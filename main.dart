@@ -9,45 +9,18 @@ import 'package:afaan_koo_app/providers/progress_provider.dart';
 import 'package:afaan_koo_app/providers/admin_provider.dart';
 import 'package:afaan_koo_app/providers/age_provider.dart';
 
-
-
-
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
 
-
-WidgetsFlutterBinding.ensureInitialized();
-
-
-
-runApp(
-
-
-
-MultiProvider(
-
-
-providers:[
-
-
-
-ChangeNotifierProvider(
-
-create:(context)
-
-=> UserProvider(),
-
-),
-
-
-
-ChangeNotifierProvider(
-
-create:(_)=>
-RewardProvider()
-..load(),
-
-),
-
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RewardProvider()..load(),
+        ),
 
 /*
 ChangeNotifierProvider(
@@ -59,48 +32,17 @@ create:(context)
 ),
 */
 
-ChangeNotifierProvider(
-
-create: (_) =>
-AgeProvider(),
-
-),
-
-ChangeNotifierProvider(
-
-create:(context)
-
-=> ProgressProvider(),
-
-),
-
-
-
-
-
-ChangeNotifierProvider(
-
-create:(context)
-
-=> AdminProvider(),
-
-),
-
-
-
-],
-
-
-
-child:
-
-const AfaanKooApp(),
-
-
-
-),
-
-
-
-);
+        ChangeNotifierProvider(
+          create: (_) => AgeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProgressProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AdminProvider(),
+        ),
+      ],
+      child: const AfaanKooApp(),
+    ),
+  );
 }

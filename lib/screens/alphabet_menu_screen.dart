@@ -9,28 +9,16 @@ import 'tracing_practice_screen.dart';
 import '../utils/responsive.dart';
 import '../widgets/background/moving_clouds.dart';
 
-
-
 class AlphabetMenuScreen extends StatelessWidget {
-
   const AlphabetMenuScreen({super.key});
-
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-
       appBar: AppBar(
-
-        title: const Text("Qubee 🔤"),
-
+        title: const Text('Qubee'),
         centerTitle: true,
-
       ),
-
-
       body: Stack(
         children: [
           Positioned.fill(
@@ -50,465 +38,248 @@ class AlphabetMenuScreen extends StatelessWidget {
           ),
           const MovingClouds(),
           SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final width = constraints.maxWidth;
+                final padding = Responsive.pagePadding(context);
 
-        child: LayoutBuilder(
+                final int columns;
+                if (width < 400) {
+                  columns = 2;
+                } else if (width < 800) {
+                  columns = 3;
+                } else if (width < 1200) {
+                  columns = 4;
+                } else {
+                  columns = 5;
+                }
 
-          builder:(context,constraints){
+                const spacing = 16.0;
 
+                final availableWidth =
+                    width - (padding * 2) - (spacing * (columns - 1));
 
-            final width = constraints.maxWidth;
+                final cardWidth = availableWidth / columns;
 
-
-
-            final cardWidth =
-            width < Responsive.tinyBreakpoint
-                ? width - (Responsive.pagePadding(context) * 2)
-                : width < 400
-                ? (width - 40) / 2
-                : width < 800
-                ? (width - 60) / 3
-                : width < 1200
-                ? (width - 90) / 4
-                : 230.0;
-
-
-
-            final cards = [
-
-              _AlphabetCard(
-                title:"Qubee Guguddaa 🔠",
-                subtitle:"A B C D E ...",
-                emoji:"🔠",
-                color:Colors.blue,
-                onTap:()=>_go(
-                  context,
-                  const AlphabetScreen(),
-                ),
-              ),
-
-
-              _AlphabetCard(
-                title:"Qubee Xiqqaa 🔡",
-                subtitle:"a b c d e ...",
-                emoji:"🔡",
-                color:Colors.green,
-                onTap:()=>_go(
-                  context,
-                  const LowercaseScreen(),
-                ),
-              ),
-
-
-              _AlphabetCard(
-                title:"Dubbachiiftuu 🟢",
-                subtitle:"A E I O U",
-                emoji:"🗣️",
-                color:Colors.orange,
-                onTap:()=>_go(
-                  context,
-                  const VowelScreen(),
-                ),
-              ),
-
-
-              _AlphabetCard(
-                title:"Dubbifamaa 🔵",
-                subtitle:"B C D F ...",
-                emoji:"🔤",
-                color:Colors.deepPurple,
-                onTap:()=>_go(
-                  context,
-                  const ConsonantScreen(),
-                ),
-              ),
-
-
-              _AlphabetCard(
-                title:"Qubee Dachaa ✨",
-                subtitle:"Ch Dh Ny Ph Sh",
-                emoji:"✨",
-                color:Colors.indigo,
-                onTap:()=>_go(
-                  context,
-                  const DoubleLetterScreen(),
-                ),
-              ),
-
-
-              _AlphabetCard(
-                title:"Qubee Barreessi ✍️",
-                subtitle:"Harkaan barreessuu shaakali",
-                emoji:"✍️",
-                color:Colors.teal,
-                onTap:()=>_go(
-                  context,
-                  const TracingPracticeScreen(
-                    mode:TracingMode.alphabet,
+                final cards = [
+                  _AlphabetCard(
+                    title: 'Qubee Guguddaa',
+                    subtitle: 'A B C D E ...',
+                    symbol: 'A',
+                    color: Colors.blue,
+                    onTap: () {
+                      _go(context, const AlphabetScreen());
+                    },
                   ),
-                ),
-              ),
+                  _AlphabetCard(
+                    title: 'Qubee Xiqqaa',
+                    subtitle: 'a b c d e ...',
+                    symbol: 'a',
+                    color: Colors.green,
+                    onTap: () {
+                      _go(context, const LowercaseScreen());
+                    },
+                  ),
+                  _AlphabetCard(
+                    title: 'Dubbachiiftuu',
+                    subtitle: 'A E I O U',
+                    symbol: 'A',
+                    color: Colors.orange,
+                    onTap: () {
+                      _go(context, const VowelScreen());
+                    },
+                  ),
+                  _AlphabetCard(
+                    title: 'Dubbifamaa',
+                    subtitle: 'B C D F ...',
+                    symbol: 'B',
+                    color: Colors.deepPurple,
+                    onTap: () {
+                      _go(context, const ConsonantScreen());
+                    },
+                  ),
+                  _AlphabetCard(
+                    title: 'Qubee Dachaa',
+                    subtitle: 'Ch Dh Ny Ph Sh',
+                    symbol: 'Ch',
+                    color: Colors.indigo,
+                    onTap: () {
+                      _go(context, const DoubleLetterScreen());
+                    },
+                  ),
+                  _AlphabetCard(
+                    title: 'Qubee Barreessi',
+                    subtitle: 'Harkaan barreessuu shaakali',
+                    symbol: '✎',
+                    color: Colors.teal,
+                    onTap: () {
+                      _go(
+                        context,
+                        const TracingPracticeScreen(
+                          mode: TracingMode.alphabet,
+                        ),
+                      );
+                    },
+                  ),
+                ];
 
-
-            ];
-
-
-
-            return SingleChildScrollView(
-
-              physics:
-              const BouncingScrollPhysics(),
-
-
-              child: Padding(
-
-                padding:
-                EdgeInsets.all(Responsive.pagePadding(context)),
-
-
-                child: Column(
-
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                  children: [
-
-                    const Text(
-                      "🔤 Qubee Afaan Oromoo",
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                return SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.all(padding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Qubee Afaan Oromoo',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                          height: 1.15,
+                        ),
                       ),
-                    ),
-
-                    const SizedBox(height: 6),
-
-                    const Text(
-                      "Kutaa barnootaa filadhu",
-                      style: TextStyle(fontSize: 16),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    Wrap(
-
-                  spacing:16,
-
-                  runSpacing:16,
-
-
-                  children:
-
-                  cards.map((card){
-
-                    return SizedBox(
-
-                      width:cardWidth,
-
-                      child:card,
-
-                    );
-
-                  }).toList(),
-
-
-                    ),
-                  ],
-                ),
-
-
-              ),
-
-
-            );
-
-
-          },
-
-        ),
-
+                      const SizedBox(height: 6),
+                      const Text(
+                        'Kutaa barnootaa filadhu',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Wrap(
+                        spacing: spacing,
+                        runSpacing: spacing,
+                        children: cards.map((card) {
+                          return SizedBox(
+                            width: cardWidth,
+                            child: card,
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
-
     );
-
   }
-
-
-
-
 
   void _go(
-      BuildContext context,
-      Widget page,
-      ){
-
-    Navigator.push(
-
-      context,
-
+    BuildContext context,
+    Widget page,
+  ) {
+    Navigator.of(context).push(
       MaterialPageRoute(
-
-        builder:(_)=>page,
-
+        builder: (_) => page,
       ),
-
     );
-
   }
-
 }
 
-
-
-
-
-
-
 class _AlphabetCard extends StatelessWidget {
-
-
   final String title;
-
   final String subtitle;
-
-  final String emoji;
-
+  final String symbol;
   final Color color;
-
   final VoidCallback onTap;
 
-
-
   const _AlphabetCard({
-
     required this.title,
-
     required this.subtitle,
-
-    required this.emoji,
-
+    required this.symbol,
     required this.color,
-
     required this.onTap,
-
   });
-
-
 
   @override
   Widget build(BuildContext context) {
-
-
-    return IntrinsicHeight(
-
-      child:InkWell(
-
-        borderRadius:
-        BorderRadius.circular(24),
-
-
-        onTap:onTap,
-
-
-        child:Container(
-
-          padding:
-          const EdgeInsets.all(14),
-
-
-          decoration:BoxDecoration(
-
-
-            borderRadius:
-            BorderRadius.circular(24),
-
-
-            border:
-            Border.all(
-
-              color:
-              color.withValues(alpha:.35),
-
-              width:2,
-
+    return SizedBox(
+      height: 180,
+      child: Material(
+        color: Colors.white.withValues(alpha: 0.94),
+        borderRadius: BorderRadius.circular(24),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: color.withValues(alpha: 0.35),
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: color.withValues(alpha: 0.12),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
             ),
-
-
-            boxShadow:[
-
-              BoxShadow(
-
-                color:
-                color.withValues(alpha:.12),
-
-                blurRadius:12,
-
-                offset:
-                const Offset(0,6),
-
-              )
-
-            ],
-
-
-          ),
-
-
-
-
-          child:Column(
-
-            mainAxisSize:
-            MainAxisSize.min,
-
-
-            children:[
-
-
-
-              Container(
-
-                width:70,
-
-                height:70,
-
-
-                decoration:BoxDecoration(
-
-                  shape:
-                  BoxShape.circle,
-
-
-                  border:
-                  Border.all(
-
-                    color:
-                    color.withValues(alpha:.35),
-
-                    width:2,
-
-                  ),
-
-                ),
-
-
-
-                child:Center(
-
-                  child:Text(
-
-                    emoji,
-
-                    style:
-                    const TextStyle(
-
-                      fontSize:40,
-
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 62,
+                    height: 62,
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: 0.10),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: color.withValues(alpha: 0.35),
+                        width: 2,
+                      ),
                     ),
-
+                    alignment: Alignment.center,
+                    child: Text(
+                      symbol,
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: symbol.length > 1 ? 27 : 34,
+                        fontWeight: FontWeight.w900,
+                        color: color,
+                        height: 1,
+                      ),
+                    ),
                   ),
-
-                ),
-
-
+                  const SizedBox(height: 8),
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      height: 1.1,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      height: 1.1,
+                      color: color.withValues(alpha: 0.85),
+                    ),
+                  ),
+                ],
               ),
-
-
-
-              const SizedBox(height:10),
-
-
-
-              Text(
-
-                title,
-
-                maxLines:2,
-
-                overflow:
-                TextOverflow.ellipsis,
-
-
-                textAlign:
-                TextAlign.center,
-
-
-                style:
-                const TextStyle(
-
-                  fontSize:17,
-
-                  fontWeight:
-                  FontWeight.bold,
-
-                ),
-
-              ),
-
-
-
-              const SizedBox(height:6),
-
-
-
-              Text(
-
-                subtitle,
-
-
-                maxLines:2,
-
-                overflow:
-                TextOverflow.ellipsis,
-
-
-                textAlign:
-                TextAlign.center,
-
-
-                style:
-                TextStyle(
-
-                  fontSize:13,
-
-                  color:
-                  Colors.grey,
-
-                ),
-
-              ),
-
-
-
-              const SizedBox(height:8),
-
-
-
-              Icon(
-
-                Icons.arrow_forward_ios_rounded,
-
-                size:16,
-
-                color:color,
-
-              ),
-
-
-            ],
-
-
+            ),
           ),
-
-
         ),
-
-
       ),
-
     );
-
-
   }
-
 }

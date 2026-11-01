@@ -284,7 +284,7 @@ class LessonCompleteButton extends StatelessWidget {
           if (openQuizAfterCompletion &&
               lessonId != 'quiz' &&
               context.mounted) {
-            Navigator.of(context).pushNamed('/quiz');
+            Navigator.of(context).pushNamed('/quiz', arguments: lessonId);
           }
 
 
@@ -304,3 +304,4 @@ class LessonCompleteButton extends StatelessWidget {
 
 
 }
+
